@@ -1,0 +1,22 @@
+{
+  "name": "nodejsdemo",
+  "version": "0.0.1",
+  "description": "this is test for nodejs",
+  "main": "io_multigame.js",
+  "dependencies": {
+    "connect": "~2.14.4",
+    "iconv-lite": "~0.2.11",
+    "express": "~4.0.0",
+    "socket.io": "~0.9.16",
+    "superagent": "~0.3.0",
+    "jade": "~1.3.1",
+    "websocket.io": "~0.2.1",
+    "underscore": "~1.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause"
+}

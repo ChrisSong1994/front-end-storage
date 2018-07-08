@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Object.defineProperty的理解</title>
+</head>
+
+<body>
+    <script>
+        var obj = {}
+        var str = "hello world!"
+        Object.defineProperty(obj, "hi", {
+            get: function () {
+                return str;
+            },
+            set: function (val) {
+                str = val
+            }
+        })
+
+        console.log(obj.hi)   // "hello world!"
+
+        obj.hi = "javascript"
+
+        console.log(obj.hi) // javascript
+
+        str = "css"
+        console.log(obj.hi)  // css
+
+
+    </script>
+</body>
+
+</html>

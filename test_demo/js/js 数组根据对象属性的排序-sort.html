@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 如果想按照其他标准进行排序，就需要提供比较函数，该函数要比较两个值，然后返回一个用于说明这两个值的相对顺序的数字。比较函数应该具有两个参数 a 和 b，其返回值如下：
+        // 若 a 小于 b，在排序后的数组中 a 应该出现在 b 之前，则返回一个小于 0 的值。
+        // 若 a 等于 b，则返回 0。
+        // 若 a 大于 b，则返回一个大于 0 的值。
+
+        var arr = [{ name: "dog", num: 3 }, { name: "cat", num: 1 }, { name: "pic", num: 2 }]
+
+        function rule(key) {
+            return function (a, b) {
+                var value1 = a[key]
+                var value2 = b[key]
+                return value1 - value2
+            }
+        }
+        arr.sort(rule("num"))  // sort 默认接受a,b两个参数表示数组中的值
+        console.log(arr)
+
+    </script>
+</body>
+
+</html>
