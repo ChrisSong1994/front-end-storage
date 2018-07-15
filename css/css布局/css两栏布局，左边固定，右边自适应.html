@@ -75,6 +75,91 @@
         .wrapper-float .right {
             margin-left: 150px;
         }
+
+        /* 使用absolute+margin-left方法 */
+
+        .wrapper-absolute .left {
+            position: absolute;
+        }
+
+        .wrapper-absolute .right {
+            margin-left: 150px;
+        }
+
+        /* 使用float+BFC方法 */
+
+        .wrapper-float-bfc {
+            overflow: auto;
+        }
+
+        .wrapper-float-bfc .left {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .wrapper-float-bfc .right {
+            margin-left: 0;
+            overflow: auto;
+        }
+
+        /* flex方案 */
+
+        .wrapper-flex {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .wrapper-flex .left {
+            flex: 0 0 auto;
+        }
+
+        .wrapper-flex .right {
+            flex: 1 1 auto;
+        }
+
+        /* grid方案 */
+
+        .wrapper-grid {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            align-items: start;
+        }
+
+        .wrapper-grid .left,
+        .wrapper-grid .right {
+            box-sizing: border-box;
+        }
+
+        .wrapper-grid .left {
+            grid-column: 1;
+        }
+
+        .wrapper-grid .right {
+            grid-column: 2;
+        }
+
+        /* 左右均固定定位 */
+
+        .wrapper-position-absolute {
+            position: relative;
+            height: 200px;
+        }
+
+        .wrapper-position-absolute .left {
+            position: absolute;
+            left: 0;
+            top: 0px;
+            bottom: 0px;
+        }
+
+        .wrapper-position-absolute .right {
+            position: absolute;
+            left: 140px;
+            right: 0;
+            top: 0px;
+            bottom: 0;
+            width: auto;
+        }
     </style>
 
 </head>
@@ -93,6 +178,7 @@
             <option value="3">float+BFC方案</option>
             <option value="5">flex方案</option>
             <option value="6">grid方案</option>
+            <option value="7">双绝对定位方案</option>
         </select>
 
     </div>
@@ -137,7 +223,7 @@
                     break;
                 case 2: wrapper.className = 'wrapper wrapper-float';
                     break;
-                case 3: wrapper.className = 'wrapper wrapper-float-bfc ';
+                case 3: wrapper.className = 'wrapper wrapper-float-bfc';
                     break;
                 case 4: wrapper.className = 'wrapper wrapper-absolute';
                     break;
@@ -145,14 +231,14 @@
                     break;
                 case 6: wrapper.className = 'wrapper wrapper-grid';
                     break;
-
+                case 7: wrapper.className = 'wrapper wrapper-position-absolute';
+                    break;
             }
-
         })
         var rightDiv = document.querySelector(".right")
         document.querySelector("#changeHeight").addEventListener("change", function (event) {
             var value = event.target.value;
-            switch (value) {
+            switch (+value) {
                 case 0: rightDiv.style.height = "700px";
                     break;
                 case 1: rightDiv.style.height = "auto";
