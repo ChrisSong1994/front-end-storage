@@ -7,28 +7,60 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Object.defineProperty的理解</title>
 </head>
+<div> Object.defineProperty的理解</div>
 
 <body>
     <script>
-        var obj = {}
-        var str = "hello world!"
-        Object.defineProperty(obj, "hi", {
-            get: function () {
-                return str;
+        // 首先要知道对象的属性类型
+        // 数据属性  访问器属性
+        var data = {}
+        Object.defineProperties(data, {
+            name: {
+                value: "song"
             },
-            set: function (val) {
-                str = val
+            age: {
+                value: 15
+            },
+            callname: {
+                get: function () {
+                    return this.name
+                },
+                set: function (val) {
+                    if (this.age > 14) {
+                        this.name = val
+                    }
+                }
             }
         })
 
-        console.log(obj.hi)   // "hello world!"
+        console.log(data.callname)  // song
+        console.log(datacallname="jack")  // jack
+        console.log(data.name) // song
 
-        obj.hi = "javascript"
 
-        console.log(obj.hi) // javascript
 
-        str = "css"
-        console.log(obj.hi)  // css
+
+
+
+        // var obj = {}
+        // var str = "hello world!"
+        // Object.defineProperty(obj, "hi", {   // 设置访问器属性
+        //     get: function () {
+        //         return str;
+        //     },
+        //     set: function (val) {
+        //         str = val
+        //     }
+        // })
+
+        // console.log(obj.hi)   // "hello world!"
+
+        // obj.hi = "javascript"
+
+        // console.log(obj.hi) // javascript
+
+        // str = "css"
+        // console.log(obj.hi)  // css
 
 
     </script>
