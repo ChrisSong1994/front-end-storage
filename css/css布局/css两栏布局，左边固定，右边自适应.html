@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css两栏布局，实现左边固定，右边自适应</title>
+    <style>
+        /* 基本样式 */
+
+        .wrapper {
+            padding: 15px 20px;
+            border: 1px dashed #ff6c60;
+        }
+
+        .left {
+            width: 120px;
+            border: 5px solid #ddd;
+        }
+
+        .right {
+            margin-left: 20px;
+            border: 5px solid #ddd;
+        }
+
+        /* 两个都使用inline-block，右侧计算宽度   */
+
+        .wrapper-inline-block {
+            box-sizing: content-box;
+            font-size: 0;
+        }
+
+        .wrapper-inline-block .left,
+        .wrapper-inline-block .right {
+            display: inline-block;
+            vertical-align: top;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .wrapper-inline-block .right {
+            width: calc(100% - 140px)
+        }
+
+        /* 左右均float，然后右侧计算宽度 */
+
+        .wrapper-double-float {
+            /* 清理浮动 */
+            overflow: auto;
+            box-sizing: content-box;
+        }
+
+        .wrapper-double-float .left,
+        .wrapper-double-float .right {
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .wrapper-double-float .right {
+            width: calc(100% - 140px)
+        }
+
+        /* float+margin-left方案 */
+
+        .wrapper-float {
+            /* 清除浮动 */
+            overflow: hidden;
+        }
+
+        .wrapper-float .left {
+            float: left;
+        }
+
+        .wrapper-float .right {
+            margin-left: 150px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1> css两栏布局，实现左边固定，右边自适应</h1>
+    <div style="padding: 20px 20px;">
+        <span style="color: #ff6c60;">
+            选择不同的方案查看效果：
+        </span>
+        <select id="select">
+            <option value="0">双inline-block方案</option>
+            <option value="1">双float方案</option>
+            <option value="2">float+margin-left方案</option>
+            <option value="4">absolute+margin-left方案</option>
+            <option value="3">float+BFC方案</option>
+            <option value="5">flex方案</option>
+            <option value="6">grid方案</option>
+        </select>
+
+    </div>
+    <div style="padding: 20px;">
+        <span style="color: #ff6c60;">
+            选择右侧不同高度：
+        </span>
+        <select name="" id="changeHeight">
+            <option value="1">右侧很低</option>
+            <option value="0">右侧很高</option>
+        </select>
+    </div>
+
+    <!-- 基本html 布局和基本样式 -->
+    <div class="wrapper  wrapper-inline-block" id="wrapper">
+        <div class="left">
+            左边固定宽度，高度不固定 </br>
+            </br>
+            </br>
+            </br>高度有可能会很小，也可能很大。
+        </div>
+        <div class="right">
+            这里的内容可能比左侧高，也可能比左侧低。宽度需要自适应。</br>
+            基本的样式是，两个div相距20px, 左侧div宽 120px
+        </div>
+    </div>
+
+    <div class="comment" style="color: #ff6c60;text-indent: 2em;">
+        calc:用于动态计算长度值。 需要注意的是，运算符前后都需要保留一个空格，例如：width: calc(100% - 10px)； 任何长度值都可以使用calc()函数进行计算； calc()函数支持 "+", "-", "*", "/"
+        运算； calc()函数使用标准的数学运算优先级规则；
+    </div>
+
+    <script>
+        var wrapper = document.querySelector("#wrapper")
+        document.querySelector("#select").addEventListener("change", function (event) {
+            var value = event.target.value
+            // console.log(value)
+            switch (+value) {  // +可以实现字符串对数字的转换，js若语言类型的特点
+                case 0: wrapper.className = "wrapper wrapper-inline-block";
+                    break;
+                case 1: wrapper.className = "wrapper wrapper-double-float";
+                    break;
+                case 2: wrapper.className = 'wrapper wrapper-float';
+                    break;
+                case 3: wrapper.className = 'wrapper wrapper-float-bfc ';
+                    break;
+                case 4: wrapper.className = 'wrapper wrapper-absolute';
+                    break;
+                case 5: wrapper.className = 'wrapper wrapper-flex';
+                    break;
+                case 6: wrapper.className = 'wrapper wrapper-grid';
+                    break;
+
+            }
+
+        })
+        var rightDiv = document.querySelector(".right")
+        document.querySelector("#changeHeight").addEventListener("change", function (event) {
+            var value = event.target.value;
+            switch (value) {
+                case 0: rightDiv.style.height = "700px";
+                    break;
+                case 1: rightDiv.style.height = "auto";
+                    break;
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>
