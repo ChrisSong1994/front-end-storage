@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数组去重的四种方法</title>
+</head>
+
+<body>
+    <h1>数组去重的四种方法</h1>
+    <script>
+        window.onload = function () {
+            // 2.数组去重
+            var arr = [1, 5, 6, 6, 4, 5, 6, 4, 6, 3, 2]
+            //   2-1.利用下标查询
+            function unique1(arr) {
+                var newArr = [arr[0]];
+                for (var i = 1; i < arr.length; i++) {
+                    if (newArr.indexOf(arr[i]) == -1) {
+                        newArr.push(arr[i]);
+                    }
+                }
+                return newArr;
+            }
+            //   2-2利用对象的键来去重
+            function unique2(arr) {
+                var res = []
+                var json = {}
+                for (var i = 0; i < arr.length; i++) {
+                    if (!json[arr[i]]) {
+                        res.push(arr[i])
+                        json[arr[i]] = 1;
+                    }
+                }
+                return res
+            }
+            //   2-3  最基本的去重方法  思路：定义一个新数组，并存放原数组的第一个元素，然后将元素组一一和新数组的元素对比，若不同则存放在新数组中
+            function unique3(arr) {
+                var res = [arr[0]];
+                for (var i = 1; i < arr.length; i++) {
+                    var repeat = false;
+                    for (var j = 0; j < res.length; j++) {
+                        if (arr[i] == res[j]) {
+                            repeat = true;
+                            break;
+                        }
+                    }
+                    if (!repeat) {
+                        res.push(arr[i]);
+                    }
+                }
+                return res;
+            }
+
+            // 2-4  es6 set方式去重  set是一种新的数据结构，它可以接收一个数组或者是类数组对象，自动去重其中的重复项目。
+            // Array.from出场了，它的作用，就是可以把类数组对象、可迭代对象转化为数组。
+            function unique4(arr) {
+                var arrObj = new Set(arr)
+                var newArr = Array.from(arrObj)
+                return newArr
+            }
+            console.log(unique1(arr))    // [1, 5, 6, 4, 3, 2]
+            console.log(unique2(arr))    // [1, 5, 6, 4, 3, 2]
+            console.log(unique3(arr))    // [1, 5, 6, 4, 3, 2]
+            console.log(unique4(arr))    // [1, 5, 6, 4, 3, 2]
+        }
+
+
+    </script>
+</body>
+
+</html>
