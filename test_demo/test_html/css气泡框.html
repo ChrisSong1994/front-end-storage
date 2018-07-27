@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css气泡框</title>
+    <style>
+        /* 规则气泡框 */
+        .box {
+            position: relative;
+            width: 800px;
+            height: 400px;
+            margin: 100px auto;
+            border: 2px solid orange;
+        }
+
+        .top {
+            position: absolute;
+            top: -100px;
+            left: 80px;
+            border-width: 50px;
+            border-color: transparent transparent orange transparent;
+            border-style: solid;
+        }
+        .bot {
+            position: absolute;
+            top: -97px;
+            left: 80px;
+            border-width: 50px;
+            border-color: transparent transparent #fff transparent;
+            border-style: solid;
+        }
+
+         /* 不规则气泡框 */
+
+         .box1{
+             margin-top: 30px;
+            position: relative;
+            width: 800px;
+            height: 400px;
+            margin: 100px auto;
+            border: 2px solid orange;
+         }
+         .top1{
+            position: absolute;
+            top: 100px;
+            left: -100px;
+            border-width: 50px;
+            border-color: transparent  orange orange transparent;
+            border-style: solid;
+         }
+         .bot1 {
+            position: absolute;
+            top: 140px;
+            left: -102px;
+            border-width: 30px 50px;
+            border-color: transparent  #fff #fff transparent;
+            border-style: solid;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>css气泡框</h1>
+    <div class="box">
+            规则气泡框
+        <div class="top"></div>
+        <div class="bot"> </div>
+    </div>
+
+    <div class="box1">
+            不规则气泡框
+        <div class="top1"></div>
+        <div class="bot1"> </div>
+    </div>
+
+</body>
+
+</html>
