@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>事件处理</title>
+</head>
+
+<body>
+  <div id="eventUtil" class="eventUtil" style="width: 200px;height: 200px;background: aqua;">
+  </div>
+  <script>
+    var EventUtil = {
+      addHandler: function (element, type, handler) {
+        if (element.addEventListener) {
+          element.addEventListener(type, handler, false)  //false冒泡阶段 执行事件
+        } else if (element.attachEvent) {
+          element.attachEvent("on" + type, handler)
+        } else {
+          element["on" + type] = handler
+        }
+      },
+      removeHandler: function (element, type, handler) {
+        if (element.removeEventListener) {
+          element.removeEventListener(type, handler, false)
+        } else if (element.detachEvent) {
+          element.detachEvent("on" + type, handler)
+        } else {
+          element["on" + type] = null
+        }
+      }
+    }
+
+    var handler = function () {
+      console.log(111)
+    }
+    var eventDom = document.getElementById("eventUtil")
+    // eventDom.addEventListener("click", handler)
+    EventUtil.addHandler(eventDom, "click", function () {
+      console.log(111)
+    })
+
+    setTimeout(function () {
+      EventUtil.removeHandler(eventDom, "click", false)
+    }, 3000)
+  </script>
+</body>
+
+</html>
