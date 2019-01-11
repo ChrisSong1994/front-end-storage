@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>事件驱动</title>
+    <script src="https://unpkg.com/eventemitter3@latest/umd/eventemitter3.min.js"></script>
+  </head>
+  <body>
+    <script>
+      function cbFun() {
+        console.log("hello word!");
+      }
+      function asyncFun() {
+        setTimeout(() => {
+          emitter.emit("msg");
+        }, 3000);
+      }
+      var emitter = new EventEmitter3();
+      emitter.on("msg", cbFun);
+      // 执行异步函数
+      asyncFun();
+    </script>
+  </body>
+</html>
