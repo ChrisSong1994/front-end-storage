@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title></title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      span {
+        padding-right: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="father" style="border:0px solid red;width:200px;">
+      <div id="a" style="background:red;width:100px;height:100px">
+        长,宽都是100px
+      </div>
+
+      <div
+        id="b"
+        style="border-top:0px solid red;background:yellow;width:100px;height:100px;margin-left:100px;"
+      ></div>
+    </div>
+
+    <table>
+      <tr>
+        <td>pageX:<span id="pageX"></span></td>
+
+        <td>clientX:<span id="clientX"></span></td>
+
+        <td>scrollLeft:<span id="scrollLeft"></span></td>
+
+        <td>screenX:<span id="screenX"></span></td>
+
+        <td>offsetX:<span id="offsetX"></span></td>
+
+        <td>layerX:<span id="layerX"></span></td>
+      </tr>
+
+      <tr>
+        <td>pageY:<span id="pageY"></span></td>
+
+        <td>clientY:<span id="clientY"></span></td>
+
+        <td>scrollTop:<span id="scrollTop"></span></td>
+
+        <td>screenY:<span id="screenY"></span></td>
+
+        <td>offsetY:<span id="offsetY"></span></td>
+
+        <td>layerY:<span id="layerY"></span></td>
+      </tr>
+    </table>
+
+    <br />
+    <br />
+    <pre>
+ 
+offsetX/offsetY：W3C- IE+ Firefox- Opera+ Safari+ chrome+
+x/y：W3C- IE+ Firefox- Opera+ Safari+ chrome+
+layerX/layerY：W3C- IE- Firefox+ Opera- Safari+ chrome+
+pageX/pageY：W3C- IE- Firefox+ Opera+ Safari+ chrome+
+clientX/clientY：W3C+ IE+ Firefox+ Opera+ Safari+ chrome+
+screenX/screenY：W3C+ IE+ Firefox+ Opera+ Safari+ chrome+
+ 
+	</pre
+    >
+  </body>
+
+  <script>
+    var $ = function(id) {
+      return "string" == typeof id ? document.getElementById(id) : id;
+    };
+    function text(e) {
+      e = e || window.event;
+      //IE
+      var doc = document.documentElement;
+      //chrome
+      var body = document.body;
+      $("pageX").innerHTML = e.pageX;
+      $("pageY").innerHTML = e.pageY;
+      $("clientX").innerHTML = e.clientX;
+      $("clientY").innerHTML = e.clientY;
+      $("screenX").innerHTML = e.screenX;
+      $("screenY").innerHTML = e.screenY;
+      $("scrollTop").innerHTML = doc && doc.scrollTop;
+      $("scrollLeft").innerHTML = doc && doc.scrollLeft;
+      $("offsetX").innerHTML = e.offsetX;
+      $("offsetY").innerHTML = e.offsetY;
+      $("layerX").innerHTML = e.layerX;
+      $("layerY").innerHTML = e.layerY;
+    }
+    $("a").onmousemove = function(e) {
+      text(e);
+    };
+    $("b").onmousemove = function(e) {
+      text(e);
+    };
+  </script>
+</html>
