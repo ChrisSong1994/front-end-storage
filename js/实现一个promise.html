@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>实现一个promise</title>
+  </head>
+  <body>
+    <script>
+      // 判断变量否为function
+      const isFunction = variable => typeof variable === "function";
+      // 定义Promise的三种状态常量
+      const PENDING = "PENDING";
+      const FULFILLED = "FULFILLED";
+      const REJECTED = "REJECTED";
+
+      class MyPromise {
+        constructor(handle) {
+          if (!isFunction(handle)) {
+            // 参数必须是函数
+            throw new Error("MyPromise must accept a function as a parameter");
+          }
+          // promise 状态只能由 Pending 变为 Fulfilled 或由 Pending 变为 Rejected ，且状态改变之后不会在发生变化，会一直保持这个状态。
+          // 添加状态
+          this._status = PENDING;
+          // 添加状态
+          this._value = undefined;
+          // 添加成功回调函数队列
+          this._fulfilledQueues = [];
+          // 添加失败回调函数队列
+          this._rejectedQueues = [];
+          // 执行handle 函数
+          try {
+            handle(this._resolve.bind(this), this._reject.bind(this));
+          } catch (err) {
+            this._reject(err);
+          }
+        }
+
+        // 添加resolve 执行函数
+        _resolve(val) {
+          // 以次执行成功队列中的函数，并清空队列
+          const run = () => {
+            if (this._status !== PENDING) return;
+            this._status = FULFILLED;
+            // 依次执行成功队列中的函数，并清空队列
+            const runFulfilled = value => {
+              let cd;
+              while (cb = this._fulfilledQueues.shift()) {
+                cb(value);
+              }
+            };
+            // 依次执行失败队列中的函数，并清空队列
+            const runRejected = error => {
+              let cb;
+              while (cb = this._rejectedQueues.shift()) {
+                cb(error);
+              }
+            };
+
+            // 如果resolve的参数为promise对象，则必须等待promise的状态改变后当前promise的状态才回改变，
+            // 且状态取决于参数promise对象的状态
+            if (val instanceof MyPromise) {
+              val.then(
+                value => {
+                  this._value = value;
+                  runFulfilled(value);
+                },
+                err => {
+                  this._value = err;
+                  runRejected(err);
+                }
+              );
+            } else {
+              this._value = val;
+              runFulfilled(val);
+            }
+          };
+          // 为了支持同步的Promise，这里采用异步调用
+          setTimeout(run, 0);
+        }
+
+        // 添加reject时执行的函数
+        _reject(err) {
+          if (this._status !== PENDING) return;
+          const run = () => {
+            this._status = REJECTED;
+            this._value = err;
+            let cb;
+            while ((cb = this._rejectedQueues.shift())) {
+              cb(err);
+            }
+          };
+          setTimeout(run, 0);
+        }
+
+        // then 返回一个新的 Promise 对象，并且需要将回调函数加入到执行队列中
+        then(onFulfilled, onRejected) {
+          const { _status, _value } = this;
+          // 返回新的promise 对象
+          return new MyPromise((onFulfilledNext, onRejectedNext) => {
+            // 封装一个成功时执行的函数
+            let fulfilled = value => {
+              try {
+                if (!isFunction(onFulfilled)) {
+                  onFulfilledNext(value);
+                } else {
+                  let res = onFulfilled(value);
+                  if (res instanceof MyPromise) {
+                    // 如果当前回调函数返回MyPromise对象，必须等待其状态改变后在执行下一个回调
+                    res.then(onFulfilledNext, onRejectedNext);
+                  } else {
+                    //否则会将返回结果直接作为参数，传入下一个then的回调函数，并立即执行下一个then的回调函数
+                    onFulfilledNext(res);
+                  }
+                }
+              } catch (err) {
+                // 如果函数执行出错，新的Promise对象的状态为失败
+                onRejectedNext(err);
+              }
+            };
+
+            // 封装一个失败时执行的函数
+            let rejected = value => {
+              try {
+                if (!isFunction(onFulfilled)) {
+                  onRejectedNext(value);
+                } else {
+                  let res = onRejected(value);
+                  if (res instanceof MyPromise) {
+                    // 如果当前回调函数返回MyPromise对象，必须等待其状态改变后在执行下一个回调
+                    res.then(onFulfilledNext, onRejectedNext);
+                  } else {
+                    //否则会将返回结果直接作为参数，传入下一个then的回调函数，并立即执行下一个then的回调函数
+                    onFulfilledNext(res);
+                  }
+                }
+              } catch (err) {
+                // 如果函数执行出错，新的Promise对象的状态为失败
+                onRejectedNext(err);
+              }
+            };
+            switch (_status) {
+              case PENDING:
+                this._fulfilledQueues.push(onFulfilled);
+                this._rejectedQueues.push(onRejected);
+                break;
+              case FULFILLED:
+                onFulfilled(_value);
+                break;
+              case REJECTED:
+                onRejected(_value);
+                break;
+            }
+          });
+          // 返回一个新的promise
+          return new MyPromise((onFulfilled, onRejected) => {});
+        }
+
+        // 添加catch 方法
+        catch(onRejected) {
+          return this.then(undefined, onRejected);
+        }
+        // 静态resolve 方法
+        static resolve(value) {
+          // 如果参数是mypromise 实例直接返回这个实例
+          if (value instanceof MyPromise) return value;
+          return new MyPromise(resolve => resolve(value));
+        }
+        // 添加静态reject方法
+        static reject(value) {
+          return new MyPromise((resolve, reject) => reject(value));
+        }
+      }
+
+      const pro = new MyPromise((resolve, reject) => {
+        resolve("1");
+      });
+      pro.then(data => {
+        console.log(data);
+      });
+    </script>
+  </body>
+</html>

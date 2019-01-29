@@ -27,7 +27,7 @@
         }
         var len = fns.length;
         while (len--) {
-          fns[len].apply(this, args);
+          fns[len].call(this, args);
         }
       };
       // 取消订阅
@@ -49,8 +49,9 @@
         }
       };
 
-      var hello1 = function() {
-        console.log("hello1 world!");
+      var hello1 = function(data) {
+        console.log("hello1 world!",data);
+        
       };
       var hello2 = function() {
         console.log("hello2 world!");
@@ -60,8 +61,7 @@
       var pubsub = new PubSub();
       pubsub.subscribe("msg", hello1);
       pubsub.subscribe("msg", hello2);
-      console.log(pubsub.list);
-      pubsub.publish("msg"); // hello2 world!  //hello1 world!
+      pubsub.publish("msg",[1,1,1,1,1]); // hello2 world!  //hello1 world!
       // pubsub.unsubscribe("msg", hello1);
       // pubsub.publish("msg");
       // pubsub.unsubscribe("msg", hello2);
