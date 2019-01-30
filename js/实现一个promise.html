@@ -46,15 +46,15 @@
             this._status = FULFILLED;
             // 依次执行成功队列中的函数，并清空队列
             const runFulfilled = value => {
-              let cd;
-              while (cb = this._fulfilledQueues.shift()) {
+              let cb;
+              while ((cb = this._fulfilledQueues.shift())) {
                 cb(value);
               }
             };
             // 依次执行失败队列中的函数，并清空队列
             const runRejected = error => {
               let cb;
-              while (cb = this._rejectedQueues.shift()) {
+              while ((cb = this._rejectedQueues.shift())) {
                 cb(error);
               }
             };
@@ -84,6 +84,7 @@
         // 添加reject时执行的函数
         _reject(err) {
           if (this._status !== PENDING) return;
+          // 依次执行失败队列中的函数，并清空队列
           const run = () => {
             this._status = REJECTED;
             this._value = err;
@@ -104,6 +105,7 @@
             let fulfilled = value => {
               try {
                 if (!isFunction(onFulfilled)) {
+                  // 判断 then 的参数
                   onFulfilledNext(value);
                 } else {
                   let res = onFulfilled(value);
@@ -124,7 +126,7 @@
             // 封装一个失败时执行的函数
             let rejected = value => {
               try {
-                if (!isFunction(onFulfilled)) {
+                if (!isFunction(onRejected)) {
                   onRejectedNext(value);
                 } else {
                   let res = onRejected(value);
@@ -142,20 +144,20 @@
               }
             };
             switch (_status) {
+              // 当状态为pending时，将then方法回调函数加入执行队列等待执行
               case PENDING:
-                this._fulfilledQueues.push(onFulfilled);
-                this._rejectedQueues.push(onRejected);
+                this._fulfilledQueues.push(fulfilled);
+                this._rejectedQueues.push(rejected);
                 break;
+              // 当状态已经改变时，立即执行对应的回调函数
               case FULFILLED:
-                onFulfilled(_value);
+                fulfilled(_value);
                 break;
               case REJECTED:
-                onRejected(_value);
+                rejected(_value);
                 break;
             }
           });
-          // 返回一个新的promise
-          return new MyPromise((onFulfilled, onRejected) => {});
         }
 
         // 添加catch 方法
@@ -172,12 +174,31 @@
         static reject(value) {
           return new MyPromise((resolve, reject) => reject(value));
         }
+        // 静态方法all
+        static all(list){
+          return new MyPromise((resolve,reject)=>{
+            //定义返回值的集合
+            let values=[]
+            let count=0
+            for(let [i,p] in list.entries() ){
+
+            }
+          })
+
+
+
+
+
+
+
+        }
       }
 
       const pro = new MyPromise((resolve, reject) => {
         resolve("1");
+        // reject("1");
       });
-      pro.then(data => {
+      pro.then().then(data => {
         console.log(data);
       });
     </script>
