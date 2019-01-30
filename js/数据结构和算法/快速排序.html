@@ -39,7 +39,7 @@
 
         var pivotIndex = Math.floor(arr.length / 2); // 指定分区基点
         var pivot = arr.splice(pivotIndex,1)[0];   // 这里需要改变原数组提出基元素  作为递归的关闭条件
-        var left = [];
+        var left = [];  
         let right = [];
 
         for (var i=0; i < arr.length; i++) {
