@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>截流防抖函数</title>
+  </head>
+  <style>
+    .box {
+      margin: 20px auto;
+      width: 800px;
+      height: 2000px;
+      background-color: burlywood;
+    }
+  </style>
+  <body>
+    <div class="box">
+      <button onclick="throttleExm('throttle')">截流</button>
+      <button onclick="debounceExm('debounce')">防抖</button>
+    </div>
+    <script>
+      // 截流函数：调用后在限时内执行一次，限时内再次调用，函数执行判断条件为关闭状态，函数不执行，函数执行后判断条件打开
+      function throttle(func, limit) {
+        let inThrottle; // 开关
+        return function() {
+          const args = arguments;
+          const context = this;
+          if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => {
+              // 定时器用来进行保证在一定时间内开关的状态
+              inThrottle = false;
+            }, limit);
+          }
+        };
+      }
+
+      // 防抖函数：调用后在一定的时间内函数不执行，过了限时执行，在限时内再次调用会重新开启定时器
+      function debounce(func, delay) {
+        let inDebounce;
+        return function() {
+          const context = this;
+          const args = arguments;
+          clearTimeout(inDebounce); // 定时器用来执行函数
+          inDebounce = setTimeout(() => func.apply(context, args), delay);
+        };
+      }
+
+      // example
+      function outPut(val) {
+        console.log(val);
+      }
+      const debounceExm = debounce(outPut, 200);
+      const throttleExm = throttle(outPut, 200);
+    </script>
+  </body>
+</html>

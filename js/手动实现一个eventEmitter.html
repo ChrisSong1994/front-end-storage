@@ -12,23 +12,24 @@
         constructor() {
           this._events = Object.create(null); // 定义事件的存储对象
           this._eventsCount = 0;
+          this.app = "apple";
         }
         //添加事件监听
-        on(eventName, fn, isOnce = false) {
+        on(eventName, fn, context, isOnce = false) {
           if (typeof fn !== "function") {
             throw new TypeError("The listener must be a function!");
           }
           if (!this._events[eventName]) {
             this._events[eventName] = [];
-            this._events[eventName].push({ fn, isOnce });
+            this._events[eventName].push({ fn, context, isOnce });
           } else {
-            this._events[eventName].push({ fn, isOnce }); // 存入监听的事件名和事件
+            this._events[eventName].push({ fn, context, isOnce }); // 存入监听的事件名和事件
           }
         }
 
         //一次性事件监听
-        once(eventName, fn) {
-          this.on(eventName, fn, true);
+        once(eventName, fn, context) {
+          this.on(eventName, fn, context, true);
         }
 
         // 事件触发
@@ -39,7 +40,7 @@
           const len = this._events[eventName].length;
           for (let i = 0; i < len; i++) {
             let event = this._events[eventName][i];
-            event.fn.call(this, ...args);
+            event.fn.call(event.context, ...args);
             if (event.isOnce) {
               this.removeListener(eventName, event.fn);
               i--;
@@ -78,17 +79,20 @@
         }
       }
 
+      var app = "app";
+
       function add(...args) {
         let num = 0;
         for (let i = 0; i < args.length; i++) {
           num += args[i];
         }
         console.log(num);
+        console.log(this.app);
         return num;
       }
 
       let event = new EventEmitter();
-      // event.on("adding", add);
+      event.on("adding", add,this);
       // event.emit("adding", 1, 2, 3, 4);
       // event.removeListener("adding", add);
       // event.emit("adding", 1, 2, 3, 4);
