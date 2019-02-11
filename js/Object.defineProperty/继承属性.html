@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>继承属性</title>
+  </head>
+  <body>
+    <script>
+      // 如果访问者的属性是被继承的，它的 get 和set 方法会在子对象的属性被访问或者修改时被调用。
+      // 如果这些方法用一个变量存值，该值会被所有对象共享。
+      // function myClass() {}
+      // var value;
+      // Object.defineProperty(myClass.prototype, "x", {
+      //   get: function() {
+      //     return value;
+      //   },
+      //   set: function(x) {
+      //     value = x;
+      //   }
+      // });
+      // var a = new myClass();
+      // var b = new myClass();
+      // a.x = 1;
+      // // console.log(b.x); // 1  // 共享属性
+      // console.log(value); // 1
+
+      // 这可以通过将值存储在另一个属性中解决。在 get 和 set 方法中，this 指向某个被访问和修改属性的对象。
+      function myclass() {}
+
+      Object.defineProperty(myclass.prototype, "x", {
+        get() {
+          return this.stored_x;
+        },
+        set(x) {
+          this.stored_x = x;
+        }
+      });
+
+      var a = new myclass();
+      var b = new myclass();
+      a.x = 1;
+      console.log(b.x); // undefined
+    </script>
+  </body>
+</html>
