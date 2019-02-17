@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>函数合并compose</title>
+  </head>
+  <body>
+    <script>
+      function compose(f, g) {
+        return function(x) {
+          return f(g(x));
+        };
+      }
+
+      var toUpperCase = function(x) {
+        return x.toUpperCase();
+      };
+      var exclaim = function(x) {
+        return x + "!";
+      };
+      var shout = compose(
+        exclaim,
+        toUpperCase
+      );
+
+      console.log(shout("hello world")); //HELLO WORLD!
+
+      // reduce(function(prev,curn,curindex,array){},start)  方法 累加器可用于函数的compose
+      var arr = [1, 2, 3, 4, 5, 6];
+      function add(x, y) {
+        return x + y;
+      }
+      console.log(arr.reduce(add)); // 21
+      console.log(arr.reduce(add, 10)); // 31
+
+      // 利用累加器实现一个compose
+    
+      function comp1(arr) {
+        return function(val) {
+          return arr.reduce(function(x, y) {
+            return x(y(val));
+          });
+        };
+      }
+
+      function comp2(arr) {
+        return function(val) {
+          return arr.reduce(function(x, y) {
+            return y(x);
+          },val);
+        };
+      }
+      var funArr = [toUpperCase, exclaim];
+      console.log(comp1(funArr)); // function... 
+      console.log(comp1(funArr)("hello"));  // HELLO!
+
+      console.log(comp2(funArr)); // function... 
+      console.log(comp2(funArr)("hello"));  // HELLO!
+    </script>
+  </body>
+</html>
