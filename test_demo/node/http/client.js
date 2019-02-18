@@ -24,6 +24,6 @@ process.stdout.write('\n your name:')
 process.stdin.resume();
 process.stdin.setEncoding('utf8')
 process.stdin.on('data', function (name) {
-    // console.log(name)
+    console.log(name)
     send(name)
 })
