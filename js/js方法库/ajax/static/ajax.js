@@ -1,4 +1,4 @@
-// 参数格式化  get请求拼接
+// 参数格式化  
 function formatParams(data) {
   var arr = [];
   for (var prop in data) {
@@ -9,15 +9,15 @@ function formatParams(data) {
 
 // ajax封装
 // 参数格式
-// var setting = {
-//   method: "GET",
-//   url:"地址"
-//   async: "true",
-//   data: {},
-//   dataType: "json",
-//   success: function() {},
-//   error: function() {}
-// };
+var setting = {
+  method: "GET",
+  url:"地址",
+  async: "true",
+  data: {},
+  dataType: "json",
+  success: function() {},
+  error: function() {}
+};
 
 /**
  * @param {object} setting 
@@ -61,7 +61,7 @@ function ajax(setting) {
     if (options.method === "POST") {
       xhr.open("POST", options.url, options.async);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhr.send(options.data);
+      xhr.send(paramString);
     } else if (options.method === "GET") {
       xhr.open("GET", options.url + "?" + paramString);
       xhr.send();

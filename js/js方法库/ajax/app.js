@@ -20,13 +20,13 @@ router.get("/ajax/get", ctx => {
 });
 
 router.post("/ajax/post", ctx => {
-  const params = ctx.request;
+  const params = ctx.request.body;
   console.log(params)
   // 接口返回结果
   ctx.body = {
     success: "succcess",
     message: "请求成功！",
-    params:JSON.stringify(params),
+    params:params,
     data: "这是一个post请求"
   };
 });
@@ -34,7 +34,6 @@ router.post("/ajax/post", ctx => {
 router.get("/ajax/jsonp", ctx => {
   const params = ctx.query;
   const callback = params.callback;
-  console.log(params)
   const responseData={
     success: "succcess",
     message: "请求成功！",

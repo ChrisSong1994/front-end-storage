@@ -31,7 +31,6 @@
         },
         dataType: "json",
         success: function(data) {
-          console.log(data, "get");
           document.getElementById("result").innerHTML = JSON.stringify(data);
         },
         error: function(err) {
@@ -47,7 +46,6 @@
         },
         dataType: "jsonp",
         success: function(data) {
-          console.log(data, "这是jsonp请求");
           document.getElementById("result1").innerHTML = JSON.stringify(data);
         },
         error: function(err) {
@@ -59,11 +57,10 @@
         method: "POST",
         url: "/ajax/post",
         data: {
-          method: "POST"
+          type: "POST"
         },
         dataType: "json",
         success: function(data) {
-          console.log(data, "post");
           document.getElementById("result2").innerHTML = JSON.stringify(data);
         },
         error: function(err) {
