@@ -30,16 +30,20 @@ function ajax(setting) {
   };
   // 假如解析类型为jsonp 实现跨域
   if (options.dataType === "jsonp") {
-    var jsonpScript = document.createElement("script");
-    var callbackName = "jsonpCallBack"; // 回调函数名称
-    document.body.appendChild(jsonpScript);
-    jsonpScript.src =
-      options.url + "?" + paramString + "&callback=" + callbackName;
-    window.callbackName = function(data) {
-      options.success(data);
-      delete window.callbackName;
-      document.body.removeChild(jsonpScript);
-    };
+    if (options.method === "GET") {
+      var jsonpScript = document.createElement("script");
+      var callbackName = "jsonpCallBack"; // 回调函数名称
+      document.body.appendChild(jsonpScript);
+      jsonpScript.src =
+        options.url + "?" + paramString + "&callback=" + callbackName;
+      window.callbackName = function(data) {
+        options.success(data);
+        delete window.callbackName;
+        document.body.removeChild(jsonpScript);
+      };
+    } else {
+      console.error("请配置get请求方式！");
+    }
   } else {
     var xhr = null;
     var paramString = formatParams(options.data);

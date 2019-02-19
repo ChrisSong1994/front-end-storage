@@ -8,13 +8,24 @@ const app = new Koa();
 const router = new Router();
 const staticPath = "./static";
 
-router.get("/ajax", ctx => {
+router.get("/ajax/get", ctx => {
   const params = ctx.params;
   // 接口返回结果
   ctx.body = {
     success: "succcess",
     message: "请求成功！",
-    data: "hello world!"
+    params:params,
+    data: "这是一个get请求"
+  };
+});
+
+router.get("/ajax/jsonp", ctx => {
+  const params = ctx.params;
+  // 接口返回结果
+  ctx.body = {
+    success: "succcess",
+    message: "请求成功！",
+    data: "这是一个支持jsonp的请求！"
   };
 });
 
