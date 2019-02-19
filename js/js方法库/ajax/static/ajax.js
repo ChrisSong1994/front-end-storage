@@ -18,6 +18,10 @@ function formatParams(data) {
 //   success: function() {},
 //   error: function() {}
 // };
+
+/**
+ * @param {object} setting 
+ */
 function ajax(setting) {
   var options = {
     method: (setting.method || "GET").toUpperCase(), //请求方式
@@ -28,6 +32,7 @@ function ajax(setting) {
     success: setting.success || function() {}, // 请求成功回调
     error: setting.error || function() {} // 请求失败回调
   };
+  var paramString = formatParams(options.data);
   // 假如解析类型为jsonp 实现跨域
   if (options.dataType === "jsonp") {
     if (options.method === "GET") {
@@ -35,10 +40,10 @@ function ajax(setting) {
       var callbackName = "jsonpCallBack"; // 回调函数名称
       document.body.appendChild(jsonpScript);
       jsonpScript.src =
-        options.url + "?" + paramString + "&callback=" + callbackName;
-      window.callbackName = function(data) {
+        options.url + "?"+paramString+"&callback=" + callbackName;
+      window[callbackName] = function(data) {
         options.success(data);
-        delete window.callbackName;
+        delete window[callbackName];
         document.body.removeChild(jsonpScript);
       };
     } else {
@@ -46,7 +51,6 @@ function ajax(setting) {
     }
   } else {
     var xhr = null;
-    var paramString = formatParams(options.data);
     // 创建xhr 对象
     if (window.XMLHttpRequest) {
       xhr = new XMLHttpRequest();

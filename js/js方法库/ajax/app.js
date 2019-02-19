@@ -9,24 +9,45 @@ const router = new Router();
 const staticPath = "./static";
 
 router.get("/ajax/get", ctx => {
-  const params = ctx.params;
+  const params = ctx.query;
   // 接口返回结果
   ctx.body = {
     success: "succcess",
     message: "请求成功！",
-    params:params,
+    params: params,
     data: "这是一个get请求"
   };
 });
 
-router.get("/ajax/jsonp", ctx => {
-  const params = ctx.params;
+router.post("/ajax/post", ctx => {
+  const params = ctx.request;
+  console.log(params)
   // 接口返回结果
   ctx.body = {
     success: "succcess",
     message: "请求成功！",
+    params:JSON.stringify(params),
+    data: "这是一个post请求"
+  };
+});
+
+router.get("/ajax/jsonp", ctx => {
+  const params = ctx.query;
+  const callback = params.callback;
+  console.log(params)
+  const responseData={
+    success: "succcess",
+    message: "请求成功！",
+    params: params,
     data: "这是一个支持jsonp的请求！"
   };
+  // 接口返回结果
+  if (callback) {
+    ctx.body=`${callback}(${JSON.stringify(responseData)})`
+  } else {
+    throw console.error("未配置callback函数！");
+    
+  }
 });
 
 app.use(bodyParser());

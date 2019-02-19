@@ -4,28 +4,67 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>ajax封装</title>
     <script src="./ajax.js"></script>
   </head>
   <body>
-    <div>ajax封装</div>
     <label for="result">
-      请求结果：
-      <textarea name="result" id="result" cols="200" rows="10">
-      </textarea>
+      get请求结果：
+      <textarea name="result" id="result" cols="200" rows="10"> </textarea>
+    </label>
+    <br />
+    <label for="result1">
+      jsonp请求结果：
+      <textarea name="result1" id="result1" cols="200" rows="10"> </textarea>
+    </label>
+    <br />
+    <label for="result2">
+      post请求结果：
+      <textarea name="result2" id="result2" cols="200" rows="10"> </textarea>
     </label>
     <script>
-      console.log(1111);
       ajax({
         method: "GET",
-        url: "/ajax",
+        url: "/ajax/get",
         data: {
-          page: "1"
+          method: "GET"
         },
         dataType: "json",
         success: function(data) {
-          console.log(data);
-          document.getElementById("result").innerHTML=JSON.stringify(data) 
+          console.log(data, "get");
+          document.getElementById("result").innerHTML = JSON.stringify(data);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+
+      ajax({
+        method: "GET",
+        url: "/ajax/jsonp",
+        data: {
+          dataType: "jsonp"
+        },
+        dataType: "jsonp",
+        success: function(data) {
+          console.log(data, "这是jsonp请求");
+          document.getElementById("result1").innerHTML = JSON.stringify(data);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+
+      ajax({
+        method: "POST",
+        url: "/ajax/post",
+        data: {
+          method: "POST"
+        },
+        dataType: "json",
+        success: function(data) {
+          console.log(data, "post");
+          document.getElementById("result2").innerHTML = JSON.stringify(data);
         },
         error: function(err) {
           console.log(err);
