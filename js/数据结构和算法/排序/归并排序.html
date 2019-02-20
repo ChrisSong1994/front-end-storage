@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>归并排序</title>
+  </head>
+  <body>
+    <div>
+      归并排序是一种分治算法。<br />
+      其思想是将原始数组切分成较小的数组，直到每个小数组只有一
+      个位置，接着将小数组归并成较大的数组，直到最后只有一个排序完毕的大数组。
+    </div>
+    <img src="../../../image/排序/归并排序.png" alt="" srcset="">
+    <script>
+      var arr = [31, 12, 24, 5, 6, 84, 3, 5, 323, 79, 45, 2, 21, 78, 31];
+
+      function mergeSort(array) {
+        console.time("归并排序");
+        array = mergeSortRec(array);
+        console.timeEnd("归并排序");
+        return array;
+      }
+
+      // 数组分组
+      function mergeSortRec(array) {
+        var length = array.length;
+        if (length === 1) {
+          return array;
+        }
+        var indexMid = Math.floor(length / 2);
+        var left = array.slice(0, indexMid);
+        var right = array.slice(indexMid, length);
+        return merge(mergeSortRec(left), mergeSortRec(right));
+      }
+
+      // 归并
+      function merge(left, right) {
+        var result = [];
+        var il = 0,
+          ir = 0;
+
+        while (il < left.length && ir < right.length) {
+          if (left[il] < right[ir]) {
+            result.push(left[il++]);
+          } else {
+            result.push(right[ir++]);
+          }
+        }
+
+        while (il < left.length) {
+          result.push(left[il++]);
+        }
+        while (ir < right.length) {
+          result.push(right[ir++]);
+        }
+        return result;
+      }
+
+      console.log(mergeSort(arr));
+    </script>
+  </body>
+</html>
