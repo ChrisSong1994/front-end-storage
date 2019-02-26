@@ -35,7 +35,7 @@
         var pivot = arr.splice(pivotIndex, 1)[0]; // 这里需要改变原数组提出基元素  作为递归的关闭条件
         var left = [];
         let right = [];
-        for (var i = 0; i < arr.length; i++) {
+        for (var i = 0; i < arr.length; i++) {   
           if (arr[i] < pivot) {
             left.push(arr[i]);
           } else {

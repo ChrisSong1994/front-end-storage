@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>JavaScript的数据类型及其检测</title>
+  </head>
+  <body>
+    <script>
+      // 数据类型检测
+      // typeof
+      // console.log(typeof ""); // string
+      // console.log(typeof 1); // number
+      // console.log(typeof NaN); // number
+      // console.log(typeof false); // boolean
+      // console.log(typeof [1, 2, 3]); // object
+      // console.log(typeof { a: "1" }); // object
+      // console.log(typeof new Function()); // function
+      // console.log(typeof Symbol("1")); // symbol
+      // console.log(typeof new Date()); // object
+      // console.log(typeof undefined); // undefined
+      // console.log(typeof null); // object
+      // console.log(typeof class Foo {}); // function
+
+      // instanceof 检测的是原型
+      // function Person(){}
+      // console.log([] instanceof Array)  // true
+      // console.log({} instanceof Object)// true
+      // console.log([] instanceof Object)// true
+      // console.log(new Date() instanceof Date)// true
+      // console.log(new Person() instanceof Person)// true
+      // console.log(new Person() instanceof Object)// true
+      // console.log(Array.isArray([])) // true
+
+      // constructor
+
+      //  Object.prototype.toString()
+      // 默认情况下，toString()方法被每个Object对象继承。
+      // 如果此方法在自定义对象中未被覆盖，toString() 返回 "[object type]"，其中type是对象的类型。
+      function checkType(target){
+        return Object.prototype.toString.call(target).slice(8,-1)
+      }
+      console.log(Object.prototype.toString.call(""))  //[object String]
+      console.log(Object.prototype.toString.call(1))   //[object Number]
+      console.log(Object.prototype.toString.call(NaN))  //[object Number]
+      console.log(Object.prototype.toString.call(null))  //[object Null]
+      console.log(Object.prototype.toString.call(true))  //[object Boolean] 
+      console.log(Object.prototype.toString.call(undefined))   //[object Undefined]
+      console.log(Object.prototype.toString.call([]))  //[object Array]
+      console.log(Object.prototype.toString.call({}))  //[object Object]
+      console.log(Object.prototype.toString.call(Symbol()))   //[object Symbol]
+      console.log(Object.prototype.toString.call(window))   //[object Window]
+      console.log(Object.prototype.toString.call(document))   //[object HTMLDocument] 
+      console.log(Object.prototype.toString.call(new Date()))  //[object Date]
+      console.log(Object.prototype.toString.call(new Function()))  //[object Function]
+    </script>
+  </body>
+</html>
