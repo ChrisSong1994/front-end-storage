@@ -34,6 +34,21 @@
       // console.log(Array.isArray([])) // true
 
       // constructor
+      // 利用对象数据的constructor指向其构造函数来判断其数据类型，创造包装对象然后调用其constructor属性
+      // 对于特殊的数据类型null和undefined，他们的所属类是Null和Undefined，但是浏览器把这两个类保护起来了，不允许我们在外面访问使用。
+      console.log("".constructor)
+      console.log("".constructor===String)
+      console.log(new Number(1).constructor)
+      console.log(new Date().constructor)
+      console.log([].constructor)
+      console.log({}.constructor)
+      console.log(new Function().constructor)
+      console.log(true.constructor)
+      console.log(Symbol().constructor)
+      console.log(window.constructor)
+      console.log(document.constructor)
+      // console.log(null.constructor)  // Uncaught TypeError: Cannot read property 'constructor' of null
+      // console.log(undefined.constructor)  //Uncaught TypeError: Cannot read property 'constructor' of undefined
 
       //  Object.prototype.toString()
       // 默认情况下，toString()方法被每个Object对象继承。
