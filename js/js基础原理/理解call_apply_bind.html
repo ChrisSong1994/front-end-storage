@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>理解call/apply/bind</title>
+  </head>
+  <body>
+    <h3>理解call/apply/bind</h3>
+    <script>
+      // call：call() 方法在使用一个指定的 this 值和若干个指定的参数值的前提下调用某个函数或方法
+      // function sayName() {
+      //   // this.name = "person";  (1)
+      //   console.log(this.name);
+      // }
+      // const student = {
+      //   name: "student"
+      // };
+      // sayName.call(student); //person  (1)
+      // sayName.call(student); //student
+
+      // call的作用：
+      // call 改变了 this 的指向，指向到 student
+      // 函数执行
+      // 如（1）假如函数内部有相同属性情况，引用函数内部的属性
+
+      // 接下来我们简单化实现上面的三个步骤
+      // 把函数复制到对象里面
+      // 执行函数
+      //删除函数
+      // 第一版
+      // Function.prototype.callSub = function(context) {
+      //   context.fn = this;
+      //   context.fn();
+      //   delete context.fn;
+      // };
+      // sayName.callSub(student); //student
+      // 到这里基本实现了上面三步功能，但是我们的函数不可以传参
+      // 利用argumens对象获取函数的参数
+
+      // 第二版
+      // Function.prototype.callSub = function(context) {
+      //   var context = context || window; // 当context为null 的时候指向window
+      //   context.fn = this;
+      //   let args = [];
+      //   for (var i = 1; i < arguments.length; i++) {
+      //     args.push(arguments[i]);
+      //   }
+      //   context.fn(args.join(","));
+      //   delete context.fn;
+      // };
+
+      // function sayName(age, name) {
+      //   console.log({
+      //     age: age,
+      //     name: name
+      //   });
+      // }
+      // const student = {
+      //   name: "小红"
+      // };
+      // sayName.callSub(student, 12, "小明"); //{age: "12,小明",name: undefined}
+      // 这样实际上是因为arguments的指向没有指向新的函数造成的，需要获取到新函数的arguments
+
+      // 第三版
+        Function.prototype.callSub = function(context) {
+          var context = context || window; // 当context为null 的时候指向window
+          context.fn = this;
+          let args = [];
+          for (var i = 1; i < arguments.length; i++) {  // 需要从第二个参数开始
+            args.push("arguments[" + i + "]");
+          }
+          var result = eval("context.fn(" + args + ")");
+          delete context.fn;
+          return result;
+        };
+
+        function sayName(age, name) {
+          return {
+            age: age,
+            name: name
+          };
+        }
+        const student = {
+          name: "小红"
+        };
+        console.log(sayName.callSub(student, 12, "小明")); //{age: 12, name: "小明"}
+
+        // apply 的实现方式
+        
+    </script>
+  </body>
+</html>
