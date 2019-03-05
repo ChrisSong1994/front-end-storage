@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>深入理解javascript继承-es6</title>
+  </head>
+  <body>
+    <h3>深入理解javascript继承-es6</h3>
+    <script>
+      // extends
+
+      // class Person {
+      //   constructor() {
+      //     // 构造函数内的属性会成为实例的属性
+      //     this.name = "person";
+      //   }
+      //   sayName(name) {
+      //     // 相当与绑在原型对象上的属性方法
+      //     return name;
+      //   }
+      // }
+
+      // 子类必须在constructor方法中调用super方法，否则新建实例时会报错。
+      // 这是因为子类自己的this对象，必须先通过父类的构造函数完成塑造，得到与父类同样的实例属性和方法，
+      // 然后再对其进行加工，加上子类自己的实例属性和方法。
+      // class Student extends Person {
+      //   constructor() {
+      //     super(); //
+      //     this.age = "12";
+      //   }
+      //   say() {
+      //     return super.sayName("student");
+      //   }
+      // }
+      // var student = new Student();
+      // console.log(student.name); // person
+      // console.log(student.say()); // student
+      // console.log(Object.getPrototypeOf(Student) === Person); // true
+      // console.log(Student.__proto__ === Person); // true
+      // console.log(Student.prototype.__proto__ === Person.prototype); // true
+      //  (1) 子类的__proto__属性，表示构造函数的继承，总是指向父类。
+      // （2）子类prototype属性的__proto__属性，表示方法的继承，总是指向父类的prototype属性。
+
+      // Object.setPrototypeOf = function(obj, proto) {
+      //   obj.__proto__ = proto;
+      //   return obj;
+      // };
+
+      // Object.setPrototypeOf(B.prototype, A.prototype);
+      // // 等同于
+      // B.prototype.__proto__ = A.prototype;
+      // Object.setPrototypeOf(B, A);
+      // // 等同于
+      // B.__proto__ = A;
+
+      // extends 实现模式
+      // class A {}
+      // class B {}
+      // // B 的实例继承 A 的实例
+      // Object.setPrototypeOf(B.prototype, A.prototype);
+      // // B 继承 A 的静态属性
+      // Object.setPrototypeOf(B, A);
+      // const b = new B();
+
+
+      // super关键字
+    </script>
+  </body>
+</html>

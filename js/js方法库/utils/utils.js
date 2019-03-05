@@ -35,3 +35,9 @@ function formatParams(data) {
   }
   return arr.join("&");
 }
+
+ // 除去前后空格
+ function trimSpace(str) {
+  var reg = /^\s+|\s+$/g;
+  return str.replace(reg, "");
+}
