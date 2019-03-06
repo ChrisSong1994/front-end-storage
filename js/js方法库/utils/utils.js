@@ -26,7 +26,6 @@ function debounce(func, delay) {
   };
 }
 
-
 // 参数格式化 ：get请求拼接
 function formatParams(data) {
   var arr = [];
@@ -36,8 +35,13 @@ function formatParams(data) {
   return arr.join("&");
 }
 
- // 除去前后空格
- function trimSpace(str) {
+// 除去前后空格
+function trimSpace(str) {
   var reg = /^\s+|\s+$/g;
   return str.replace(reg, "");
+}
+
+// 获取滚动条到底部的距离
+function getScrollBottom(elm) {
+  return elm.scrollHeight - elm.scrollTop - elm.clientHeight;
 }

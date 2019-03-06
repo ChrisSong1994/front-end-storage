@@ -47,7 +47,7 @@
       //   for (var i = 1; i < arguments.length; i++) {
       //     args.push(arguments[i]);
       //   }
-      //   context.fn(args.join(","));
+      //   context.fn(args.join(","));  //这里执行是不正确的。 这里需要想办法实现参数的传递 可用 context.fn(...args); 也可以用下面的版本的eval方法
       //   delete context.fn;
       // };
 
@@ -64,31 +64,58 @@
       // 这样实际上是因为arguments的指向没有指向新的函数造成的，需要获取到新函数的arguments
 
       // 第三版
-        Function.prototype.callSub = function(context) {
-          var context = context || window; // 当context为null 的时候指向window
-          context.fn = this;
-          let args = [];
-          for (var i = 1; i < arguments.length; i++) {  // 需要从第二个参数开始
-            args.push("arguments[" + i + "]");
-          }
-          var result = eval("context.fn(" + args + ")");
-          delete context.fn;
-          return result;
-        };
+      // Function.prototype.callSub = function(context) {
+      //   var context = context || window; // 当context为null 的时候指向window
+      //   context.fn = this;
+      //   let args = [];
+      //   for (var i = 1; i < arguments.length; i++) {  // 需要从第二个参数开始
+      //     args.push("arguments[" + i + "]");
+      //   }
+      //   var result = eval("context.fn(" + args + ")");
+      //   delete context.fn;
+      //   return result;
+      // };
 
-        function sayName(age, name) {
-          return {
-            age: age,
-            name: name
-          };
-        }
-        const student = {
-          name: "小红"
-        };
-        console.log(sayName.callSub(student, 12, "小明")); //{age: 12, name: "小明"}
+      // function sayName(age, name) {
+      //   return {
+      //     age: age,
+      //     name: name
+      //   };
+      // }
+      // const student = {
+      //   name: "小红"
+      // };
+      // console.log(sayName.callSub(student, 12, "小明")); //{age: 12, name: "小明"}
 
-        // apply 的实现方式
-        
+      // apply 的实现方式
+      // apply接受的参数是一个数组
+      // Function.prototype.applySub = function(context, arr) {
+      //   var context = context || window;
+      //   context.fn = this;
+      //   var result;
+      //   if (!arr) {
+      //     result = context.fn();
+      //   } else {
+      //     var args = [];
+      //     for (var i = 0; i < arr.length; i++) {
+      //       args.push("arr[" + i + "]");
+      //     }
+      //     result = eval("context.fn(" + args + ")");
+      //   }
+      //   delete context.fn;
+      //   return result;
+      // };
+
+      // function sayName(age, name) {
+      //   return {
+      //     age: age,
+      //     name: name
+      //   };
+      // }
+      // const student = {
+      //   name: "小红"
+      // };
+      // console.log(sayName.applySub(student, [12, "小明"])); //{age: 12, name: "小明"}
     </script>
   </body>
 </html>

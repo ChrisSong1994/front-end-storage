@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>理解bind</title>
+  </head>
+  <body>
+    <h3>理解bind</h3>
+    <script>
+      // bind:bind() 方法会创建一个新函数。当这个新函数被调用时，
+      // bind() 的第一个参数将作为它运行时的 this，之后的一序列参数将会在传递的实参前传入作为它的参数。
+      // bind 函数的特点：返回一个函数，可以传入参数
+      // function sayName(name, age) {
+      //   this.name = name;
+      //   this.age = age;
+      //   console.log(this.name, this.age, this.gender);
+      // }
+      // var foo = { gender: "man" };
+      // sayName.bind(foo)("bar", 11); // foo 11 man
+      // 以上得出三个结论
+      // bind绑定对象返回一个函数
+      // 绑定对象后，函数内的this指向了被绑定的对象
+      // 返回的绑定函数可以传参执行
+
+      // 可以把返回的绑定函数当作构造函数，用new操作符创建实例
+      // var bindFun = sayName.bind(foo);
+      // var obj = new bindFun("bar", 12); // bar 12 undefined
+      // console.log(obj); // sayName {name: "bar", age: 12}
+      // 以上得出结论：当绑定函数当作构造函数，用new创建实例对象的时候其执行的环境不再是绑定的对象，bind 时指定的 this 值会失效
+
+      // 下面我们来模拟实现bind的功能
+
+      // 第一步：返回一个函数，其上下文被切换到指定的对象context
+      // Function.prototype.bindSub = function(context) {
+      //   var self = this;
+      //   return function(){
+      //     return self.apply(context)
+      //   }
+      // };
+
+      // 第二步：实现传参功能
+      // Function.prototype.bindSub = function(context) {
+      //   var self = this;
+      //   // 获取绑定时的参数
+      //   var bindArgs = Array.prototype.slice.call(arguments, 1);
+      //   return function() {
+      //     // 获取调用时的参数 ：需要绑定和调用是的参数合并
+      //     var invokeArgs = Array.prototype.slice.call(arguments);
+
+      //     return self.apply(context, bindArgs.concat(invokeArgs));
+      //   };
+      // };
+      // 现在基本实现了bind的基本功能：返回函数，传递参数，下面还有一个重要的功能需要完成
+      // 一个绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成构造器。提供的 this 值被忽略，同时调用时的参数被提供给模拟函数。
+      // 即，假如给对象绑定了一个函数返回了一个绑定函数，当我用new去创建实例的时候，仅仅是把函数当作构造函数，原本已绑定的对象上下文失效！！！！
+
+      // 第三部：实现当用new去创建实例的时候，把this（这里需要先对new理解才能知道怎么去做）
+      // new操作符创建实例的三个步骤：以new Foo(...)为例
+      // 1.创建一个对象继承构造函数的实例对象  ：继承Foo.prototype
+      // 2.使用制定参数调用构造函数，并将this指向实例对象
+      // 3.由构造函数返回的对象就是 new 表达式的结果。如果构造函数没有显式返回一个对象，则使用步骤1创建的对象。（一般情况下，构造函数不返回值，但是用户可以选择主动返回对象，来覆盖正常的对象创建步骤）
+      // Function.prototype.bindSub = function(context) {
+      //   var self = this;
+      //   // 获取绑定时的参数
+      //   var bindArgs = Array.prototype.slice.call(arguments, 1);
+      //   var fBound = function() {
+      //     var fbContext; //函数内的上下文
+      //     var invokeArgs = Array.prototype.slice.call(arguments);
+      //     // 当作为构造函数时，this指向实例，将绑定函数的this指向实例，可以让实例获取绑定函数的值
+      //     if (this instanceof fBound) {
+      //       fbContext = this; // 指向实例
+      //     } else {
+      // 当作为绑定函数调用时，this指向被绑定函数的上下文context
+      //       fbContext = context;
+      //     }
+      //     return self.apply(fbContext, bindArgs.concat(invokeArgs));
+      //   };
+      //   // 修改返回函数的 prototype 为绑定函数的 prototype，实例就可以继承绑定函数的原型中的值
+      //   fBound.prototype = this.prototype;
+      //   return fBound;
+      // };
+
+      // 优化最后代码
+      // 为了避免fBound的原型和被绑定函数的原型的引用相同我们需要使用空对象过度的方式继承
+      // 优化绑定上下文指向的判断
+      Function.prototype.bindSub = function(context) {
+        // 不是绑定函数则报类型错误
+        if (typeof this !== "function") {
+          throw new Error(
+            "Function.prototype.bind - what is trying to be bound is not callable"
+          );
+        }
+        var self = this;
+        // 获取绑定时的参数
+        var bindArgs = Array.prototype.slice.call(arguments, 1);
+        var fNOP = function() {};
+        var fBound = function() {
+          var invokeArgs = Array.prototype.slice.call(arguments);
+          // 当作为构造函数时，this指向实例，将绑定函数的this指向实例，可以让实例获取绑定函数的值
+          // 当作为绑定函数调用时，this指向被绑定函数的上下文context
+          return self.apply(
+            this instanceof fNOP ? this : context,
+            bindArgs.concat(invokeArgs)
+          );
+        };
+        // 修改返回函数的 prototype 为绑定函数的 prototype，实例就可以继承绑定函数的原型中的值
+        fNOP.prototype = this.prototype;
+        fBound.prototype = new fNOP();
+        fBound.prototype.constructor = fBound;
+        return fBound;
+      };
+
+      // 测试
+      function sayName(name, age) {
+        this.name = name;
+        this.age = age;
+        console.log(this.name, this.age, this.gender);
+      }
+      var foo = { gender: "man" };
+
+      // 当作一般返回函数调用
+      sayName.bindSub(foo)("haha", 12); // haha 12 man
+      var bindFun = sayName.bindSub(foo);
+      var newFun = new bindFun("xixi", 15); // xixi 15 undefined
+      console.log(newFun); //fBound {name: "xixi", age: 15}
+      console.log(newFun instanceof sayName) // true
+    </script>
+  </body>
+</html>
