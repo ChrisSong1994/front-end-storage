@@ -10,25 +10,31 @@
     <h3>理解call/apply/bind</h3>
     <script>
       // call：call() 方法在使用一个指定的 this 值和若干个指定的参数值的前提下调用某个函数或方法
-      // function sayName() {
+      // function sayName(age) {
       //   // this.name = "person";  (1)
-      //   console.log(this.name);
+      //   console.log(this.name,age);
       // }
       // const student = {
       //   name: "student"
       // };
-      // sayName.call(student); //person  (1)
-      // sayName.call(student); //student
+      // sayName.call(student,12); //person 12 (1)
+      // sayName.call(student,13); //student 13
 
-      // call的作用：
-      // call 改变了 this 的指向，指向到 student
-      // 函数执行
-      // 如（1）假如函数内部有相同属性情况，引用函数内部的属性
+      // call的作用：  call 改变了 this 的指向，指向到 student
+      //（1）假如函数内部有相同属性情况，引用函数内部的属性
 
       // 接下来我们简单化实现上面的三个步骤
       // 把函数复制到对象里面
       // 执行函数
       //删除函数
+
+      // const student = {
+      //   name: "student",
+      //   sayName:function(age){
+      //     console.log(this.name,age);
+      //   }
+      // };
+      // student.sayName(12); //person 12 (1)
       // 第一版
       // Function.prototype.callSub = function(context) {
       //   context.fn = this;
@@ -68,7 +74,8 @@
       //   var context = context || window; // 当context为null 的时候指向window
       //   context.fn = this;
       //   let args = [];
-      //   for (var i = 1; i < arguments.length; i++) {  // 需要从第二个参数开始
+      //   for (var i = 1; i < arguments.length; i++) {
+      //     // 需要从第二个参数开始
       //     args.push("arguments[" + i + "]");
       //   }
       //   var result = eval("context.fn(" + args + ")");
@@ -79,29 +86,28 @@
       // function sayName(age, name) {
       //   return {
       //     age: age,
-      //     name: name
+      //     name: name,
+      //     gender: this.gender
       //   };
       // }
       // const student = {
-      //   name: "小红"
+      //   name: "小红",
+      //   gender: "woman"
       // };
-      // console.log(sayName.callSub(student, 12, "小明")); //{age: 12, name: "小明"}
-
-      // apply 的实现方式
-      // apply接受的参数是一个数组
-      // Function.prototype.applySub = function(context, arr) {
-      //   var context = context || window;
+      // console.log(sayName.callSub(student, 12, "小明")); //{age: 12, name: "小明", gender: "woman"}
+      // function sayHello() {
+      //   console.log("hello");
+      // }
+      // sayHello.callSub(); // hello
+      // 利用es6解构方式
+      // Function.prototype.callSub = function(context) {
+      //   var context = context || window; // 当context为null 的时候指向window
       //   context.fn = this;
-      //   var result;
-      //   if (!arr) {
-      //     result = context.fn();
-      //   } else {
-      //     var args = [];
-      //     for (var i = 0; i < arr.length; i++) {
-      //       args.push("arr[" + i + "]");
-      //     }
-      //     result = eval("context.fn(" + args + ")");
+      //   let args = [];
+      //   for (var i = 1; i < arguments.length; i++) {  // 需要从第二个参数开始
+      //     args.push(arguments[i]);
       //   }
+      //   var result = context.fn(...args);
       //   delete context.fn;
       //   return result;
       // };
@@ -109,13 +115,51 @@
       // function sayName(age, name) {
       //   return {
       //     age: age,
-      //     name: name
+      //     name: name,
+      //     gender:this.gender
       //   };
       // }
       // const student = {
-      //   name: "小红"
+      //   name: "小红",
+      //   gender:"woman"
       // };
-      // console.log(sayName.applySub(student, [12, "小明"])); //{age: 12, name: "小明"}
+      // console.log(sayName.callSub(student, 12, "小明")); //{age: 12, name: "小明", gender: "woman"}
+
+      // apply 的实现方式
+      // apply接受的参数是一个数组
+      Function.prototype.applySub = function(context, arr) {
+        var context = context || window;
+        context.fn = this;
+        var result;
+        if (!arr) {
+          result = context.fn();
+        } else {
+          var args = [];
+          for (var i = 0; i < arr.length; i++) {
+            args.push("arr[" + i + "]");
+          }
+          result = eval("context.fn(" + args + ")");
+        }
+        delete context.fn;
+        return result;
+      };
+
+      function sayName(age, name) {
+        return {
+          age: age,
+          name: name,
+          gender: this.gender
+        };
+      }
+      const student = {
+        name: "小红",
+        gender: "woman"
+      };
+      console.log(sayName.applySub(student, [12, "小明"])); //{age: 12, name: "小明",gender:"woman"}
+      function sayHello() {
+        console.log("hello");
+      }
+      sayHello.applySub(); // hello
     </script>
   </body>
 </html>
