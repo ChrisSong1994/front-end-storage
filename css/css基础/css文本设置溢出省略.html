@@ -1,12 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>css文本设置溢出省略</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>css文本设置溢出省略</title>
+    <style>
+      .container {
+        width: 600px;
+        margin: 0 auto;
+      }
+      .item {
+        width: 600px;
+        height: 100px;
+        background-color: burlywood;
+        margin: 20px auto;
+        border: 2px solid #afadad;
+        line-height: 20px;
+      }
+
+      /* 单行文本溢出隐藏 */
+      .single {
+        overflow: hidden;
+        text-overflow: ellipsis; /*文本溢出用省略*/
+        white-space: nowrap; /*不换行*/
+      }
+
+      /* 多行文本溢出隐藏 */
+      .multiple {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="container">
+      <!-- 单行文本溢出隐藏 -->
+      <div class="item single">
+        单行文本溢出隐藏单行文本溢出隐藏单行文本溢出隐藏单行文本溢出隐藏单行文本溢出隐藏单行文本溢出隐藏单行文本溢出隐藏单行文本溢出隐藏单行文本溢出隐藏单行文本溢出隐藏
+      </div>
+
+      <!-- 多行文本溢出隐藏 -->
+      多行文本溢出使用了WebKit的CSS扩展属性，该方法适用于WebKit浏览器及移动端
+
+      <div class="item multiple">
+        多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏
+      </div>
+
+      1.但是需要设置盒子高度才能完美展示
+      <div class="item multiple" style="height: 60px;">
+        多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏
+      </div>
+
+      2.或者利用js来实现完美展示的多行隐藏
+      <div class="item " id="js_multiple">
+        多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏多行文本溢出隐藏
+      </div>
+    </section>
+    <script>
+      /*
+       * @param (number,dom) 最大显示文字长度 ， 文本元素
+       */
+      function multipleHide(num, elm) {
+        var contain = document.getElementById(elm);
+        var maxSize = num;
+        var text = contain.innerHTML;
+        if (text.length > num) {
+          text = text.substring(0, num - 1) + "...";
+          contain.innerHTML = text;
+        } else {
+          return;
+        }
+      }
+      multipleHide(40, "js_multiple");
+    </script>
+  </body>
 </html>
