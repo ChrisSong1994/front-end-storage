@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js数组中方法的应用总结</title>
+</head>
+<body>
+    <h1>js数组中方法的应用总结</h1>
+    <script>
+        var array1=[1,2]
+        var array2=array1;  // 引用类型复制的只有一个指针
+        array1[0]=array2[1];
+        array2.push(3)
+        console.log(array1) // [2,2,3]
+        console.log(array2)  //[2,2,3]
+    
+    </script>
+    
+</body>
+</html>

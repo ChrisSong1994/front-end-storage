@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>函数柯里化</title>
+  </head>
+  <body>
+    <script>
+      function add(x, y) {
+        return x + y;
+      }
+      // console.log(add(1, 2));
+
+      function curriedAdd(x) {
+        return function(y) {
+          return x + y;
+        };
+      }
+      // curriedAdd 的实现表明了实现Currying的一个基础
+      // —— Currying 延迟求值的特性需要用到 JavaScript 中的作用域——说得更通俗一些，我们需要使用作用域来保存上一次传进来的参数
+      // console.log(curriedAdd(1),1);
+      // console.log(curriedAdd(1)(2), 2);
+
+      function currying(fn, ...args1) {
+        return function(...args2) {
+          return fn(...args1, ...args2);
+        };
+      }
+
+      var increment = currying(add, 1);
+      // console.log(increment(2), 3);
+      // currying 函数的返回值其实是一个接收剩余参数并且立即返回计算值的函数。即它的返回值并没有自动被 Currying化 。
+      // 所以我们可以通过递归来将 currying 的返回的函数也自动 Currying 化
+
+      function trueCurrying(fn, ...args) {
+        if (args.length >= fn.length) {    // 比较函数的参数个数和传入参数个数
+          return fn(...args);
+        }
+        return function(...args2) {
+          return trueCurrying(fn, ...args, ...args2);
+        };
+      }
+      var adding = trueCurrying(add);
+      // console.log(adding(1, 2), "trueCurrying");
+
+      function ad(x, y, z) {
+        return x + y + z;
+      }
+
+      var wrapAd=trueCurrying(ad)
+
+      console.log(wrapAd(1,2,3))
+      console.log(wrapAd(1)(3)(4))
+      console.log(trueCurrying(ad,1,2,4))
+
+    
+    </script>
+  </body>
+</html>

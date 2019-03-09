@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>冒泡排序</title>
+  </head>
+  <body>
+    <div>
+      人们开始学习排序算法时，通常都先学冒泡算法，因为它在所有排序算法中最简单。然而，<br />
+      从运行时间的角度来看，冒泡排序是最差的一个，接下来你会知晓原因。<br />
+      冒泡排序比较任何两个相邻的项，如果第一个比第二个大，则交换它们。元素项向上移动至
+      正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名<br />
+    </div>
+    <img src="../../../image/排序/冒泡排序.png" alt="" srcset="">
+    <script>
+      var arr = [31, 12, 24, 5, 6, 84, 3, 5, 323, 79, 45, 2, 21, 78, 31];
+      function swap(array, index1, index2) {
+        var val = array[index1];
+        array[index1] = array[index2];
+        array[index2] = val;
+        return array;
+      }
+      function bubbleSort(arr) {
+        console.time("冒泡排序");
+        for (var i = 0; i < arr.length; i++) {
+          for (var j = 0; j < arr.length - 1 - i; j++) {
+            // 第一轮排序已经把最大值放在最后面，第二轮排序不需要比较最后一位
+            if (arr[j] > arr[j + 1]) {
+              arr = swap(arr, j, j + 1);
+            }
+          }
+        }
+        console.timeEnd("冒泡排序");
+        return arr;
+      }
+
+      console.log(bubbleSort(arr));
+    </script>
+  </body>
+</html>

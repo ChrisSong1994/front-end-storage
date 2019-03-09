@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Object.defineProperty的理解</title>
+  </head>
+  <body>
+    <div>
+      Object.defineProperty的理解
+    </div>
+    <script>
+      // Object.defineProperty(obj, prop, descriptor)
+      // descriptor :描述符
+      // 描述符分为数据描述符和存取描述符
+
+      // 描述符可同时具有的键值
+      //             |configurable |enumerable |value |writable|get	|set
+      // 数据描述符	   |Yes	         |Yes	     |Yes	|Yes	 |No  |No
+      // 存取描述符	   |Yes	         |Yes	     |No	|No	     |Yes |Yes
+      // 如果一个描述符不具有value,writable,get 和 set 任意一个关键字，那么它将被认为是一个数据描述符。
+      // 如果一个描述符同时有(value或writable)和(get或set)关键字，将会产生一个异常
+
+      // 创建一个新对象
+      var o = {};
+
+      // 在对象中添加一个属性与数据描述符的示例
+      Object.defineProperty(o, "a", {
+        value: 37,
+        writable: true, // 默认是false 当writable属性设置为false时，该属性被称为“不可写”。它不能被重新分配。
+        enumerable: true, // 默认false enumerable定义了对象的属性是否可以在 for...in 循环和 Object.keys() 中被枚举。
+        configurable: true //configurable特性表示对象的属性是否可以被删除，以及除value和writable特性外的其他特性是否可以被修改。
+      });
+      console.log(o); // 对象o拥有了属性a，值为37
+      o.a = 25;
+
+      // 在对象中添加一个属性与存取描述符的示例
+      var bValue;
+      Object.defineProperty(o, "b", {
+        get: function() {
+          return bValue;
+        },
+        set: function(newValue) {
+          bValue = newValue;
+        },
+        enumerable: false,
+        configurable: true
+      });
+
+      console.log(o.b); // undefined
+      o.b = 38;
+      console.log(o.b); // 38
+      // 对象o拥有了属性b，值为38
+      // o.b的值现在总是与bValue相同，除非重新定义o.b
+
+
+      console.log(o)
+      console.log(Object.keys(o)) // ['a']  b属性不可枚举
+    </script>
+  </body>
+</html>

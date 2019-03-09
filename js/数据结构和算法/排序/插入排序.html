@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>插入排序</title>
+  </head>
+  <body>
+    <div>
+      插入排序每次排一个数组项，以此方式构建最后的排序数组。<br />
+      假定第一项已经排序了，接着，
+      它和第二项进行比较，第二项是应该待在原位还是插到第一项之前呢?<br />
+      这样，头两项就已正确排
+      序，接着和第三项比较(它是该插入到第一、第二还是第三的位置呢?)，以此类推。<br />
+    </div>
+    <img src="../../../image/排序/插入排序.png" alt="" srcset="">
+    <script>
+      function swap(array, index1, index2) {
+        [array[index1], array[index2]] = [array[index2], array[index1]];
+        return array;
+      }
+
+      var arr = [31, 12, 24, 5, 6, 84, 3, 5, 323, 79, 45, 2, 21, 78, 31];
+
+      function insertSort(array) {
+        console.time("插入排序")
+        var length = array.length;
+        var j;
+        var temp;
+        for (var i = 1; i < length; i++) {
+          j = i;
+          temp = array[i];
+          while (j > 0 && array[j - 1] > temp) {
+            array[j] = array[j - 1];
+            j--;
+          }
+          array[j] = temp;
+        }
+        console.timeEnd("插入排序")
+        return array;
+      }
+      console.log(insertSort(arr));  // [2, 3, 5, 5, 6, 12, 21, 24, 31, 31, 45, 78, 79, 84, 323]
+    </script>
+  </body>
+</html>

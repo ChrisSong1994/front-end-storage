@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ajax封装</title>
+    <script src="./ajax.js"></script>
+  </head>
+  <body>
+    <label for="result">
+      get请求结果：
+      <textarea name="result" id="result" cols="200" rows="10"> </textarea>
+    </label>
+    <br />
+    <label for="result1">
+      jsonp请求结果：
+      <textarea name="result1" id="result1" cols="200" rows="10"> </textarea>
+    </label>
+    <br />
+    <label for="result2">
+      post请求结果：
+      <textarea name="result2" id="result2" cols="200" rows="10"> </textarea>
+    </label>
+    <script>
+      ajax({
+        method: "GET",
+        url: "/ajax/get",
+        data: {
+          method: "GET"
+        },
+        dataType: "json",
+        success: function(data) {
+          document.getElementById("result").innerHTML = JSON.stringify(data);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+
+      ajax({
+        method: "GET",
+        url: "/ajax/jsonp",
+        data: {
+          dataType: "jsonp"
+        },
+        dataType: "jsonp",
+        success: function(data) {
+          document.getElementById("result1").innerHTML = JSON.stringify(data);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+
+      ajax({
+        method: "POST",
+        url: "/ajax/post",
+        data: {
+          type: "POST"
+        },
+        dataType: "json",
+        success: function(data) {
+          document.getElementById("result2").innerHTML = JSON.stringify(data);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    </script>
+  </body>
+</html>

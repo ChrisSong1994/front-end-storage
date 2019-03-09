@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>css居中的10种方式</title>
+    <style>
+      .container {
+        width: 600px;
+        margin: 0 auto;
+      }
+      .parent {
+        width: 600px;
+        height: 300px;
+        background-color: burlywood;
+        margin: 20px auto;
+      }
+      .child {
+        width: 100px;
+        height: 100px;
+        background-color: coral;
+      }
+
+      /* absolute + 负margin */
+      .p1 {
+        position: relative;
+      }
+      .c1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -50px;
+        margin-top: -50px;
+      }
+
+      /* absolute + margin auto */
+      .p2 {
+        position: relative;
+      }
+      .c2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+      }
+
+      /* absolute + calc */
+      .p3 {
+        position: relative;
+      }
+      .c3 {
+        position: absolute;
+        top: calc(50% - 50px);
+        left: calc(50% - 50px);
+      }
+
+      /* absolute + transform :不需要知道子元素宽高 */
+      .p4 {
+        position: relative;
+      }
+      .c4 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      /* lineheight */
+      .p5 {
+        line-height: 300px;
+        text-align: center;
+        font-size: 0;
+      }
+      .c5 {
+        font-size: 16px;
+        display: inline-block;
+        vertical-align: middle;
+        line-height: initial;
+        text-align: left; /* 修正文字 */
+      }
+
+      /* writing-mode */
+      .p6 {
+        writing-mode: vertical-lr;
+        text-align: center;
+      }
+      .wrap {
+        writing-mode: horizontal-tb;
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+      }
+      .c6 {
+        display: inline-block;
+        margin: auto;
+        text-align: left;
+      }
+
+      /* table */
+      .p7 {
+        text-align: center;
+      }
+      .c7 {
+        display: inline-block;
+      }
+
+      /* css-table */
+      .p8 {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+      }
+      .c8 {
+        display: inline-block;
+      }
+
+      /* flex */
+      .p9 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* grid */
+      .p10 {
+        display: grid;
+      }
+      .c10 {
+        align-self: center;
+        justify-self: center;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="container">
+      <h3>css居中</h3>
+
+      <!-- absolute + 负margin -->
+      <!-- 绝对定位的百分比是相对于父元素的宽高，通过这个特性可以让子元素的居中显示，
+      但绝对定位是基于子元素的左上角，期望的效果是子元素的中心居中显示
+      为了修正这个问题，可以借助外边距的负值，负的外边距可以让元素向相反方向定位，
+      通过指定子元素的外边距为子元素宽度一半的负值，就可以让子元素居中了，css代码如下 -->
+      <div class="parent p1">
+        absolute + 负margin
+        <div class="child c1"></div>
+      </div>
+      <!-- 总结：常用的方式，这种方式比较好理解，兼容性也很好，缺点是需要知道子元素的宽高 -->
+      <hr />
+
+      <!-- absolute + margin auto -->
+      <!-- 这种方式通过设置各个方向的距离都是0，此时再讲margin设为auto，就可以在各个方向上居中了 -->
+      <div class="parent p2">
+        absolute + margin auto
+        <div class="child c2"></div>
+      </div>
+      <!-- 总结:兼容性也很好，缺点是需要知道子元素的宽高 -->
+      <hr />
+
+      <!-- absolute + calc -->
+      <!-- CSS函数calc()可以用在任何一个需要<length>、<frequency>, <angle>、<time>、<number>、或<integer>的地方。
+      有了calc()，你就可以通过计算来决定一个CSS属性的值了。 -->
+      <div class="parent p3">
+        absolute + calc
+        <div class="child c3"></div>
+      </div>
+      <!-- 总结:这种方法兼容性依赖calc的兼容性，缺点是需要知道子元素的宽高-->
+      <hr />
+
+      <!-- absolute + transform ：不需要知道子元素宽高-->
+      <!-- 修复绝对定位的问题，还可以使用css3新增的transform，transform的translate属性也可以设置百分比，
+      其是相对于自身的宽和高，所以可以将translate设置为-50%，就可以做到居中了 -->
+      <div class="parent p4">
+        absolute + transform
+        <div class="child c4"></div>
+      </div>
+      <!-- 总结:这种方法兼容性依赖translate2d的兼容性-->
+      <hr />
+
+      <!-- lineheight -->
+      <!-- 利用行内元素居中属性也可以做到水平垂直居中 -->
+      <!-- 把子元素设置为行内元素，通过text-align就可以做到水平居中，但很多同学可能不知道通过vertical-align也可以在垂直方向做到居中 -->
+      <div class="parent p5">
+        <div class="child c5">lineheight</div>
+      </div>
+      <!-- 总结:这种方法需要在子元素中将文字显示重置为想要的效果-->
+      <hr />
+
+      <!-- writing-mode -->
+      <!-- 很多同学一定和我一样不知道writing-mode属性，感谢@张鑫旭老师的反馈，简单来说writing-mode可以改变文字的显示方向，
+      比如可以通过writing-mode让文字的显示变为垂直方向 -->
+      <!-- 更神奇的是所有水平方向上的css属性，都会变为垂直方向上的属性，
+      比如text-align，通过writing-mode和text-align就可以做到水平和垂直方向的居中了，只不过要稍微麻烦一点 -->
+      writing-mode 一个比较神奇的css属性，可以直接设置内容的排列方向
+      <div class="div" style="writing-mode: vertical-lr;">垂直方向的字体</div>
+      <div class="parent p6">
+        <div class="wrap">
+          <div class="child c6">writing-mode</div>
+        </div>
+      </div>
+      <!-- 总结:这种方法实现起来和理解起来都稍微有些复杂-->
+      <hr />
+
+      <!-- table -->
+      <!-- 曾经table被用来做页面布局，现在没人这么做了，但table也能够实现水平垂直居中，但是会增加很多冗余代码 -->
+      <!-- tabel单元格中的内容天然就是垂直居中的，只要添加一个水平居中属性就好了 -->
+      <table>
+        <tbody>
+          <tr>
+            <td class="parent p7">
+              <div class="child c7">table</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- 总结:这种方法就是代码太冗余，而且也不是table的正确用法-->
+      <hr />
+
+      <!-- css-table -->
+      <!-- css新增的table属性，可以让我们把普通元素，变为table元素的现实效果，通过这个特性也可以实现水平垂直居中 -->
+      <div class="parent p8">
+        <div class="child c8">css-table</div>
+      </div>
+      <!-- 总结:这种方法和table一样的原理，但却没有那么多冗余代码，兼容性也还不错-->
+      <hr />
+
+      <!-- flex -->
+      <!-- flex作为现代的布局方案，颠覆了过去的经验，只需几行代码就可以优雅的做到水平垂直居中 -->
+      <div class="parent p9">
+        <div class="child c9">flex</div>
+      </div>
+      <!-- 总结:目前在移动端已经完全可以使用flex了，PC端需要看自己业务的兼容性情况-->
+      <hr />
+
+      <!-- grid -->
+      <!-- css新出的网格布局，由于兼容性不太好,通过grid也可以实现水平垂直居中 -->
+      <div class="parent p10">
+        <div class="child c10">grid</div>
+      </div>
+      <!-- 总结:代码量也很少，但兼容性不如flex，不推荐使用-->
+      <hr />
+
+      <div class="summary" style="background-color:beige;">
+        <h3>
+          下面对比下各个方式的优缺点，肯定又双叒叕该有同学说回字的写法了，简单总结下
+        </h3>
+        <ul>
+          <li>PC端有兼容性要求，宽高固定，推荐absolute + 负margin</li>
+          <li>PC端有兼容要求，宽高不固定，推荐css-table</li>
+          <li>PC端无兼容性要求，推荐flex</li>
+          <li>移动端推荐使用flex</li>
+        </ul>
+      </div>
+    </section>
+  </body>
+</html>

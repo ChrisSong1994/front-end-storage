@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css 三栏布局，中间自适应，两边固定</title>
+    <style>
+        /* 基本布局 */
+
+        .wrapper {
+            background: #eee;
+            padding: 20px;
+        }
+
+        .left {
+            width: 200px;
+            background: coral;
+        }
+
+        .right {
+            width: 120px;
+            background: lightblue;
+        }
+
+        /* 中间宽度自适应 */
+
+        .middle {
+            background: lightpink
+        }
+
+        /* flex 布局 */
+
+        .wrapper-flex {
+            display: flex;
+        }
+
+        .wrapper-flex .middle {
+            flex:1;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>css 三栏布局，中间自适应，两边固定</h1>
+   <p>flex 布局：当中间的高度撑开的时候两边自动撑开</p>
+    <div class="wrapper wrapper-flex ">
+        <div class="left"> 左侧</div>
+        <div class="middle">当中间的高度撑开的时候两边自动撑开当中间
+            的高度撑开的时候两边自动撑开当中间的高度撑开的时候两边自动撑
+            开当中间的高度撑开的时候两边自动撑开当中间的高度撑开的时候两
+            边自动撑开当中间的高度撑开的时候两边自动撑开当中间的高度撑开
+            的时候两边自动撑开当中间的高度撑开的时候两边自动撑开当中间的高
+            度撑开的时候两边自动撑开当中间的高度撑开的时候两边自
+            动撑开当中间的高度撑开的时候两边自动撑开当中间的高度撑开的时
+            候两边自动撑开当中间的高度撑开的时候两边自动撑开</div>
+        <div class="right">右侧</div>
+    </div>
+</body>
+
+</html>

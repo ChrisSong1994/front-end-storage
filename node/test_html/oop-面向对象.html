@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>面向对象</title>
+</head>
+
+<body>
+	<h2>面向对象</h2>
+	<script type="text/javascript">
+
+		function animal(name, color) {
+			this.species = '动物'
+			// console.log(name + '--' + color)
+		}
+		function Cat(name, color) {
+			// animal.apply(this, arguments)   //第一种继承的方式
+			this.name = name;
+			this.color = color;
+		}
+		Cat.prototype.type = "猫科动物";
+		Cat.prototype.eat = function () { alert("吃老鼠") };  // 把固定的参数写在原型，防止实例化多次调用占用内存
+
+		// var cat1 = new Cat("大毛", "黄色");
+		// var cat2 = new Cat("二毛", "黑色");
+
+		// console.log(cat1.constructor == Cat)  //实例对象的构造器是其new 的构造函数
+
+		// alert(cat1.species); // 猫科动物
+		// cat1.eat(); // 吃老鼠
+
+		// Prototype模式的验证方法  
+		// hasOwnProperty() :每个实例对象都有一个hasOwnProperty()方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。
+		// console.log(cat1.hasOwnProperty("name"))
+
+		// in运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。
+		// console.log("name" in cat1)  // 实例对象
+		// console.log("name" in Cat)    // 构造函数
+
+		// 第二种继承  ： property模式
+
+		Cat.prototype = new animal()    //将Cat的prototype对象指向一个Animal的实例。它相当于完全删除了prototype 对象原先的值，然后赋予一个新值
+		Cat.prototype.constructor = Cat  //任何一个prototype对象都有一个constructor属性，指向它的构造函数。
+		// 如果没有"Cat.prototype = new Animal();"这一行，Cat.prototype.constructor是指向Cat的；加了这一行以后，Cat.prototype.constructor指向Animal。
+
+		// console.log(Cat.prototype.constructor == animal)  // false
+		// console.log(Cat.prototype.constructor == Cat)  // true
+		var cat1 = new Cat("大毛", "黄色");
+		// alert(cat1.species)
+		// alert(cat1.type)
+
+
+		// 非函数继承
+		// 深拷贝
+		function deepCopy(p, c) {   // 子对象继承父对象，输出子对象 
+			var c = c || {}
+			for (var i in p) {
+				if (typeof p[1] === 'object') {
+					c[i] = (p[i].constructor === Array) ? [] : {}
+					deepCopy(p[i], c[i])
+				} else {
+					c[i] = p[i]
+				}
+			}
+			return c;
+		}
+
+		var arr = new Array
+		var obj = new Object
+		var fun = function () {
+
+		}
+		console.log(typeof (arr))   //Object
+		console.log(typeof (obj))   //Object
+		console.log(typeof (fun))   //function
+
+
+	</script>
+</body>
+
+</html>

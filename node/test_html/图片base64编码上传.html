@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图片base64编码上传</title>
+</head>
+
+<body>
+    <img src="../img/chris song.jpg" alt="" srcset="">
+    <input type="file" name="" id="imgInput">
+    <img src="" alt="" id="imgLoad" srcset="">
+
+</body>
+<script src="../js/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#imgInput").on("change", function () {
+            console.log(this.files[0])
+            fileUpload(this.files[0])
+
+        })
+        function fileUpload(obj) {
+            var file = obj;
+            //判断类型是不是图片
+            if (!/image\/\w+/.test(file.type)) {
+                alert("请确保文件为图像类型");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+                var img = new Image;
+                var width = 95;    //图片resize宽度
+                var quality = 1.0;  //图像质量
+                var canvas = document.createElement("canvas");
+                var drawer = canvas.getContext("2d");
+
+                console.log(this.result)   // base64字符串
+                img.src = this.result;
+                $("#imgLoad").attr("src",this.result)
+                canvas.width = width;
+                canvas.height = width * (img.height / img.width);
+                drawer.drawImage(img, 0, 0, canvas.width, canvas.height);
+                img.src = canvas.toDataURL();
+                var image_base64 = img.src.replace("data:image/png;base64,", "");
+                console.log(image_base64)
+
+            }
+
+
+        }
+
+
+
+
+    })
+
+
+</script>
+
+</html>

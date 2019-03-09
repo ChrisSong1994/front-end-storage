@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>js深拷贝</title>
+  </head>
+  <body>
+    <script>
+      function checkType(target) {
+        return Object.prototype.toString.call(target).slice(8, -1);
+      }
+
+      var obj = {
+        a: 1,
+        b: { f: { g: 1 } },
+        c: [1, 2, 3],
+        d: function() {
+          console.log("hello world!");
+        }
+      };
+
+      var arr = [1, "hello", { f: { g: 1 } }];
+
+      // 赋值
+      var obj_ = obj;
+      obj_.a = 111;
+      console.log(obj.a === obj_.a, "赋值"); // true
+
+      // 浅拷贝：赋值引用类型第一层的值
+
+      // 方法一 ： Object.assign()
+      var obj1 = Object.assign({}, obj);
+      obj1.a = 222;
+      console.log(obj.b.f === obj1.b.f, "Object.assign"); // true
+      console.log(obj.a === obj1.a, "Object.assign"); // false
+
+      // 方法二： Object.hasOwnProperty()
+
+      function shallowCopy(target) {
+        let result = {};
+        for (let i in target) {
+          if (target.hasOwnProperty(i)) {
+            result[i] = target[i];
+          }
+        }
+        return result;
+      }
+      var obj2 = shallowCopy(obj);
+      console.log(obj.b.f === obj2.b.f, "hasOwnProperty"); // true
+
+      // 方法三：Array.prototype.concat()
+      var arr1 = arr.concat();
+      console.log(arr[2].f === arr1[2].f, "Array.prototype.concat"); //true
+
+      // 方法四：Array.prototype.slice()
+      var arr2 = arr.slice();
+      console.log(arr[2].f === arr2[2].f, "Array.prototype.slice"); //true
+
+      // 浅拷贝
+      function shallowClone(target) {
+        let result;
+        let targetType = checkType(target);
+        // 判断传入数据类型
+        if (targetType === "Object") {
+          result = Object.assign(target);
+        } else if (targetType === "Array") {
+          result = target.concat();
+        } else {
+          return target;
+        }
+        return result;
+      }
+
+      // 深拷贝 ：复制引用类型的堆里面的值
+      function deepClone(target) {
+        let result;
+        let targetType = checkType(target);
+        // 判断传入数据类型
+        if (targetType === "Object") {
+          result = {};
+        } else if (targetType === "Array") {
+          result = [];
+        } else {
+          return target;
+        }
+        // 遍历传入目标数据
+        for (let i in target) {
+          let value = target[i];
+          if (checkType(value) === "Object" || checkType(value) === "Array") {
+            result[i] = deepClone(value);
+          } else {
+            result[i] = value;
+          }
+        }
+        return result;
+      }
+
+      // JSON.parse(JSON.stringify()) 方法
+
+      var obj3 = deepClone(obj);
+      var arr3 = deepClone(arr);
+      obj3.d() // hello world!
+      console.log(obj.b.f === obj3.b.f, "deepClone"); // false
+      console.log(arr[2].f === arr3[2].f, "deepClone"); // false
+      
+
+      var obj5 = JSON.parse(JSON.stringify(obj));
+      var arr5 = JSON.parse(JSON.stringify(arr));
+      obj5.d()
+      console.log(obj.b.f === obj5.b.f, "deepClone"); // false
+      console.log(arr[2].f === arr5[2].f, "deepClone"); // false
+
+      var obj4 = shallowClone(obj);
+      var arr4 = shallowClone(arr);
+      console.log(obj.b.f === obj4.b.f, "shallowClone"); // true
+      console.log(arr[2].f === arr4[2].f, "shallowClone"); // true
+    </script>
+  </body>
+</html>

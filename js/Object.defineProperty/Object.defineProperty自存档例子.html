@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>自存档对象</title>
+  </head>
+  <body>
+    <script>
+      function Archiver() {
+        var temperature = null;
+        var archive = [];
+
+        Object.defineProperty(this, "temperature", {
+          get: function() {
+            console.log("get!");
+            return temperature;
+          },
+          set: function(value) {
+            temperature = value;
+            archive.push({ val: temperature });
+          }
+        });
+
+        this.getArchive = function() {
+          return archive;
+        };
+      }
+
+      var arc = new Archiver();
+      arc.temperature; // 'get!'
+      arc.temperature = 11;
+      arc.temperature = 56;
+      console.log(arc.getArchive());   // [,]
+    </script>
+  </body>
+</html>

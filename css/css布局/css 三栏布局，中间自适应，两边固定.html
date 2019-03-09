@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css 三栏布局，中间自适应，两边固定</title>
+    <style>
+        /* 基本布局 */
+
+        .wrapper {
+            background: #eee;
+            padding: 20px;
+        }
+
+        .left {
+            width: 200px;
+            background: coral;
+        }
+
+        .right {
+            width: 120px;
+            background: lightblue;
+        }
+
+        /* 中间宽度自适应 */
+
+        .middle {
+            background: lightpink
+        }
+
+        /* float 实现 */
+
+        .wrapper-float {
+            overflow: hidden;
+        }
+
+        .wrapper-float .left {
+            float: left;
+        }
+
+        .wrapper-float .right {
+            float: right;
+        }
+
+        .wrapper-float .middle {
+            margin-left: 220px;
+            margin-right: 150px;
+        }
+
+        /* position实现 */
+
+        .wrapper-position {
+            position: relative;
+        }
+
+        .wrapper-position .left {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .wrapper-position .right {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .wrapper-position .middle {
+            margin-left: 220px;
+            margin-right: 150px;
+        }
+
+        /* flex 布局 */
+
+        .wrapper-flex {
+            display: flex;
+            /* justify-content: space-between; */
+        }
+
+        .wrapper-flex .middle {
+            /* width: 100%;
+            margin: 0 20px; */
+            flex:1;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>css 三栏布局，中间自适应，两边固定</h1>
+    <div class="wrapper wrapper-float">
+        <div class="left"> 左侧</div>
+        <div class="right">右侧</div>
+        <div class="middle">中间</div>
+    </div>
+    <br/>
+    <div class="wrapper wrapper-position ">
+        <div class="left"> 左侧</div>
+        <div class="middle">中间</div>
+        <div class="right">右侧</div>
+    </div>
+    <br/>
+    <div class="wrapper wrapper-flex ">
+        <div class="left"> 左侧</div>
+        <div class="middle">中间</div>
+        <div class="right">右侧</div>
+    </div>
+</body>
+
+</html>

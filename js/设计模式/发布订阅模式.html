@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>发布订阅模式</title>
+  </head>
+  <body>
+    <script>
+      var PubSub = function() {
+        this.list = {};
+      };
+      //给订阅者提供订阅的方法
+      PubSub.prototype.subscribe = function(key, callback) {
+        if (!this.list[key]) {
+          this.list[key] = [];
+        }
+        this.list[key].push(callback);
+      };
+      //发布消息的功能
+      PubSub.prototype.publish = function(key, args) {
+        var fns = this.list[key];
+        // 如果没有订阅过该消息的话，则返回
+        if (!fns || fns.length === 0) {
+          return;
+        }
+        var len = fns.length;
+        while (len--) {
+          fns[len].call(this, args);
+        }
+      };
+      // 取消订阅
+      PubSub.prototype.unsubscribe = function(key, fn) {
+        var fns = this.list[key];
+        if (!fns || fns.length === 0) {
+          return false;
+        }
+        if (!fn) {
+          fns && (fns.length = 0);
+        } else {
+          // 将fn删除
+          var len = fns.length;
+          while (len--) {
+            if (fns[len] === fn) {
+              fns.splice(len, 1);
+            }
+          }
+        }
+      };
+
+      var hello1 = function(data) {
+        console.log("hello1 world!",data);
+        
+      };
+      var hello2 = function() {
+        console.log("hello2 world!");
+      };
+
+      // 函数名是引用
+      var pubsub = new PubSub();
+      pubsub.subscribe("msg", hello1);
+      pubsub.subscribe("msg", hello2);
+      pubsub.publish("msg",[1,1,1,1,1]); // hello2 world!  //hello1 world!
+      // pubsub.unsubscribe("msg", hello1);
+      // pubsub.publish("msg");
+      // pubsub.unsubscribe("msg", hello2);
+      // pubsub.publish("msg");
+    </script>
+  </body>
+</html>

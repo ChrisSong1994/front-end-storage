@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>理解new操作符的工作原理</title>
+  </head>
+  <body>
+    <h3>理解new操作符的工作原理</h3>
+    <script>
+      // new 运算符创建一个用户定义的对象类型的实例或具有构造函数的内置对象的实例
+      // new constructor[([arguments])]
+      //   constructor:一个指定对象实例的类型的类或函数。
+      // arguments:一个用来被constructor 调用的参数列表。
+
+      //  创建一个用户自定义的对象需要两步：
+      // 通过编写函数来定义对象类型。
+      // 通过new来创建对象实例。
+      // 创建一个对象类型，需要创建一个指定其名称和属性的函数；对象的属性可以指向其他对象，看下面的例子：
+      //   当代码 new Foo(...) 执行时，会发生以下事情：
+      // 1.一个继承自 Foo.prototype 的新对象被创建。
+      // 2.使用指定的参数调用构造函数 Foo ，并将 this 绑定到新创建的对象。new Foo 等同于 new Foo()，
+      // 也就是没有指定参数列表，Foo 不带任何参数调用的情况。
+      // 3.由构造函数返回的对象就是 new 表达式的结果。如果构造函数没有显式返回一个对象，则使用步骤1创建的对象。
+      // （一般情况下，构造函数不返回值，但是用户可以选择主动返回对象，来覆盖正常的对象创建步骤）这里需要注意！！
+
+      // 情况一：构造函数返回一个对象
+      // function Foo() {
+      //   this.name = "foo";
+      //   this.age = "12";
+      //   return {
+      //     name: this.name
+      //   };
+      // }
+      // Foo.prototype.sayName = function() {
+      //   console.log(this.name);
+      // };
+      // var foo = new Foo();
+      // console.log(foo)   // {name:"foo"}  当构造函数返回了一个对象的时候，使用new去创建一个实例返回的会是构造函数return的对象
+
+      // 情况二：构造函数返回一个不为对象的值
+      function Foo() {
+        this.name = "foo";
+        this.age = "12";
+        return this.name;
+      }
+      Foo.prototype.sayName = function() {
+        console.log(this.name);
+      };
+      var foo = new Foo();
+      console.log(foo); //  {name: "foo", age: "12"}  当构造函数不返回一个对象的时候，new创建的就是构造函数的实例对象
+
+
+
+      
+    </script>
+  </body>
+</html>
