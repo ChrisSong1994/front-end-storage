@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>两个对象的参比较</title>
+  </head>
+  <body>
+    <script>
+      function isDeepEquel(obj, tag) {
+        if (typeof obj !== "object" || typeof tag !== "object") {
+          return false;
+        }
+        if (Object.keys(obj).length !== Object.keys(tag).length) {
+          return false;
+        }
+        for (let i in obj) {
+          if (typeof obj[i] === "object") {
+            isDeepEquel(obj[i], tag[i]);
+          } else {
+            if (obj[i] !== tag[i]) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+
+      console.log(isDeepEquel({}, {}));
+      console.log(
+        isDeepEquel(
+          { a: "a", b: "b", c: undefined },
+          { a: "a", b: "b", c: undefined }
+        )
+      );
+    </script>
+  </body>
+</html>
