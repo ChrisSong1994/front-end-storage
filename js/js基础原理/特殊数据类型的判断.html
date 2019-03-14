@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>特殊数据类型的判断</title>
+  </head>
+  <body>
+    <h3>特殊数据类型的判断</h3>
+    <script>
+      // 1.类数组对象的判断
+      // 类数组对象经常出现的场景是函数的形参arguments，利用document.getElementsByTagName获取dom元素集合
+      //  对于数组对象的判断有几个条件
+      //  1.有length属性，类型是number,并且 length > 0 且最后一个元素存在
+      var shallowProperty = function(key) {
+        return function(obj) {
+          return obj == null ? void 0 : obj[key];
+        };
+      };
+
+      var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+      var getLength = shallowProperty("length");
+      var isArrayLike = function(collection) {
+        var length = getLength(collection);
+        return (
+          typeof length == "number" && length >= 0 && length <= MAX_ARRAY_INDEX
+        );
+      };
+    </script>
+  </body>
+</html>

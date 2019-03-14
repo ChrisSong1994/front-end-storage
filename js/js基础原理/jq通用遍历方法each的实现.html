@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>jq通用遍历方法each的实现</title>
+  </head>
+  <body>
+    <h3>jq通用遍历方法each的实现</h3>
+    <script src="../../源码/jquery.js"></script>
+    <script>
+      $(document).ready(function() {
+        // jQuery 的 each 方法，作为一个通用遍历方法，可用于遍历对象和数组和jquery包装的dom节点
+
+        //  dom节点的遍历
+        $("h3").each(function(item) {
+          console.log($(this).text());
+        });
+
+        // 数组的遍历
+        var arr = [1, 2, 3];
+        $.each(arr, function(index, value) {
+          console.log(index, value);
+        }); // 0 1 ,  1 2,  3 4
+
+        // 对象的遍历
+        var obj = {
+          a: "a",
+          b: "b",
+          c: function() {
+            console.log("c");
+          }
+        };
+        $.each(obj, function(index, value) {
+          console.log(index, value);
+        }); // a a , b b , c f(){ console.log("c");}
+
+        // 回调函数拥有两个参数：第一个为对象的成员或数组的索引，第二个为对应变量或内容。
+
+        // 退出循环
+        // 尽管 ES5 提供了 forEach 方法，但是 forEach 没有办法中止或者跳出 forEach 循环，除了抛出一个异常。
+        // 但是对于 jQuery 的 each 函数，如果需要退出 each 循环可使回调函数返回 false，其它返回值将被忽略。
+        $.each([2, 4, 7, 9, 3], function(index, value) {
+          if (value > 5) return false;
+          console.log(index, value);
+        }); // 0 1, 2 4
+
+        // 接下来实现each方法
+        // 首先，我们肯定要根据参数的类型进行判断，如果是数组，就调用 for 循环，
+        // 如果是对象，就使用 for in 循环，有一个例外是类数组对象，对于类数组对象，我们依然可以使用 for 循环。
+
+        // 为了解决对于类数组类型的判断先构造一个isArrayLike函数来判断是否是数组和类数组数据
+        var shallowProperty = function(key) {
+          return function(obj) {
+            return obj == null ? void 0 : obj[key];
+          };
+        };
+
+        var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+        var getLength = shallowProperty("length");
+        var isArrayLike = function(collection) {
+          var length = getLength(collection);
+          return (
+            typeof length == "number" &&
+            length >= 0 &&
+            length <= MAX_ARRAY_INDEX
+          );
+        };
+
+        // 第一版 each
+        function each1(obj, callback) {
+          var length,
+            i = 0;
+          if (isArrayLike(obj)) {
+            length = obj.length;
+            for (; i < length; i++) {
+              callback(obj[i]);
+            }
+          } else {
+            for (i in obj) {
+              callback(obj[i]);
+            }
+          }
+          return obj;
+        }
+
+        each1([1, 2, 3, 545, 5], function(value) {
+          console.log(value);
+        }); //1, 2, 3, 545, 5
+
+        // 需要加入终止循环功能
+        // 第二版
+        // function each2(obj, callback) {
+        //   var length,
+        //     i = 0;
+        //   if (isArrayLike(obj)) {
+        //     length = obj.length;
+        //     for (; i < length; i++) {
+        //       if (callback(obj[i]) === false) {
+        //         break;
+        //       }
+        //     }
+        //   } else {
+        //     for (i in obj) {
+        //       if (callback(obj[i]) === false) {
+        //         break;
+        //       }
+        //     }
+        //   }
+        //   return obj;
+        // }
+
+        // 我们有时会在 callback 函数中用到 this,需要用到call或者apply改变this指向调用者
+        // 第三版
+        function each3(obj, callback) {
+          var length,
+            i = 0;
+          if (isArrayLike(obj)) {
+            length = obj.length;
+            for (; i < length; i++) {
+              if (callback.call(obj[i], i, obj[i]) === false) {
+                break;
+              }
+            }
+          } else {
+            for (i in obj) {
+              if (callback.call(obj[i], i, obj[i]) === false) {
+                break;
+              }
+            }
+          }
+          return obj;
+        }
+
+        each3([1, 2, 3, 5, 6], function(index, value) {
+          console.log(index, value); 
+        });
+        
+        each3({ a: "a", b: "b", c: "c" }, function(index, value) {
+          console.log(index, value);
+        });
+
+
+
+      });
+    </script>
+  </body>
+</html>
