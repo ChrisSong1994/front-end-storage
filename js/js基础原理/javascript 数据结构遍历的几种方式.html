@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>javascript 数据结构遍历的几种方式</title>
+  </head>
+  <body>
+    <!-- 几种数据结构的遍历方式 -->
+    <script>
+      // 几种数据结构的遍历方式
+
+      // 对象的遍历
+      // 对象的遍历方式：Object.keys , for...in , Object.getOwnPropertyNames
+      var obj = {
+        a: "a",
+        b: function() {
+          console.log("b");
+        }
+      };
+      var o = Object.create(obj, {
+        c: {
+          value: "c",
+          writable: true,
+          enumerable: true,
+          configurable: true
+        },
+        d: {
+          value: "d",
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+
+      console.log(Object.keys(o)); // ["c"]
+      for (var key in o) {
+        console.log(key); // c a b
+      }
+      console.log(Object.getOwnPropertyNames(o)); // ["c","d"]      Object.getOwnPropertyNames返回自身的可枚举和不可枚举的属性
+      // 总结：
+      // Object.keys返回对象自身的可枚举的属性名称
+      // for...in 返回对象自身和继承的可枚举的属性名称
+      //  Object.getOwnPropertyNames返回自身的可枚举和不可枚举的属性
+
+      // 数组的遍历
+      // 数据遍历方式：for循环 ,for...of , forEach ,for...in 等
+      var arr = ["a", "b", 5, "c"];
+
+      for (var i = 0; i < arr.length; i++) {
+        if (typeof arr[i] !== "string") break;
+        console.log(arr[i]); //   a b
+      }
+
+      for (var key of arr) {
+        if (typeof key !== "string") break;
+        console.log(key); //   a b
+      }
+
+      for (var key in arr) {
+        if (typeof arr[key] !== "string") break;
+        console.log(key); //     a b
+        console.log(arr[key]); //    0 1
+      }
+
+      arr.forEach((item, index) => {
+        // if(typeof item !=="string") break  // Uncaught SyntaxError: Illegal break statement  语法错误
+        console.log(item, index); // a,0  b,1  c,2
+      });
+
+      var index = 0;
+      while (index < length) {
+        if (typeof arr[index] !== "string") break;
+        console.log(arr[index]); //   a b
+      }
+
+      // 总结：
+      // for循环遍历写法复杂，需要设置变量
+      // for...of写法简单，用于所以有Symbol.iterator属性的数据结构，包括（Array,Map,Set,String,TypedArray,函数的 arguments 对象,NodeList 对象）
+      // forEach 写法简单，但是不可以中断. 可用every 或者 some 进行跳出的遍历
+      // for...in 输出的是下标
+      // while 需要设置变量
+
+      // 字符串的遍历
+      // 字符串遍历方式：for循环 ,for...of  ,for...in
+      var str = "abc!";
+      for (var i = 0; i < str.length; i++) {
+        console.log(str[i]); // a b c !
+      }
+
+      for (var key in str) {
+        console.log(key); // 0 1 2 3
+        console.log(str[key]); // a b c !
+      }
+
+      for (var key of str) {
+        console.log(key); // a b c !
+      }
+
+      var index = 0;
+      while (index < length) {
+        console.log(str[index]); // a b c !
+      }
+
+      // 总结：同数组遍历
+
+      // set的遍历
+      // set的遍历方式：forEach, for...of ,
+      var set = new Set([1, 2, 2, "a", "b", "b"]);
+
+      console.log(set); // Set(4) {1, 2, "a", "b"}
+      console.log(set.size); // undefined
+
+      set.forEach((item, index) => {
+        console.log(item, index); // 1,1 2,2 a,a b,b
+      });
+
+      for (var i of set) {
+        console.log(i); // 1 2 a b
+      }
+
+      console.log(set.keys()); //SetIterator {1, 2, "a", "b"}
+      console.log(set.values()); //SetIterator {1, 2, "a", "b"}
+      console.log(set.entries()); //SetIterator {1, 2, "a", "b"}
+
+      var keys = set.keys();
+      console.log(keys.next()); // {value: 1, done: false}
+
+      var entries = set.entries();
+      console.log(entries.next()); // {value: [1,1], done: false}
+
+      for (var item of set.keys()) {
+        console.log(item); // 1 2 a b
+      }
+      for (var item of set.values()) {
+        console.log(item); // 1 2 a b
+      }
+      for (var item of set.entries()) {
+        console.log(item); // [1,1]  [2,2]  ["a","a"]  ["b","b"]
+      }
+
+      // 总结：set实际上是对象的数据结构，其值是一个不可重复的集合，没有下标，键名和键值相同
+      // for...of可以直接遍历出set的每个值
+      // forEach 可以遍历每个键值和键名
+      // Set自身的keys,values,entries 均返回一个遍历器
+
+      // map的遍历：是键值对的集合（Hash 结构）
+      // 遍历方式：for...of,   map.forEach
+      var map = new Map();
+      map.set("a", 1);
+      map.set("b", 2);
+      map.set("c", 3);
+
+      console.log(map); // Map(3) {"a" => 1, "b" => 2, "c" => 3}
+      var mapEntries = map.entries();
+      console.log(mapEntries); //MapIterator {"a" => 1, "b" => 2, "c" => 3}
+      console.log(mapEntries.next()); //{value: Array(2), done: false}
+
+      for (var item of map) {
+        console.log(item); // ["a", 1]  ["b", 2] ["c", 3]
+      }
+      map.forEach((value, key) => {
+        console.log(value, key); // 1,a  2,b  3,c
+      });
+
+      // 总结：Map也提供了keys,values,entries三种方法返回遍历器,并且有一个forEach方法提供Map数据的遍历类似数组的forEach
+    </script>
+  </body>
+</html>

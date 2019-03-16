@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>forin，Object.keys和Object.getOwnPropertyNames的区别</title>
+  </head>
+  <body>
+    <h3>for in，Object.keys和Object.getOwnPropertyNames的区别</h3>
+    <script>
+      //  for in ,Object.keys,Object.getOwnPropertyNames都可以用来获取对象的属性，那么他们有什么区别呢？
+
+      // for in：以任意顺序遍历一个对象的可枚举属性
+      /*注意：for...in 循环只遍历可枚举属性。像 Array和 Object使用内置构造函数所创建的对象都会继承自Object.prototype和String.prototype的不可枚举属性，
+             例如 String 的 indexOf()  方法或 Object的toString()方法。循环将遍历对象本身的所有可枚举属性，以及对象从其构造函数原型中继承的属性
+            （更接近原型链中对象的属性覆盖原型属性）。*/
+
+      var parent = {
+        a: "a"
+      };
+      var child = Object.create(parent, {
+        b: {
+          value: "b",
+          writable: true,
+          enumerable: true,
+          configurable: true
+        },
+        c: {
+          value: "c",
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+
+      for (var key in child) {
+        console.log(key); // b a  // 会回去继承的属性
+      }
+
+      // Object.keys :方法会返回一个由一个(给定对象的自身:不包括继承的)可枚举属性组成的数组，数组中属性名的排列顺序和使用 for...in 循环遍历该对象时返回的顺序一致
+      console.log(Object.keys(child)); // ["b"]
+
+      // Object.getOwnPropertyNames:方法返回一个由指定对象的所有自身属性的属性名（包括不可枚举属性但不包括Symbol值作为名称的属性）组成的数组。
+      /*描述：Object.getOwnPropertyNames() 返回一个数组，该数组对元素是 obj自身拥有的枚举或不可枚举属性名称字符串。
+      数组中枚举属性的顺序与通过 for...in 循环（或 Object.keys）迭代该对象属性时一致。数组中不可枚举属性的顺序未定义。*/
+      console.log(Object.getOwnPropertyNames(child)); // ["b", "c"]
+
+      
+    </script>
+  </body>
+</html>

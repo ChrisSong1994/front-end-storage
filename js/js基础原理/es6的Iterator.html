@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>es6的Iterator</title>
+  </head>
+  <body>
+    <h3>es6的Iterator</h3>
+    <script>
+      // Iterator 接口的目的，就是为所有数据结构，提供了一种统一的访问机制，即for...of循环
+      /* 原生具备 Iterator 接口的数据结构如下
+       Array
+       Map
+       Set
+       String
+       TypedArray
+       函数的 arguments 对象
+       NodeList 对象  */
+
+      //  对象是不具备Iterator 接口的所有，对对象使用for of 会出现报错
+      // var obj={a:"a",b:"b"}
+      // for(var key of obj){ console.log(key)}  //Uncaught TypeError: obj is not iterable
+
+    </script>
+  </body>
+</html>
