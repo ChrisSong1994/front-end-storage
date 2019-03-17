@@ -12,8 +12,8 @@
 8.  [ajax的封装](https://github.com/song111/font-end-question/blob/master/js/js%E6%96%B9%E6%B3%95%E5%BA%93/utils/ajax.js)
 9.  [js方法库](https://github.com/song111/font-end-question/blob/master/js/js%E6%96%B9%E6%B3%95%E5%BA%93/utils/utils.js)
 10.  [jq通用遍历方法each的实现](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/jq%E9%80%9A%E7%94%A8%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95each%E7%9A%84%E5%AE%9E%E7%8E%B0.html)
-11.  [for...in,Object.keys和Object.getOwnPropertyNames的区别]()
-12.  [javascript 数据结构遍历的几种方式]()
+11.  [for...in,Object.keys和Object.getOwnPropertyNames的区别](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/for...in%2CObject.keys%E5%92%8CObject.getOwnPropertyNames%E7%9A%84%E5%8C%BA%E5%88%AB.html)
+12.  [javascript 数据结构遍历的几种方式](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/javascript%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%81%8D%E5%8E%86%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F.html)
 
 
 ***手动实现部分***
