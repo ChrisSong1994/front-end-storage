@@ -1,4 +1,4 @@
-// 参数格式化  
+// 参数格式化
 function formatParams(data) {
   var arr = [];
   for (var prop in data) {
@@ -11,7 +11,7 @@ function formatParams(data) {
 // 参数格式
 var setting = {
   method: "GET",
-  url:"地址",
+  url: "地址",
   async: "true",
   data: {},
   dataType: "json",
@@ -20,12 +20,13 @@ var setting = {
 };
 
 /**
- * @param {object} setting 
+ * @param {object} setting
  */
 function ajax(setting) {
   var options = {
     method: (setting.method || "GET").toUpperCase(), //请求方式
     url: setting.url || "", // 请求地址
+    timeout: setting.timeout || 10000, // 默认超时设置为10秒
     async: setting.async || true, // 是否异步
     dataType: setting.dataType || "json", // 解析方式
     data: setting.data || "", // 参数
@@ -40,7 +41,7 @@ function ajax(setting) {
       var callbackName = "jsonpCallBack"; // 回调函数名称
       document.body.appendChild(jsonpScript);
       jsonpScript.src =
-        options.url + "?"+paramString+"&callback=" + callbackName;
+        options.url + "?" + paramString + "&callback=" + callbackName;
       window[callbackName] = function(data) {
         options.success(data);
         delete window[callbackName];
@@ -68,6 +69,14 @@ function ajax(setting) {
     } else {
       console.error("仅支持get和post请求！");
     }
+
+    xhr.timeout = options.timeout;
+     // XMLHttpRequest 超时
+    xhr.ontimeout = function(err) {
+      console.log(err)
+     console.log("请求超时！！")
+     options.error(err);
+    };
     // 请求相应
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {

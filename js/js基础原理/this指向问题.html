@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>this指向问题</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>setInterval和setTimeout 中this指向问题.html</h1>
-
-</body>
-<script>
+  </body>
+  <script>
     // var num = 0;
     // function Obj() {
     //     this.num = 1;
@@ -52,7 +50,6 @@
     // obj.getNum();//1　　打印的是obj.num，值为1
     // obj.getNumLater()//1　　打印的是obj.num，值为1
 
-
     // 2.利用bind()方法
     // var num = 0;
     // function Obj() {
@@ -73,22 +70,18 @@
     // 3. 箭头函数
     var num = 0;
     function Obj() {
-        this.num = 1,
-            this.getNum = function () {
-                console.log(this.num);
-            },
-            this.getNumLater = function () {
-                setTimeout(() => {
-                    console.log(this.num);
-                }, 1000)    //箭头函数中的this总是指向外层调用者，也就是Obj
-            }
+      (this.num = 1),
+        (this.getNum = function() {
+          console.log(this.num);
+        }),
+        (this.getNumLater = function() {
+          setTimeout(() => {
+            console.log(this.num);
+          }, 1000); //箭头函数中的this总是指向外层调用者，也就是Obj
+        });
     }
-    var obj = new Obj;
-    obj.getNum();//1　　打印的是obj.num，值为1
-    obj.getNumLater()//1　　打印的是obj.num，值为1
-
-
-
-</script>
-
+    var obj = new Obj();
+    obj.getNum(); //1　　打印的是obj.num，值为1
+    obj.getNumLater(); //1　　打印的是obj.num，值为1
+  </script>
 </html>

@@ -21,12 +21,18 @@ router.get("/ajax/get", ctx => {
 
 router.post("/ajax/post", ctx => {
   const params = ctx.request.body;
-  console.log(params)
+  console.log(params);
+  let curTime = new Date().getTime();
+  let i = 0;
+  while (i < 10000000000) {
+    i++;
+  }
+  console.log(`耗时${new Date().getTime() - curTime}ms`);
   // 接口返回结果
   ctx.body = {
     success: "succcess",
     message: "请求成功！",
-    params:params,
+    params: params,
     data: "这是一个post请求"
   };
 });
@@ -34,7 +40,7 @@ router.post("/ajax/post", ctx => {
 router.get("/ajax/jsonp", ctx => {
   const params = ctx.query;
   const callback = params.callback;
-  const responseData={
+  const responseData = {
     success: "succcess",
     message: "请求成功！",
     params: params,
@@ -42,10 +48,9 @@ router.get("/ajax/jsonp", ctx => {
   };
   // 接口返回结果
   if (callback) {
-    ctx.body=`${callback}(${JSON.stringify(responseData)})`
+    ctx.body = `${callback}(${JSON.stringify(responseData)})`;
   } else {
     throw console.error("未配置callback函数！");
-    
   }
 });
 
