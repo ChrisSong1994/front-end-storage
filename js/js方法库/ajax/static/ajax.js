@@ -13,6 +13,7 @@ var setting = {
   method: "GET",
   url: "地址",
   async: "true",
+  timeout:10000,
   data: {},
   dataType: "json",
   success: function() {},
