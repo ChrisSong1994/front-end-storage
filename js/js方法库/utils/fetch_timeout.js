@@ -20,11 +20,14 @@ function fetch_timeout(fecthPromise, timeout = 5000) {
   // 最快出结果的promise 作为结果
   let resultPromise = Promise.race([fecthPromise, abortPromise]);
 
-  setTimeout(() => {
+  let timeout = setTimeout(() => {
     abort();
   }, timeout);
 
-  return resultPromise;
+  return resultPromise.then(res => {
+    clearTimeout(timeout);
+    return res;
+  });
 }
 
 export default fetch_timeout;
