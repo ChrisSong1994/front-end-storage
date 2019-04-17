@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>html5组件拖拽</title>
+  <style>
+    .box1,
+    .box2 {
+      width: 400px;
+      height: 600px;
+      border: 1px dashed #ccc;
+      float: left;
+      padding: 20px;
+      margin: 50px 100px;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      background: rgb(233, 229, 12);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box1">
+    <div class="item" draggable="true" id="item1">item1</div>
+    <div class="item" draggable="true" id="item2">item2</div>
+  </div>
+  <div class="box2">
+    <div class="item" draggable="true" id="item3">item3</div>
+  </div>
+</body>
+<script>
+  document.addEventListener("drag", function (e) {
+    e.preventDefault()
+  }, false)
+  document.addEventListener("dragover", function (e) {
+    e.preventDefault()
+  }, false)
+  document.addEventListener("drop", function (e) {
+    e.preventDefault()
+  }, false)
+
+  const box1 = document.querySelector(".box1")
+  const box2 = document.querySelector(".box2")
+  let dragItem
+
+  document.addEventListener("dragstart", function (event) {
+    dragItem = event.target
+    event.target.style.opacity = 0.5;
+  }, false)
+
+  document.addEventListener("dragend", function (event) {
+    event.target.style.opacity = "";
+  }, false);
+
+  // 进入离开
+  box1.addEventListener("dragenter", function (event) {
+    event.target.style.borderColor = "#000";
+  }, false)
+
+  box1.addEventListener("dragleave", function (event) {
+    event.target.style.borderColor = "";
+  }, false)
+
+  box2.addEventListener("dragenter", function (event) {
+    event.target.style.borderColor = "#000";
+  }, false)
+
+  box2.addEventListener("dragleave", function (event) {
+    event.target.style.borderColor = "";
+  }, false)
+
+
+  //  放入
+  box2.addEventListener("drop", function (event) {
+    event.preventDefault();
+    event.target.appendChild(dragItem);
+  }, false)
+
+  box1.addEventListener("drop", function (event) {
+    event.preventDefault();
+    event.target.appendChild(dragItem);
+    event.target.style.borderColor = "";
+  }, false)
+
+// 数据传输 DataTransfer 
+
+
+</script>
+
+</html>

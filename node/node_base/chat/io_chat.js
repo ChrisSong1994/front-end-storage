@@ -13,7 +13,7 @@ var app  =express();
 
 app.use(express.static(__dirname));
 
-var server = app.listen(8888, '172.16.2.184');
+var server = app.listen(8888, '127.0.0.1');
 
 
 var ws = io.listen(server);

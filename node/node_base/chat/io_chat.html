@@ -24,7 +24,7 @@
     <script type="text/javascript" src="js/socket.io.js"></script>
     <script type="text/javascript">
 
-          var ws = io.connect('http://172.16.2.184:8888');
+          var ws = io.connect('http://127.0.0.1:8888');
           var sendMsg = function(msg){
               ws.emit('send.message', msg);
           }
