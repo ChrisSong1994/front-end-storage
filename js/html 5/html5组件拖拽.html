@@ -62,16 +62,16 @@
   // 用数组来维护两个box里面的数据
   let boxArr1 = { item1: { name: "item1" }, item2: { name: "item2" } }
   let boxArr2 = { item3: { name: "item3" } }
-  setDataInnerhtml()
-  function setDataInnerhtml() {
+
+  function setDataInnerhtml(box,key) {
     data1.innerHTML = ""
     data2.innerHTML = ""
-    for (let item in boxArr1) {
-      data1.innerHTML += `${boxArr1[item].name}   `
-    }
-    for (let item in boxArr2) {
-      data2.innerHTML += `${boxArr2[item].name}   `
-    }
+   switch(box){
+case "data1":data1.innerHTML=`欢迎 ${key} 加入`
+break;
+case "data2":data2.innerHTML=`欢迎 ${key} 加入`
+break;
+   }
   }
 
 
@@ -94,10 +94,9 @@
   }, false)
 
   box1.addEventListener("dragleave", function (event) {
+    event.preventDefault();
+    console.log("dragleave",event.target)
     event.target.style.borderColor = "";
-    const key = event.dataTransfer.getData("TEXT")
-    delete boxArr1[key]
-    setDataInnerhtml()
   }, false)
 
   box2.addEventListener("dragenter", function (event) {
@@ -105,10 +104,8 @@
   }, false)
 
   box2.addEventListener("dragleave", function (event) {
+    event.preventDefault();
     event.target.style.borderColor = "";
-    const key = event.dataTransfer.getData("TEXT")
-    delete boxArr2[key]
-    setDataInnerhtml()
   }, false)
 
 
@@ -118,8 +115,7 @@
     event.target.appendChild(dragItem);
     event.target.style.borderColor = "";
     const key = event.dataTransfer.getData("TEXT")
-    boxArr2[key] = { name: key }
-    setDataInnerhtml()
+    setDataInnerhtml("data2",key)
   }, false)
 
   box1.addEventListener("drop", function (event) {
@@ -127,8 +123,7 @@
     event.target.appendChild(dragItem);
     event.target.style.borderColor = "";
     const key = event.dataTransfer.getData("TEXT")
-    boxArr2[key] = { name: key }
-    setDataInnerhtml()
+    setDataInnerhtml("data1",key)
   }, false)
 
 // 数据传输 DataTransfer 
