@@ -22,6 +22,7 @@
       })
     }
 
+
     function to(promise) {
       return promise.then(data => {
         return [null, data];
@@ -34,9 +35,9 @@
       let err, result
       [err, result] = await to(taskPromise(""))
       if (err) {
-        console.log("it‘s error")
+        console.log("it‘s error")  
       } else {
-        console.log("it‘s" + result)
+        console.log("it‘s" + result) 
       }
 
       [err, result] = await to(taskPromise("fail"))
@@ -48,7 +49,7 @@
 
     }
 
-    asyncTasks()
+    asyncTasks()  //it‘ssuccess   it‘s error
 
 
 
