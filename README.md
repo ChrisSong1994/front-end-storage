@@ -14,6 +14,7 @@
 10.  [jq通用遍历方法each的实现](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/jq%E9%80%9A%E7%94%A8%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95each%E7%9A%84%E5%AE%9E%E7%8E%B0.html)
 11.  [for...in,Object.keys和Object.getOwnPropertyNames的区别](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/for...in%2CObject.keys%E5%92%8CObject.getOwnPropertyNames%E7%9A%84%E5%8C%BA%E5%88%AB.html)
 12.  [javascript 数据结构遍历的几种方式](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/javascript%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%81%8D%E5%8E%86%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F.html)
+13.  [如何在写await async的时候不用try catch](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%86%99await%20async%E7%9A%84%E6%97%B6%E5%80%99%E4%B8%8D%E7%94%A8try%20catch.html)
 
 
 
@@ -45,3 +46,5 @@
 3. [css清除浮动](https://github.com/song111/font-end-question/blob/master/css/css%E5%9F%BA%E7%A1%80/css%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8.html)
 4. [css文本设置溢出省略](https://github.com/song111/font-end-question/blob/master/css/css%E5%9F%BA%E7%A1%80/css%E6%96%87%E6%9C%AC%E8%AE%BE%E7%BD%AE%E6%BA%A2%E5%87%BA%E7%9C%81%E7%95%A5.html)
 
+### leetcode
+1.  [两数之和](https://github.com/song111/font-end-question/blob/master/leetCode/1.%20%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C.html)
