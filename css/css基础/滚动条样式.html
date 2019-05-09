@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .scrollBar {
+      float: left;
+      width: 300px;
+      height: 300px;
+      margin: 20px;
+      border: 1px solid #000;
+    }
+
+    .vertical {
+      overflow-y: auto;
+    }
+
+    .horizontal {
+      overflow-x: auto;
+    }
+
+    .wrap {
+      height: 100%;
+      width: 800px;
+    }
+
+    /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+    .vertical::-webkit-scrollbar {
+      width: 16px;
+      height: 16px;
+      background-color: #F5F5F5;
+    }
+
+    /*定义滚动条轨道 内阴影+圆角*/
+    .vertical::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      background-color: #F5F5F5;
+    }
+
+    /*定义滑块 内阴影+圆角*/
+    .vertical::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+      background-color: #555;
+    }
+
+    /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+    .horizontal::-webkit-scrollbar {
+      width: 16px;
+      height: 16px;
+      background-color: #F5F5F5;
+    }
+
+    /*定义滚动条轨道 内阴影+圆角*/
+    .horizontal::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      background-color: #F5F5F5;
+    }
+
+    /*定义滑块 内阴影+圆角*/
+    .horizontal::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+      background-color: #555;
+    }
+
+    .horizontal::-webkit-scrollbar-button:start {
+      background: url("../img/left.png") no-repeat;
+      background-size: 12px 12px;
+    }
+    .horizontal::-webkit-scrollbar-button:end {
+      background: url("../img/right.png") no-repeat;
+      background-size: 12px 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 
+    滚动条的伪元素
+    ::-webkit-scrollbar 滚动条整体部分
+    ::-webkit-scrollbar-thumb  滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条）
+    ::-webkit-scrollbar-track  滚动条的轨道（里面装有Thumb）
+    ::-webkit-scrollbar-button 滚动条的轨道的两端按钮，允许通过点击微调小方块的位置。
+    ::-webkit-scrollbar-track-piece 内层轨道，滚动条中间部分（除去）
+    ::-webkit-scrollbar-corner 边角，即两个滚动条的交汇处
+    ::-webkit-resizer 两个滚动条的交汇处上用于通过拖动调整元素大小的小控件
+   -->
+
+  <!-- 
+    滚动条的伪类
+    :horizontal  //horizontal伪类适用于任何水平方向上的滚动条
+    :vertical  //vertical伪类适用于任何垂直方向的滚动条
+    :decrement  //decrement伪类适用于按钮和轨道碎片。表示递减的按钮或轨道碎片，例如可以使区域向上或者向右移动的区域和按钮
+    :increment  //increment伪类适用于按钮和轨道碎片。表示递增的按钮或轨道碎片，例如可以使区域向下或者向左移动的区域和按钮
+    :start  //start伪类适用于按钮和轨道碎片。表示对象（按钮 轨道碎片）是否放在滑块的前面
+    :end  //end伪类适用于按钮和轨道碎片。表示对象（按钮 轨道碎片）是否放在滑块的后面
+    :double-button  //double-button伪类适用于按钮和轨道碎片。判断轨道结束的位置是否是一对按钮。也就是轨道碎片紧挨着一对在一起的按钮。
+    :single-button  //single-button伪类适用于按钮和轨道碎片。判断轨道结束的位置是否是一个按钮。也就是轨道碎片紧挨着一个单独的按钮。
+    :no-button  //no-button伪类表示轨道结束的位置没有按钮。
+    :corner-present  //corner-present伪类表示滚动条的角落是否存在。
+    :window-inactive  //适用于所有滚动条，表示包含滚动条的区域，焦点不在该窗口的时候。 
+  -->
+
+  <!-- ::-webkit-scrollbar-track-piece:start {
+/*滚动条上半边或左半边*/
+}
+::-webkit-scrollbar-thumb:window-inactive {
+/*当焦点不在当前区域滑块的状态*/
+}
+::-webkit-scrollbar-button:horizontal:decrement:hover {
+/*当鼠标在水平滚动条下面的按钮上的状态*/
+} -->
+
+  <div class="scrollBar vertical">
+    The scrollbar set of CSS properties is a proprietary style hook from Internet Explorer 5.5, which let designers
+    create custom themes for the browser's native scrollbars. Currently, it is exposed behind the -webkit vendor prefix
+    for use in browsers using the Webkit (and Blink) rendering engine. This almanac entry is an overview, for a more
+    complete breakdown of working with custom scrollbars, please read this CSS-Tricks article.
+    The scrollbar set of CSS properties is a proprietary style hook from Internet Explorer 5.5, which let designers
+    create custom themes for the browser's native scrollbars. Currently, it is exposed behind the -webkit vendor prefix
+    for use in browsers using the Webkit (and Blink) rendering engine. This almanac entry is an overview, for a more
+    complete breakdown of working with custom scrollbars, please read this CSS-Tricks article.
+  </div>
+  <div class="scrollBar horizontal">
+    <div class="wrap">
+      The scrollbar set of CSS properties is a proprietary style hook from Internet Explorer 5.5, which let designers
+      create custom themes for the browser's native scrollbars. Currently, it is exposed behind the -webkit vendor
+      prefix
+      for use in browsers using the Webkit (and Blink) rendering engine. This almanac entry is an overview, for a more
+      complete breakdown of working with custom scrollbars, please read this CSS-Tricks article.
+      The scrollbar set of CSS properties is a proprietary style hook from Internet Explorer 5.5, which let designers
+      create custom themes for the browser's native scrollbars. Currently, it is exposed behind the -webkit vendor
+      prefix
+      for use in browsers using the Webkit (and Blink) rendering engine. This almanac entry is an overview, for a more
+      complete breakdown of working with custom scrollbars, please read this CSS-Tricks article.
+    </div>
+  </div>
+
+</body>
+
+</html>
