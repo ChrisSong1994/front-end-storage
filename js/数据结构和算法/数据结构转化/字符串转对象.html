@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>字符串转对象</title>
+</head>
+
+<body>
+  <script>
+    // animal_dog_name:"花花"  => {animal:{dog:{name:"花花"}}}
+
+    function stringToObj(key, value) {
+      if (!key || typeof key !== "string") return
+      let keyArr = key.split("_")
+      let obj = {}
+      for (let i = keyArr.length - 1; i > -1; i--) {
+        if (i === keyArr.length - 1) {
+          obj = { [keyArr[i]]: value }
+        } else {
+          obj = { [keyArr[i]]: obj }
+        }
+      }
+      return obj
+    }
+
+    console.log(stringToObj("animal_dog_name", "花花"))
+  </script>
+
+</body>
+
+</html>
