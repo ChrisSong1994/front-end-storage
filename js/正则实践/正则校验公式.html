@@ -1,12 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>正则校验公式</title>
 </head>
+
 <body>
-  
+  <script>
+    // 校验数字表达式
+    //  1 数字：^[0-9]*$
+    console.log(/^[0-9]*$/.test(2323))
+
+    // 2 n位的数字：^\d{n}$
+    console.log(/^\d{6}$/.test(232389))
+
+    // 3 至少n位的数字：^\d{n,}$
+    console.log(/^\d{3,}$/.test(238))
+
+    // 4 m-n位的数字：^\d{m,n}$
+    console.log(/^\d{3,5}$/.test(2389))
+
+    // 5 零和非零开头的数字：^(0|[1-9][0-9]*)$
+    console.log(/^(0|[1-9][0-9]*)$/.test(0))
+
+    // 6 非零开头的最多带两位小数的数字：^([1-9][0-9]*)+(.[0-9]{1,2})?$
+    console.log(/^([1-9][0-9]*)+(.[0-9]{1,2})?$/.test(2389.98))
+
+
+    // 校验字符的表达式
+    // 1 汉字：^[\u4e00-\u9fa5]{0,}$
+    console.log(/^[\u4e00-\u9fa5]{0,}$/.test("见到你"))
+
+    // 2 英文和数字：^[A-Za-z0-9]+$ 或 ^[A-Za-z0-9]{4,40}$
+    console.log(/^[A-Za-z0-9]+$/.test("bsdsdd23232"))
+
+    // 3 长度为3-20的所有字符：^.{3,20}$
+    console.log(/^.{3,20}$/.test("bsdsdd为单浓哦 i 弄 232"))
+
+    // 4 由26个英文字母组成的字符串：^[A-Za-z]+$
+    console.log(/^[A-Za-z]+$/.test("bsdsddHJBJBU"))
+
+    // 9 中文、英文、数字包括下划线：^[\u4E00-\u9FA5A-Za-z0-9_]+$
+    console.log(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.test("bsdsddHJ粗手粗脚承诺_BJBU"))
+
+    // 10 可以输入含有^%&',;=?$\"等字符：[^%&',;=?$\x22]+
+    console.log(/[^%&',;=?$\x22]+/.test("="))
+
+    // 特殊需求表达式
+    // 1 Email地址：^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$
+    console.log(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test("1262761251752@qq.com"))
+
+
+
+
+  </script>
 </body>
+
 </html>
