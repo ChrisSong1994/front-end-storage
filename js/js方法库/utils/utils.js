@@ -88,8 +88,14 @@ function highlight(text, words, tag = 'span') {
 
 // 限制文本字数
 function excerpt(str, nwords) {
-  let words = str.split(' ');
+  let words = str.split('');
   words.splice(nwords, words.length - 1);
-  return words.join(' ') +
-    (words.length !== str.split(' ').length ? '…' : '');
+  return words.join('') +
+    (words.length !== str.split('').length ? '…' : '');
+}
+
+// 地址url校验
+function urlVertify(url) {
+  let urlReg = new RegExp('(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]')
+  return urlReg.test(url)
 }

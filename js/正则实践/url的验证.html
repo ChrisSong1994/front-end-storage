@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>url的验证 包括端口</title>
+</head>
+
+<body>
+  <script>
+    // 可以验证ip,域名,端口,汉字的url
+    let urlReg = new RegExp('(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]')  // 验证url 输入
+    console.log("http://www.baidu.com", urlReg.test("http://www.baidu.com"))
+    console.log("http://10.1.50.55/search", urlReg.test("http://10.1.50.55/search"))
+    console.log("http://10.1.50.55/search?name=地址", urlReg.test("http://10.1.50.55/search?name=地址"))
+
+  </script>
+</body>
+
+</html>

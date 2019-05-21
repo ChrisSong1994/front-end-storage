@@ -12,13 +12,18 @@
   <!-- 测试 -->
   <button onclick="copy()">复制</button>
   <button onclick="download()">下载</button>
+  <div class="excerpt"></div>
   <script>
-    function copy() {
-      copyToClipboard("1111")
-    }
+    window.onload = function () {
+      function copy() {
+        copyToClipboard("1111")
+      }
 
-    function download() {
-      createAndDownloadFile("file","doc", "kjl;ihpion")
+      function download() {
+        createAndDownloadFile("file", "doc", "kjl;ihpion")
+      }
+
+      document.querySelector(".excerpt").innerHTML = excerpt("js通用方法库", 3)
     }
 
 
