@@ -1,0 +1,30 @@
+import React from './node_modules/react';
+import { BrowserRouter as Router, Route, Switch, Link } from './node_modules/react-router-dom';
+import { Layout, Breadcrumb } from './node_modules/antd';
+
+const {  Content, Footer } = Layout;
+
+import Head from '../pages/Layout/Head/index.js'
+import Home from '../pages/Home';
+
+const getRouter = () => (
+  <Router>
+    <Layout>
+      <Head />
+      <Content style={{ padding: '0 50px', marginTop: 64 }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+        </Breadcrumb>
+        <div style={{ background: '#fff', padding: 24, minHeight: 1580 }}>
+          <Switch>
+            <Route exact path="/" component={Home} />
+          </Switch>
+        </div>
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>
+        Ant Design ©2018 Created by Ant UED
+    </Footer>
+    </Layout>
+  </Router>
+);
+export default getRouter;
