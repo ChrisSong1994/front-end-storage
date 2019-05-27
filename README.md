@@ -46,5 +46,8 @@
 3. [css清除浮动](https://github.com/song111/font-end-question/blob/master/css/css%E5%9F%BA%E7%A1%80/css%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8.html)
 4. [css文本设置溢出省略](https://github.com/song111/font-end-question/blob/master/css/css%E5%9F%BA%E7%A1%80/css%E6%96%87%E6%9C%AC%E8%AE%BE%E7%BD%AE%E6%BA%A2%E5%87%BA%E7%9C%81%E7%95%A5.html)
 
+#### webpack
+1. [webpack 依赖管理](https://github.com/song111/font-end-question/blob/master/webpack/require/README.md)
+
 ### leetcode
 1.  [两数之和](https://github.com/song111/font-end-question/blob/master/leetCode/1.%20%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C.html)
