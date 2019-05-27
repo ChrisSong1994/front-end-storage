@@ -1,6 +1,6 @@
-import React from './node_modules/react';
-import { BrowserRouter as Router, Route, Switch, Link } from './node_modules/react-router-dom';
-import { Layout, Breadcrumb } from './node_modules/antd';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Layout, Breadcrumb } from 'antd';
 
 const {  Content, Footer } = Layout;
 
