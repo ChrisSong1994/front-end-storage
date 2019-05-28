@@ -28,7 +28,7 @@ function debounce(func, delay) {
 
 
 // 参数格式化 ：get请求拼接
-function formatParams(data) {
+function formatUrlParams(data) {
   var arr = [];
   for (var prop in data) {
     arr.push(prop + "=" + data[prop]);
@@ -37,11 +37,14 @@ function formatParams(data) {
 }
 
 
-// 除去前后空格
+// 除去空格
 function trimSpace(str) {
-  var reg = /^\s+|\s+$/g;
+  var reg = /^\s*(.*?)\s+$/;
   return str.replace(reg, "");
 }
+
+function ltrim(s) { return s.replace(/^(\s*|　*)/, ""); }
+function rtrim(s) { return s.replace(/(\s*|　*)$/, ""); }
 
 
 // 获取滚动条到底部的距离
@@ -98,4 +101,71 @@ function excerpt(str, nwords) {
 function urlVertify(url) {
   let urlReg = new RegExp('(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]')
   return urlReg.test(url)
+}
+
+
+// 获取当前位置信息
+function getLocation(callback) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (p) {
+      callback(p.coords.latitude, p.coords.longitude)
+    }, function (e) {
+      var msg = e.code + "\n" + e.message
+      console.error(msg)
+    })
+  }
+}
+
+// 时间日期格式转换
+Date.prototype.Format = function (formatStr) {
+  var str = formatStr;
+  var Week = ['日', '一', '二', '三', '四', '五', '六'];
+  str = str.replace(/yyyy|YYYY/, this.getFullYear());
+  str = str.replace(/yy|YY/, (this.getYear() % 100) > 9 ? (this.getYear() % 100).toString() : '0' + (this.getYear() % 100));
+  str = str.replace(/MM/, (this.getMonth() + 1) > 9 ? (this.getMonth() + 1).toString() : '0' + (this.getMonth() + 1));
+  str = str.replace(/M/g, (this.getMonth() + 1));
+  str = str.replace(/w|W/g, Week[this.getDay()]);
+  str = str.replace(/dd|DD/, this.getDate() > 9 ? this.getDate().toString() : '0' + this.getDate());
+  str = str.replace(/d|D/g, this.getDate());
+  str = str.replace(/hh|HH/, this.getHours() > 9 ? this.getHours().toString() : '0' + this.getHours());
+  str = str.replace(/h|H/g, this.getHours());
+  str = str.replace(/mm/, this.getMinutes() > 9 ? this.getMinutes().toString() : '0' + this.getMinutes());
+  str = str.replace(/m/g, this.getMinutes());
+  str = str.replace(/ss|SS/, this.getSeconds() > 9 ? this.getSeconds().toString() : '0' + this.getSeconds());
+  str = str.replace(/s|S/g, this.getSeconds());
+  return str
+}
+
+// 判断是否为数字类型(字符串数字或者数字类型数字)
+function isDigit(value) {
+  var patrn = /^[0-9]*$/;
+  if (patrn.exec(value) == null || value == "") {
+    return false
+  } else {
+    return true
+  }
+}
+
+// 获取数据类型
+function getType(a) {
+  var typeArray = Object.prototype.toString.call(a).split(" ");
+  return typeArray[1].slice(0, -1);
+}
+
+// 设置cookie
+function setCookie(name, value, Hours) {
+  var d = new Date();
+  var offset = 8;
+  var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+  var nd = utc + (3600000 * offset);
+  var exp = new Date(nd);
+  exp.setTime(exp.getTime() + Hours * 60 * 60 * 1000);
+  document.cookie = name + "=" + escape(value) + ";path=/;expires=" + exp.toGMTString() + ";domain="+域名
+}
+
+// 获取cookie
+function getCookie(name) {
+  var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+  if (arr != null) return unescape(arr[2]);
+  return null
 }
