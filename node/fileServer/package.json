@@ -1,0 +1,11 @@
+{
+  "name": "fileserver",
+  "version": "1.0.0",
+  "description": "<!-- 静态文件服务器 -->",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

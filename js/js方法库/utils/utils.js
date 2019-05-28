@@ -160,7 +160,7 @@ function setCookie(name, value, Hours) {
   var nd = utc + (3600000 * offset);
   var exp = new Date(nd);
   exp.setTime(exp.getTime() + Hours * 60 * 60 * 1000);
-  document.cookie = name + "=" + escape(value) + ";path=/;expires=" + exp.toGMTString() + ";domain="+域名
+  document.cookie = name + "=" + escape(value) + ";path=/;expires=" + exp.toGMTString() + ";domain=" + 域名
 }
 
 // 获取cookie
@@ -168,4 +168,19 @@ function getCookie(name) {
   var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
   if (arr != null) return unescape(arr[2]);
   return null
+}
+
+/**
+ * 指定的现有节点之后插入新的节点
+ * @param {Node} newNode 需要插入的节点对象
+ * @param {Node} existingNode 现有的节点
+ */
+function insertAfter(newNode, existingNode) {
+  const parent = existingNode.parentNode;
+  if (parent.lastChild === existingNode) {
+    parent.appendChild(newNode);
+  } else {
+    // .nextSibling 该属性返回指定节点后的第一个节点
+    parent.insertBefore(newNode, existingNode.nextSibling);
+  }
 }
