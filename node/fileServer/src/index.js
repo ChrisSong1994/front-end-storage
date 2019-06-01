@@ -8,6 +8,8 @@ const mime = require('mime');
 const crypto = require('crypto');
 const zlib = require('zlib');
 
+
+
 class FileServer {
   constructor() {
     this.config = {
@@ -28,36 +30,49 @@ class FileServer {
   //  请求处理
   request(req, res) {
     const { pathname } = url.parse(req.url)
-    const filePath = path.join(this.config.root, pathname)
+    let filepath = path.join(this.config.root, pathname)
+    if (pathname === '/') {
+      const rootPath = path.join(this.config.root, 'index.html')
+      try {
+        const indexStat = fs.statSync(rootPath);
+        if (indexStat) {
+          filepath = rootPath;
+        }
+      } catch (e) { }
+    }
 
-    console.log(filePath)
-    fs.stat(filePath, (err, stats) => {
+    fs.stat(filepath, (err, stats) => {
       if (err) {
         this.sendError('not found', req, res);
         return;
       }
 
-      // 文件夹
-      if (stats.isDirectory()) {
-        let files = fs.readdirSync(filePath)
-        files = files.map(file => {
-          return {
-            name: file,
-            url: path.join(pathname, file)
-          }
-        })
-        const html = this.list()({
+      // 判断是否是文件夹
+      // 文件夹返回文件列表
+      if (stats.isDirectory) {
+        let files = fs.readdirSync(filepath);
+        files = files.map(file => ({
+          name: file,
+          url: path.join(pathname, file)
+        }));
+        console.log(files)
+        let html = this.list()({
           title: pathname,
           files
-        })
-        res.setHeader("Content-Type", 'text/html')
+        });
+        res.setHeader("Content-Type", "text/html")
         res.end(html)
+      } else {
+        this.sendFile(req, res, filepath, stats);
       }
-      // 读取文件
-      else {
-        this.sendFile(req, res, filePath, stats)
-      }
+
     })
+  }
+
+  // 文件列表模板渲染 返回一个函数用来接受需要渲染的数据
+  list() {
+    let tmpl = fs.readFileSync(path.resolve(__dirname, 'template', 'list.html'), 'utf8');
+    return handlebars.compile(tmpl);
   }
 
   /**
@@ -99,26 +114,24 @@ class FileServer {
     });
   }
 
-  /**
-   * 文件列表 :返回一个模版函数（一个对象options）
-   */
-  list() {
-    const template = fs.readFileSync(path.resolve(__dirname, 'template', 'index.html'), 'utf-8')
-    return handlebars.compile(template)
+
+
+
+    
+
   }
 
   /**
-    * 错误处理
-    * @param {*} err 处理信息
-    * @param {*} req 请求流
-    * @param {*} res 响应流
-    */
+  * 错误处理
+  * @param {*} err 处理信息
+  * @param {*} req 请求流
+  * @param {*} res 响应流
+  */
   sendError(err, req, res) {
     res.statusCode = 500;
     res.end(`${err.toString()}`);
   }
 }
 
-
-const fileserver = new FileServer()
-fileserver.start()
+const fileServer = new FileServer()
+fileServer.start()
