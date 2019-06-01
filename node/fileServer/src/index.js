@@ -29,7 +29,9 @@ class FileServer {
 
   //  请求处理
   request(req, res) {
-    const { pathname } = url.parse(req.url)
+    let pathname = url.parse(req.url).pathname
+    // 解码文件路径名称，防止中文乱码
+    pathname = decodeURI(pathname);
     let filepath = path.join(this.config.root, pathname)
     if (pathname === '/') {
       const rootPath = path.join(this.config.root, 'index.html')
@@ -55,7 +57,7 @@ class FileServer {
           name: file,
           url: path.join(pathname, file)
         }));
-        console.log(files)
+
         let html = this.list()({
           title: pathname,
           files
@@ -82,14 +84,17 @@ class FileServer {
     * @param {*} filepath 文件路径 
     * @param {*} stats 文件信息
     */
-   sendFile(req, res, filepath, stats) {
+  sendFile(req, res, filepath, stats) {
 
+    const fileRS = fs.createReadStream(filepath);
 
-
-
-
-
-    
+    fileRS.on('end', () => {
+      const rs = fs.createReadStream(filepath);
+      // 设置content-type 并设置编码
+      res.setHeader('Content-Type', mime.getType(filepath) + ';charset=utf-8');
+      // 响应数据
+      rs.pipe(res);
+    });
 
   }
 
