@@ -85,6 +85,38 @@ class FileServer {
     * @param {*} stats 文件信息
     */
   sendFile(req, res, filepath, stats) {
+    // 为文件生成hash值
+    const sha1 = crypto.createHash('sha1');
+    const fileRS = fs.createReadStream(filepath);
+    fileRS.on('data', (data) => {
+      sha1.update(data);
+    });
+
+    fileRS.on('end', () => {
+      // 获取文件流
+      const rs = this.getStream(req, res, filepath, stats);
+      // 设置content-type 并设置编码
+      res.setHeader('Content-Type', mime.getType(filepath) + ';charset=utf-8');
+      rs.pipe(res)
+    })
+  }
+
+  /**
+    * 读取文件流
+    * @param {*} req 
+    * @param {*} res 
+    * @param {*} filepath 
+    * @param {*} statObj 
+    */
+  getStream(req, res, filepath, statObj) {
+    let start = 0;
+    let end = statObj.size - 1;
+    return fs.createReadStream(filepath, {
+      start, end
+    });
+  }
+
+
 
     const fileRS = fs.createReadStream(filepath);
 
