@@ -51,7 +51,7 @@ class FileServer {
 
       // 判断是否是文件夹
       // 文件夹返回文件列表
-      if (stats.isDirectory) {
+      if (stats.isDirectory()) {
         let files = fs.readdirSync(filepath);
         files = files.map(file => ({
           name: file,
@@ -93,11 +93,11 @@ class FileServer {
     });
 
     fileRS.on('end', () => {
-      // 获取文件流
+      // 获取文件流，并支持断点续传
       const rs = this.getStream(req, res, filepath, stats);
       // 设置content-type 并设置编码
       res.setHeader('Content-Type', mime.getType(filepath) + ';charset=utf-8');
-      rs.pipe(res)
+      fileRS.pipe(res)
     })
   }
 
@@ -116,19 +116,6 @@ class FileServer {
     });
   }
 
-
-
-    const fileRS = fs.createReadStream(filepath);
-
-    fileRS.on('end', () => {
-      const rs = fs.createReadStream(filepath);
-      // 设置content-type 并设置编码
-      res.setHeader('Content-Type', mime.getType(filepath) + ';charset=utf-8');
-      // 响应数据
-      rs.pipe(res);
-    });
-
-  }
 
   /**
   * 错误处理
