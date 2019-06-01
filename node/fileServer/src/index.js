@@ -97,7 +97,7 @@ class FileServer {
       const rs = this.getStream(req, res, filepath, stats);
       // 设置content-type 并设置编码
       res.setHeader('Content-Type', mime.getType(filepath) + ';charset=utf-8');
-      fileRS.pipe(res)
+      rs.pipe(res)
     })
   }
 
