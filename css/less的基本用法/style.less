@@ -1,0 +1,108 @@
+// 变量
+@bg-color: #ccc;
+@nice-blue: #5B83AD;
+@light-blue: @nice-blue + #111;
+@link-color: #428bca; // sea blue
+@link-color-hover: darken(@link-color, 10%);
+
+a,
+.link {
+  color: @link-color;
+}
+
+a:hover {
+  color: @link-color-hover;
+}
+
+// 混入
+.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+
+
+#header {
+  color: @light-blue;
+}
+
+
+body {
+  color: #000;
+  background-color: @bg-color;
+
+  .box {
+    width: 200px;
+    height: 100px;
+    background-color: @bg-color;
+    .bordered;
+  }
+
+}
+
+.screen-color {
+  @media screen {
+    color: green;
+
+    @media (min-width: 768px) {
+      color: red;
+    }
+  }
+}
+
+// 扩展
+.a {
+  color: @bg-color;
+}
+
+.b {
+  &:extend(.a);
+  font-size: 16px;
+}
+
+// 带有参数混入
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+#header {
+  .border-radius(8px);
+}
+
+// 带有默认参数混入
+.mixin(@color: black;
+@margin: 10px;
+
+@padding: 20px) {
+  color: @color;
+  margin: @margin;
+  padding: @padding;
+}
+
+.class1 {
+  .mixin(@margin: 20px;
+  @color: #33acfe);
+}
+
+@my-option: false;
+
+& when (@my-option =true) {
+  button {
+    color: white;
+  }
+
+  a {
+    color: blue;
+  }
+}
+
+// loops 
+.loop(@counter) when (@counter > 0) {
+  .loop((@counter - 1)); // next iteration
+  width: (10px * @counter); // code for each iteration
+}
+
+div {
+  .loop(5); // launch the loop
+}
