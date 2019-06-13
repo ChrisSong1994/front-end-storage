@@ -106,3 +106,13 @@ body {
 div {
   .loop(5); // launch the loop
 }
+
+// 变量作用域
+
+@var: @a;
+@a: 100%;
+#wrap {
+  width: @var;
+  @a: 9%;
+}
+ @a: 8%;
