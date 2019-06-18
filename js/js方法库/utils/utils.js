@@ -37,6 +37,22 @@ function formatUrlParams(data) {
 }
 
 
+// 解析查询字符串
+function getQueryStringArgs() {
+  const qs = location.search.length > 0 ? location.search.substring(1) : ''
+  const items = qs.length ? qs.split('&') : []
+  let args = {}
+  let name, value
+  for (let item in items) {
+    const itemArr = item.split('=')
+    name = decodeURIComponent(itemArr[0])
+    value = decodeURIComponent(itemArr[1])
+    args[name] = value
+  }
+  return args
+}
+
+
 // 除去空格
 function trimSpace(str) {
   var reg = /^\s*(.*?)\s+$/;
