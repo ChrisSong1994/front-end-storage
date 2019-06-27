@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数组groupBy</title>
+</head>
+
+<body>
+  <script>
+    const data = {
+      links: [
+        { source: 10, target: 2 },
+        { source: 11, target: 2 },
+        { source: 2, target: 1 },
+        { source: 1, target: 4 },
+        { source: 1, target: 5 },
+        { source: 4, target: 6 },
+        { source: 4, target: 7 },
+        { source: 5, target: 8 },
+        { source: 5, target: 9 },
+      ],
+      nodes: [
+        { id: 1 },
+        { id: 2 },
+        { id: 3 },
+        { id: 4 },
+        { id: 5 },
+        { id: 6 },
+        { id: 7 },
+        { id: 8 },
+        { id: 9 },
+        { id: 10 },
+        { id: 11 },
+      ]
+    }
+
+    const groupBy = (arr, key) => {
+      const data = {}
+      for (let item of arr) {
+        if (!item.hasOwnProperty(key)) { throw "can't find this property"; return }
+        data[item[key]] = item
+      }
+      return data
+    }
+
+    const formatDataToTree = (rootId, links, nodes) => {
+      let root = nodes[rootId]
+      root.children = []
+      for (let item of links) {
+        if (item.source === rootId) {
+          root.children.push(formatDataToTree(item.target, links, nodes))
+        }
+      }
+      !root.children.length && (root.children = null)
+      return root
+    }
+
+
+    const nodes = groupBy(data.nodes, 'id')
+    console.log(nodes)
+
+    const root = formatDataToTree(1, data.links, nodes)
+    console.log(root)
+
+  </script>
+</body>
+
+</html>
