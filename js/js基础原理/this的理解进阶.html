@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>this的理解进阶</title>
+</head>
+
+<body>
+    <script>
+
+        // function baz() {
+        //     console.log("baz");
+        //     bar(); // <-- bar 的调用位置
+        // }
+
+        // function bar() {
+        //     // 当前调用栈是 baz -> bar
+        //     // 因此，当前调用位置在 baz 中
+        //     console.log("bar");
+        //     foo(); // <-- foo 的调用位置
+        // }
+
+        // function foo() {
+        //     // 当前调用栈是 baz -> bar -> foo // 因此，当前调用位置在 bar 中
+        //     console.log("foo");
+        // }
+        // baz(); // <-- baz 的调用位置
+
+
+        // function foo() {
+        //     console.log(this.a);
+        // }
+        // var a = 2; 
+        // foo(); // 2
+
+
+
+        // function foo() {
+        //     "use strict";
+        //     console.log(this.a);
+        // }
+        // var a = 2;
+        // foo(); // TypeError: this is undefined
+
+
+
+        // function foo() {
+        //     console.log(this.a);
+        // }
+        // var obj = {
+        //     a: 2,
+        //     foo: foo
+        // };
+        // obj.foo(); // 2
+
+
+        // function foo() {
+        //     console.log(this.a);
+        // }
+        // var obj2 = {
+        //     a: 42,
+        //     foo: foo
+        // };
+        // var obj1 = {
+        //     a: 2,
+        //     obj2: obj2
+        // };
+        // obj1.obj2.foo(); // 42
+
+
+
+        function foo() {
+            console.log(this.a);
+        }
+        var obj = {
+            a: 2,
+            foo: foo
+        };
+        var bar = obj.foo; // 函数别名!
+        var a = "oops, global"; // a 是全局对象的属性 
+        bar(); // "oops, global"
+
+
+        // function foo() {
+        //     console.log(this.a);
+        // }
+        // function doFoo(fn) {
+        //     // fn 其实引用的是 foo 
+        //     fn(); // <-- 调用位置!
+        // }
+        // var obj = {
+        //     a: 2,
+        //     foo: foo
+        // };
+        // var a = "oops, global"; // a 是全局对象的属性 
+        // doFoo( obj.foo ); // "oops, global"
+
+
+    </script>
+
+</body>
+
+</html>
