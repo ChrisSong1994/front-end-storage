@@ -15,6 +15,7 @@
 11.  [for...in,Object.keys和Object.getOwnPropertyNames的区别](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/for...in%2CObject.keys%E5%92%8CObject.getOwnPropertyNames%E7%9A%84%E5%8C%BA%E5%88%AB.html)
 12.  [javascript 数据结构遍历的几种方式](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/javascript%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%81%8D%E5%8E%86%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F.html)
 13.  [如何在写await async的时候不用try catch](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%86%99await%20async%E7%9A%84%E6%97%B6%E5%80%99%E4%B8%8D%E7%94%A8try%20catch.html)
+14.  [理解javascript 的this指向](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E7%90%86%E8%A7%A3javascript%20%E7%9A%84this%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98.md)
 
 
 
