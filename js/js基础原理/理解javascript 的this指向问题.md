@@ -8,7 +8,8 @@ this是javascript中最常用到的关键词之一， javascript中this对象的
 
 > 最重要的是要分析调用栈(就是为了到达当前执行位置所调用的所有函数)。我们关心的 调用位置就在当前正在执行的函数的前一个调用中。调用栈可以想象成一个函数调用链，在浏览器的调试工具中可以打断点来查看当前断点的调用栈信息
 
-![](../../image/js基础/理解this/调用栈.png) 可以看到当前调用栈的位置在foo,下个调用位置是bar,在当前的调用环境下this 默认指向了windows对象。
+![](https://github.com/song111/font-end-question/blob/master/image/js%E5%9F%BA%E7%A1%80/%E7%90%86%E8%A7%A3this/%E8%B0%83%E7%94%A8%E6%A0%88.png) 
+可以看到当前调用栈的位置在foo,下个调用位置是bar,在当前的调用环境下this 默认指向了windows对象。
 
 # 绑定规则
 
