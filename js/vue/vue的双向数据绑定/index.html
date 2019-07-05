@@ -10,23 +10,35 @@
 
 <body>
   <div id="app">
-    <!-- {{title}} -->
+    <h2>{{title}}</h2>
+    <input v-model="name">
+    <h1>{{name}}</h1>
+    <button v-on:click="clickMe">click me!</button>
   </div>
-  <!-- <script src="./observer.js"></script> -->
-  <!-- <script src="./observer.js"></script> -->
+
   <script src="./observer.js"></script>
+  <script src="./watcher.js"></script>
+  <script src="./compile.js"></script>
   <script src="./index.js"></script>
   <script>
-    const myvue = new MyVue({
+
+    new MyVue({
       el: '#app',
       data: {
-        title: 'hello world'
-      }
+        title: 'hello world',
+        name: '大家好！'
+      },
+      methods: {
+        clickMe: function () {
+          this.name = '新年好！'
+        }
+      },
+      mounted() {
+        window.setTimeout(() => {
+          this.title = '你好！';
+        }, 2000);
+      },
     })
-
-
-
-
 
 
   </script>

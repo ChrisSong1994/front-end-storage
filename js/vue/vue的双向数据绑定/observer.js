@@ -5,7 +5,7 @@ function Observer(data) {
 }
 
 Observer.prototype = {
-  walk: function () {
+  walk: function (data) {
     var self = this;
     Object.keys(data).forEach(function (key) {
       self.defineReactive(data, key, data[key]);
@@ -13,7 +13,7 @@ Observer.prototype = {
   },
   defineReactive: function (data, key, val) {
     const childObj = observe(val)
-    const dep = new Dep()
+    var dep = new Dep();
     Object.defineProperty(data, key, {
       enumerable: true,
       configurable: true,
@@ -35,7 +35,7 @@ Observer.prototype = {
   }
 }
 
-function observe() {
+function observe(value) {
   if (!value || typeof value !== 'object') {
     return;
   }
