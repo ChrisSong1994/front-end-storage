@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js数组中方法的应用总结</title>
+</head>
+
+<body>
+    <!-- <h1>js数组中方法的应用总结</h1> -->
+    <script>
+        // 数组的检测 Array.isArray
+        // const arr = [1, 5, 'd']
+        // console.log(Array.isArray(arr)) //true
+        // console.log(arr instanceof Array)  // true  
+        //注意： 不推荐用instanceof，instanceof 适用于一个全局作用下的环境。
+
+        // 数组操作方法：push,pop,shift,unshift,concat,splice,slice
+        // push:接受任意数量的参数，并把它们逐一加到数组末尾，返回数组的长度
+        // pop:从数组末尾移除最后一项，返回移除的值
+        // const arr = [1, 5, 'd']
+        // const len = arr.push('a', 'b')
+        // console.log(arr)   // [1, 5, "d", "a", "b"]
+        // console.log(len)  //5
+
+        // const remove = arr.pop()
+        // console.log(arr)  // [1, 5, "d", "a"]
+        // console.log(remove) //b
+
+
+        // unshift:接受任意数量的参数，并把它们逐一加到数组前端，返回数组的长度
+        // shift:从数组前端移除最后一项，返回移除的值
+        // const arr = [1, 5, 'd']
+        // const len = arr.unshift('a', 'b')
+        // console.log(arr)   // ["a", "b", 1, 5, "d"]
+        // console.log(len)  //5
+
+        // const remove = arr.shift()
+        // console.log(arr)  //["b", 1, 5, "d"]
+        // console.log(remove) //a
+
+        // concat:数组合并,基于当前数组创建一个新数组，可以传递参数，传递的参数会按照顺序添加到数组的尾部
+        // const arr = [1, 5, 'd']
+        // console.log(arr.concat('concat', [44, 'ddd']))  //[1, 5, "d", "concat", 44, "ddd"]
+        // console.log(arr)  //[1, 5, "d"]
+
+        // slice: 方法返回一个新的数组对象，这一对象是一个由 begin和 end（不包括end）决定的原数组的浅拷贝。原始数组不会被改变
+        // const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+        // console.log(animals.slice(2));  // ["camel", "duck", "elephant"]
+        // console.log(animals.slice(2, 4));  //["camel", "duck"]
+        // 注意： 如果slice 中的参数有负数，则用数组的长度的加上该参数值，直到不为负数为止，在调用slice函数；如果参数的第二个参数比第一个参数小，则返回空数组
+        // console.log(animals.slice(-2)); //["duck", "elephant"]
+        // console.log(animals.slice(-2, -4)); // =>animals.slice(3, 1)      []
+        // 其他用法：slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组。你只需将该方法绑定到这个对象上。 一个函数中的 arguments 就是一个类数组对象的例子。
+        // function list() {
+        //     return Array.prototype.slice.call(arguments);
+        // }
+        // console.log(list(1, 2, 3)); // [1, 2, 3]
+
+        // splice:splice(start,deleteCount,...items) 此方法会改变原数组。方法通过删除或替换现有元素或者原地添加新的元素来修改数组,并以数组形式返回被修改的内容。
+        // start： 表示函数作用于数组的起始位置,若为负数则加上数组的长度直到为正； deleteCount：表示需要删除的数组的数量,若为负数，默认为0 ; ...items:表示数组需要插入的值，可以是多个
+        // const months = ['Jan', 'March', 'April', 'June'];
+        // months.splice(1, -1, 'Feb');  // =>    months.splice(1, 0, 'Feb');  插入
+        // console.log(months)  //["Jan", "Feb", "March", "April", "June"]
+        // months.splice(3, 1)  // 删除
+        // console.log(months) //["Jan", "Feb", "March", "June"]
+        // months.splice(-3, 1, 'oct')   // =>   months.splice(1, 1, 'oct')   替换
+        // console.log(months) // ["Jan", "oct", "March", "June"]
+
+
+        // 位置查找：indexOf , lastIndexOf
+        // indexOf: 返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1。
+        // const animals = ['ant', 'bison', 'camel', 'duck', 'bison'];
+        // console.log(animals.indexOf('bison'));  //1
+        // //lastIndexOf:方法返回指定元素（也即有效的 JavaScript 值或变量）在数组中的最后一个的索引，如果不存在则返回 -1。从数组的后面向前查找，从 fromIndex 处开始。
+        // console.log(animals.lastIndexOf('camel')); // 2
+
+        // 数组重排序方法 ： reverse sort
+        // reverse：反转数组的顺序
+        // const values = [6, 4, 2, 58, 1, 23, 4]
+        // console.log(values.reverse())  //[4, 23, 1, 58, 2, 4, 6]
+        // //sort：把数组中的每个值转换成字符串的比较，直接传入数组使用，结果会不很理想，一般用于传入一个函数用于比较每个值
+        // console.log(values.sort())  // [1, 2, 23, 4, 4, 58, 6]
+        // values.sort((pre, next) => {
+        //     if (pre - next >= 0) {
+        //         return 1
+        //     } else {
+        //         return -1
+        //     }
+        // })
+        // console.log(values)  // [1, 2, 4, 4, 6, 23, 58]
+        // 注意：sort是个高级函数，其参数可以是函数，作为参数的函数有两个参数为数组的两个值，sort会遍历数组然后通过传入的函数的返回值作为衡量排序的标准，返回1为正序 -1为倒序
+
+
+        // 迭代方法： forEach,map,filter,every,some,reduce 都个方法都可以接受函数作为参数，都是高级函数
+        // forEach(callback[,thisArg]):方法对数组的每个元素执行一次提供的函数。callback: 函数会被依次传入三个参数：数组当前项的值,数组当前项的索引,数组对象本身 ;thisArg:当执行回调函数时用作 this 的值
+        // let arr = [1, 3, 0]
+        // arr.forEach((item, index, data) => {
+        //     if (item < 3) {
+        //         item = 3  // 不修改数组的值
+        //         console.log(item, index)
+        //     }
+        // })
+        // console.log(arr) //[1, 3, 0]
+        // 注意： 没有办法中止或者跳出 forEach() 循环，除了抛出一个异常。如果你需要这样，使用 forEach() 方法是错误的。
+
+        // every：测试一个数组内的所有元素是否都能通过某个指定函数的测试。它返回一个布尔值。
+        // 描述：every 方法为数组中的每个元素执行一次 callback 函数，直到它找到一个会使 callback 返回 falsy 的元素。
+        // 如果发现了一个这样的元素，every 方法将会立即返回 false。否则，callback 为每一个元素返回 true，every 就会返回 true。
+        // callback 只会为那些已经被赋值的索引调用。不会为那些被删除或从未被赋值的索引调用。
+        // let arr = [1, 3, 0]
+        // console.log(arr.every((item, index, data) => {
+        //     return item > 2
+        // }))  //false
+
+        // filter() 方法创建一个新数组, 其包含通过所提供函数实现的测试的所有元素。 
+        // 描述：filter 为数组中的每个元素调用一次 callback 函数，并利用所有使得 callback 返回 true 或等价于 true 的值的元素创建一个新数组。
+        // let arr = [1, 3, 0]
+        // console.log(arr.filter((item, index, data) => {
+        //     return item > 2
+        // }))  // [3]
+
+        // some() 方法测试是否至少有一个元素可以通过被提供的函数方法。该方法返回一个Boolean类型的值。
+        // let arr = [1, 3, 0]
+        // console.log(arr.some((item, index, data) => {
+        //     return item > 2
+        // }))  //true
+
+        // map() 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。
+        // let arr = [1, 3, 0]
+        // console.log(arr.map((item, index, data) => {
+        //     return item < 3 ? item + 3 : item
+        // }))  //  [4, 3, 3]
+
+        // reduce() 方法对数组中的每个元素执行一个由您提供的reducer函数(升序执行)，将其结果汇总为单个返回值。参数 callback,[initialValue]
+        // reducer 函数接收4个参数:
+        // Accumulator (acc) (累计器) 为当前值之前的数组值得累计值
+        // Current Value (cur) (当前值)
+        // Current Index (idx) (当前索引)
+        // Source Array (src) (源数组)
+        // 您的 reducer 函数的返回值分配给累计器，该返回值在数组的每个迭代中被记住，并最后成为最终的单个结果值。
+        // initialValue:作为第一次调用 callback函数时的第一个参数的值。 如果没有提供初始值，则将使用数组中的第一个元素。 在没有初始值的空数组上调用 reduce 将报错。
+        const array1 = [1, 2, 3, 4];
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        console.log(array1.reduce(reducer));  //10
+
+        // reduceRight和reduce 类似，只不过是从反方向开始迭代
+        console.log(array1.reduceRight(reducer));  //10
+
+
+
+
+    </script>
+
+</body>
+
+</html>
