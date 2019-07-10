@@ -1,0 +1,7 @@
+[什么是防抖和节流？有什么区别？如何实现？](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/5)
+[介绍下 Set、Map、WeakSet 和 WeakMap 的区别？](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/6)
+[跨域的方式](https://juejin.im/post/5a2f92c65188253e2470f16d)
+[ES5/ES6 的继承除了写法以外还有什么区别？](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/20)
+[Promise 构造函数是同步执行还是异步执行，那么 then 方法呢？](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/19)
+[为什么普通 for 循环的性能远远高于 forEach 的性能，请解释其中的原因](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/121)
+[前端有哪几种本地存储方式，简述各自的特点](https://juejin.im/entry/5a41b7f4f265da43152427b6)
