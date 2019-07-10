@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>js数组方法-es6</title>
+</head>
+
+<body>
+  <div></div>
+  <script>
+    // 数组的扩展 - es6
+
+    // 1  扩展云算符：扩展运算符（spread）是三个点（...）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。
+    // console.log(1, ...[2, 3, 4], 5)  // 1 2 3 4 5
+    // 函数中调用
+    // function add(x, y) {
+    //   return x + y;
+    // }
+    // const numbers = [4, 38];
+    // console.log(add(...numbers))  // 42
+
+    // 注意，只有函数调用时，扩展运算符才可以放在圆括号中，否则会报错。
+    // console.log((...[1, 2]))  // Uncaught SyntaxError: Unexpected number
+    // console.log(...[1, 2])  // 1 2
+
+    // 替代函数的 apply 方法
+    // ES5 的写法
+    // function f(x, y, z) {
+    //   console.log(arguments)
+    // }
+    // var args = [0, 1, 2];
+    // f.apply(null, args);
+
+    // ES6的写法
+    // function f(x, y, z) {
+    //   console.log(arguments)
+    // }
+    // let args = [0, 1, 2];
+    // f(...args);
+
+    // 通过push函数，将一个数组添加到另一个数组的尾部。
+    // let arr1 = [0, 1, 2];
+    // let arr2 = [3, 4, 5];
+    // arr1.push(...arr2);
+    // console.log(arr1)  //[0, 1, 2, 3, 4, 5]
+
+    // 解构赋值
+    // const [first, ...rest] = [1, 2, 3, 4, 5];
+    // console.log(first, rest)
+
+    // 扩展运算符还可以将字符串转为真正的数组。
+    // console.log([...'hello'])  //["h", "e", "l", "l", "o"]
+
+    // 实现了 Iterator 接口的对象:任何定义了遍历器（Iterator）接口的对象（参阅 Iterator 一章），都可以用扩展运算符转为真正的数组。
+    // let nodeList = document.querySelectorAll('div');
+    // let array = [...nodeList];
+    // console.log(array)  // [div]
+
+
+    //  2 Array.from   Array.from(arrayLike[, mapFn[, thisArg]])  
+    // arrayLike  :想要转换成数组的伪数组对象或可迭代对象。
+    // mapFn (可选参数) :如果指定了该参数，新数组中的每个元素会执行该回调函数。
+    // thisArg (可选参数): 可选参数，执行回调函数 mapFn 时 this 对象。
+    // 用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）
+    // 类似数组的对象
+    // let arrayLike = {
+    //   '0': 'a',
+    //   '1': 'b',
+    //   '2': 'c',
+    //   length: 3
+    // };
+    // // ES5的写法
+    // var arr1 = [].slice.call(arrayLike); 
+    // console.log(arr1)  // ['a', 'b', 'c']
+    // // ES6的写法
+    // let arr2 = Array.from(arrayLike); 
+    // console.log(arr2)  // ['a', 'b', 'c']
+
+    // 可遍历（iterable）的对象
+    // console.log(Array.from('hello'))   // ['h', 'e', 'l', 'l', 'o']
+    // let namesSet = new Set(['a', 'b'])
+    // console.log(Array.from(namesSet))   // ['a', 'b']
+
+    // Array.from还可以接受第二个参数，作用类似于数组的map方法，用来对每个元素进行处理，将处理后的值放入返回的数组。
+    // console.log(Array.from([1, 2, 3], (x) => { return x * x })) //[1, 4, 9]
+    // Array.from([1, , 2, , 3], (n) => n || 0)    // [1, 0, 2, 0, 3]
+
+
+    // 3 Array.of方法用于将一组值，转换为数组
+    // 注意：是弥补数组构造函数Array()的不足。因为参数个数的不同，会导致Array()的行为有差异。
+    // Array.of(3, 11, 8) // [3,11,8]
+    // Array.of(3) // [3]
+    // Array.of(3).length // 1
+    // // Array.of总是返回参数值组成的数组。如果没有参数，就返回一个空数组。
+
+    // Array() // []
+    // Array(3) // [, , ,]
+    // Array(3, 11, 8) // [3, 11, 8]
+
+    // // Array.of方法可以用下面的代码模拟实现。
+    // function ArrayOf() {
+    //   return [].slice.call(arguments)
+    // }
+
+
+    //4  copyWithin() 在当前数组内部，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组。也就是说，使用这个方法，会修改当前数组。
+    // Array.prototype.copyWithin(target, start = 0, end = this.length)
+    //     它接受三个参数。
+    // target（必需）：从该位置开始替换数据。如果为负值，表示倒数。
+    // start（可选）：从该位置开始读取数据，默认为 0。如果为负值，表示从末尾开始计算。
+    // end（可选）：到该位置前停止读取数据，默认等于数组长度。如果为负值，表示从末尾开始计算。
+    // console.log([1, 2, 3, 4, 5].copyWithin(0, 3))    // [4, 5, 3, 4, 5]
+    // console.log([1, 2, 3, 4, 5].copyWithin(0, 2, 3))    // [3, 2, 3, 4, 5]
+
+    // 5  find方法，用于找出第一个符合条件的数组成员。它的参数是一个回调函数，所有数组成员依次执行该回调函数，直到找出第一个返回值为true的成员，然后返回该成员。如果没有符合条件的成员，则返回undefined。
+    // const val = [1, 5, 10, 15].find(function (value, index, arr) {
+    //   return value > 9;
+    // })
+    // console.log(val)  // 10
+
+    // findIndex方法的用法与find方法非常类似，返回第一个符合条件的数组成员的位置，如果所有成员都不符合条件，则返回-1。
+    // [1, 5, 10, 15].findIndex(function (value, index, arr) {
+    //   return value > 9;
+    // }) // 2
+
+    // 这两个方法都可以接受第二个参数，用来绑定回调函数的this对象。
+    // function f(v) {
+    //   return v > this.age;
+    // }
+    // let person = { name: 'John', age: 20 };
+    // [10, 12, 26, 15].find(f, person);    // 26
+
+    // 注意：⚠️ 这两个方法都可以发现NaN，弥补了数组的indexOf方法的不足。
+    // [NaN].indexOf(NaN)  // -1
+    // [NaN].findIndex(y => Object.is(NaN, y))  // 0
+
+    // 6  fill() 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。不包括终止索引。
+    console.log(['a', 'b', 'c'].fill(7))  //[7, 7, 7]
+    console.log(['a', 'b', 'c'].fill(7, 1, 2))  // ["a",7, "c" ]
+
+    //7  数组实例的 entries()，keys() 和 values() 
+    // entries()，keys()和values()——用于遍历数组。它们都返回一个遍历器对象（详见《Iterator》一章），可以用for...of循环进行遍历，
+    // 唯一的区别是keys()是对键名的遍历、values()是对键值的遍历，entries()是对键值对的遍历。
+    // for (let index of ['a', 'b'].keys()) {
+    //   console.log(index);
+    // }
+    // // 0
+    // // 1
+
+    // for (let elem of ['a', 'b'].values()) {
+    //   console.log(elem);
+    // }
+    // // 'a'
+    // // 'b'
+
+    // for (let [index, elem] of ['a', 'b'].entries()) {
+    //   console.log(index, elem);
+    // }
+    // // 0 "a"
+    // // 1 "b"
+
+
+    // 8   includes()   arr.includes(valueToFind[, fromIndex])
+    // 方法用来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 true，否则返回false。
+    // 从fromIndex 索引处开始查找 valueToFind。如果为负值，则按升序从 array.length + fromIndex 的索引开始搜 （即使从末尾开始往前跳 fromIndex 的绝对值个索引，然后往后搜寻）。默认为 0。
+    // var array1 = [1, 2, 3];
+    // console.log(array1.includes(2));  //true
+    // 注意：对象数组不能使用includes方法来检测。
+    // [1, 2, 3].includes(2);     // true
+    // [1, 2, 3].includes(4);     // false
+    // [1, 2, 3].includes(3, 3);  // false
+    // [1, 2, 3].includes(3, -1); // true
+    // [1, 2, NaN].includes(NaN); // true
+
+    // 如果 fromIndex 大于等于数组的长度，则会返回 false，且该数组不会被搜索。
+    // var arr = ['a', 'b', 'c'];
+    // arr.includes('c', 3);   // false
+
+    //如果 fromIndex 为负值，计算出的索引将作为开始搜索searchElement的位置。如果计算出的索引小于 0，则整个数组都会被搜索。
+    // array length is 3
+    // fromIndex is -100
+    // computed index is 3 + (-100) = -97
+    // arr.includes('a', -100); // true
+    // arr.includes('a', -2); // false
+
+
+    // 9  flat()，flatMap()
+    // flat: arr.flat(depth) 方法会按照一个可指定的深度递归遍历数组，并将所有元素与遍历到的子数组中的元素合并为一个新数组返回。
+    // var arr1 = [1, 2, [3, 4]];
+    // console.log(arr1.flat())  // [1, 2, 3, 4]
+    // [1, 2, [3, [4, 5]]].flat(2)  // [1, 2, 3, 4, 5]
+
+    //使用 Infinity 作为深度，展开任意深度的嵌套数组
+    console.log([1, 2, [3, 4, [5, 6]]].flat(Infinity)); // [1, 2, 3, 4, 5, 6]
+  </script>
+
+</body>
+
+</html>
