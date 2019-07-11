@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Proxy 的用法和作用</title>
+</head>
+
+<body>
+  <script>
+    // 对象用于定义基本操作的自定义行为（如属性查找，赋值，枚举，函数调用等）
+    //     new Proxy(target, handler);
+    //     target：用Proxy包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）。
+    //     handler：一个对象，其属性是当执行一个操作时定义代理的行为的函数。
+
+    // var obj = new Proxy({}, {
+    //   get: function (target, key, receiver) {
+    //     console.log(`getting ${key}!`);
+    //     return Reflect.get(target, key, receiver);
+    //   },
+    //   set: function (target, key, value, receiver) {
+    //     console.log(`setting ${key}!`);
+    //     return Reflect.set(target, key, value, receiver);
+    //   }
+    // });
+
+    // obj.name  //getting name!
+
+    // Proxy 实例也可以作为其他对象的原型对象。
+    // var proxy = new Proxy({}, {
+    //   get: function (target, property, reciver) {
+    //     return 35
+    //   }
+    // })
+    // var obj = Object.create(proxy) //35
+    // console.log(obj.name)
+
+    // 同一个拦截器函数，可以设置拦截多个操作。
+    var handler = {
+      get: function (target, property, reciver) {
+        if (property === 'prototype') {
+          return Object.prototype;
+        }
+        return 'Hello, ' + property;
+      },
+      apply: function (target, thisBinding, args) {
+        return args[0]
+      },
+      construct: function (target, args) {
+        return { value: args[1] }
+      },
+      has: function (target, key) {
+        return Reflect.has(target, key)
+      }
+    }
+
+    var fnProxy = new Proxy(function (x, y) {
+      return x + y;
+    }, handler)
+
+    console.log(fnProxy(1, 2))  // 1
+    console.log(fnProxy.name)   //Hello, name
+
+    var objProxy = new Proxy({}, handler)
+    console.log(objProxy.age)
+    // console.log(new objProxy())  //  Uncaught TypeError: objProxy is not a constructor
+    console.log('name' in objProxy)  // false
+
+    // 注意：只有包装的是函数时候，才能用函数拦截操作的方法  apply construct
+
+    // 下面是 Proxy 支持的拦截操作一览，一共 13 种。
+    // get(target, propKey, receiver) ：拦截对象属性的读取，比如proxy.foo和proxy['foo']。
+    // set(target, propKey, value, receiver) ：拦截对象属性的设置，比如proxy.foo = v或proxy['foo'] = v，返回一个布尔值。
+    // has(target, propKey) ：拦截propKey in proxy的操作，返回一个布尔值。
+    // deleteProperty(target, propKey) ：拦截delete proxy[propKey]的操作，返回一个布尔值。
+    // ownKeys(target) ：拦截Object.getOwnPropertyNames(proxy) 、Object.getOwnPropertySymbols(proxy) 、Object.keys(proxy) 、for...in循环，返回一个数组。该方法返回目标对象所有自身的属性的属性名，而Object.keys()的返回结果仅包括目标对象自身的可遍历属性。
+    // getOwnPropertyDescriptor(target, propKey) ：拦截Object.getOwnPropertyDescriptor(proxy, propKey) ，返回属性的描述对象。
+    // defineProperty(target, propKey, propDesc) ：拦截Object.defineProperty(proxy, propKey, propDesc）、Object.defineProperties(proxy, propDescs) ，返回一个布尔值。
+    // preventExtensions(target) ：拦截Object.preventExtensions(proxy) ，返回一个布尔值。
+    // getPrototypeOf(target) ：拦截Object.getPrototypeOf(proxy) ，返回一个对象。
+    // isExtensible(target) ：拦截Object.isExtensible(proxy) ，返回一个布尔值。
+    // setPrototypeOf(target, proto) ：拦截Object.setPrototypeOf(proxy, proto) ，返回一个布尔值。如果目标对象是函数，那么还有两种额外操作可以拦截。
+    // apply(target, object, args) ：拦截 Proxy 实例作为函数调用的操作，比如proxy(...args) 、proxy.call(object, ...args) 、proxy.apply(...) 。
+    // construct(target, args) ：拦截 Proxy 实例作为构造函数调用的操作，比如new proxy(...args) 。
+
+
+  </script>
+</body>
+
+</html>
