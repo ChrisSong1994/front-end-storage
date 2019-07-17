@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>debounce 防抖函数</title>
+</head>
+
+<body>
+  <script>
+    // 防抖函数
+    const debounce = (fun, time = 10,
+      options = {
+        leading: true,
+        context: null
+      }
+    ) => {
+      let timer
+      const _debounce = function (...args) {
+        if (timer) { clearTimeout(timer) }
+        if (options.leading && !timer) {
+          fun.apply(options.context, args)
+        } else {
+          timer = setTimeout(() => {
+            fun.apply(options.context, args)
+            timer = null
+          }, time)
+        }
+      }
+      _debounce.cancle = function () {
+        clearTimeout(timer)
+        timer = null
+      }
+      return _debounce
+    }
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>
