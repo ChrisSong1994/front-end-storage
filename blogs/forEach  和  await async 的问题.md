@@ -1,7 +1,6 @@
 最近在用node写一个静态文件服务器的时候遇到了一个问题，在forEach循环里面调用await/async异步函数的问题。 这个问题也遇到几次了，这里记下避免下次再忘。
-- 问题重现
+### 问题重现
 ```js
-// 借用别人的代码 
 var getNumbers = () => {
   return Promise.resolve([1, 2, 3])
 }
@@ -30,7 +29,7 @@ test()
 ```
 在test 函数执行后我期望的结果是代码是串行执行的,我会在**每等一秒钟**输出一个数 ...1 ...4 ...9,但是现在获得的结果是**等了一秒一起**输出结果 1 4 9 
 
-- 找到问题
+### 找到问题
 为什么在for循环/ for...of 里面可以实现await/async的功能，但是在forEach里面就不可以呢？首先我们来看下MDN网站的Polyfill
 ```js
 if (!Array.prototype.forEach) {
@@ -70,6 +69,35 @@ Array.prototype.forEach = function (callback) {
   for (let index = 0; index < this.length; index++) {
     // We call the callback for each entry
     callback(this[index], index, this)
+  }
+}
+```
+相当于在for循环中执行了异步函数
+```js
+async function test () {
+  var nums = await getNumbers()
+//   nums.forEach(async x => {
+//     var res = await multi(x)
+//     console.log(res)
+//   })
+  for(let index = 0; index < nums.length; index++) {
+    (async x => {
+      var res = await multi(x)
+      console.log(res)
+    })(nums[index])
+  }
+}
+```
+
+### 解决办法
+
+用for...of 或者for循环代替 forEach
+```js
+async function test () {
+  var nums = await getNumbers()
+  for(let x of nums) {
+    var res = await multi(x)
+    console.log(res)
   }
 }
 ```
