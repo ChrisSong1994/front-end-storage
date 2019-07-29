@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>throttle 节流函数</title>
+    <style>
+      .clearfix::after {
+        content: "";
+        clear: both;
+        display: block;
+        height: 0;
+      }
+      .clearfix {
+        zoom: 1;
+      }
+      .fl {
+        float: left;
+      }
+      .fr {
+        float: right;
+      }
+      .boxs {
+        width: 100%;
+      }
+      .box {
+        width: 45%;
+        height: 500px;
+        background: #6584eb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="boxs clearfix">
+      <div class="box fl">
+        throttle
+      </div>
+      <!-- <div class="box fr">
+        proxy throttle
+      </div> -->
+    </div>
+    <script src="./throttle.js"></script>
+    <script>
+      const boxs = document.querySelectorAll(".box");
+      const box0 = boxs[0];
+      function handler() {
+        console.log(1);
+      }
+
+      const throttleFunc = throttle(handler, 2000);
+      box0.addEventListener("mousemove", throttleFunc);
+    </script>
+  </body>
+</html>
