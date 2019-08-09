@@ -17,7 +17,7 @@
  * @property {this} context -上下文
  **/
 
-const throttle = (fun, time = 200, options = {
+const throttle = (func, time = 200, options = {
   // leading 和 trailing 无法同时为 false
   leading: true,
   trailing: true,
@@ -31,15 +31,15 @@ const throttle = (fun, time = 200, options = {
       if (timer) return
       timer = setTimeout(() => {
         timer = null
-        fun.apply(options.context, args)
+        func.apply(options.context, args)
       }, time)
-    } else if (now - previous > time) {
-      fun.apply(options.context, args)
+    } else if (now - previous > time) { // 第一次执行
+      func.apply(options.context, args)
       previous = now
     } else if (options.trailing) {
       clearTimeout(timer)
       timer = setTimeout(() => {
-        fun.apply(options.context, args)
+        func.apply(options.context, args)
       }, time)
     }
 
@@ -52,4 +52,38 @@ const throttle = (fun, time = 200, options = {
   }
 
   return _throttle
+}
+
+//使用Proxy实现函数节流 :apply方法拦截函数的调用、call和apply操作。
+const throttleProxy = (func, time = 200, options = {
+  // leading 和 trailing 无法同时为 false
+  leading: true,
+  trailing: true,
+  context: null
+}) => {
+  let timer;
+  let previous = new Date(0).getTime();
+  let handler = {
+    apply(target, _, args) {
+      // 和闭包实现核心逻辑相同
+      let now = new Date().getTime();
+      if (!options.leading) {
+        if (timer) return;
+        timer = setTimeout(() => {
+          timer = null;
+          Reflect.apply(func, options.context, args)
+        }, time)
+
+      } else if (now - previous > time) {
+        Reflect.apply(func, options.context, args)
+        previous = now
+      } else if (options.trailing) {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          Reflect.apply(func, options.context, args)
+        }, time)
+      }
+    }
+  }
+  return new Proxy(func, handler)
 }
