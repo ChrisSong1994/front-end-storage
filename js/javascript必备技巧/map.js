@@ -16,7 +16,7 @@ const selfMap = function (callback, thisArg) {  // 不可以用箭头函数
 }
 
 const selMapUseReduce = function (callback, thisArg) {
-  let arr = Array.prototype.slice.call(this)
+  let arr = Array.prototype.slice.call(this) 
 
   return arr.reduce((pre, cur, index) => {
     return [...pre, callback.call(thisArg, cur, index, this)]
