@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>手写一个Promise</title>
+  </head>
+
+  <body>
+    <script>
+      // promise的理解：promise像是一个订阅发布模式的状态机制，利用then订阅，resolve发布，触发这种机制的地方在状态的改变的时候
+      // new Promise((resolve, reject) => {
+      //   setTimeout(() => {
+      //     resolve({ success: true });
+      //   }, 2000);
+      // }).then(data => {
+      //   console.log(data);
+      // });
+
+      // 实现
+      class PromiseCustom {
+        // _funcName 是私有方法
+        constructor(fun) {
+          this.state = "pending";
+          this.value = null;
+          this.callbacks = [];
+          fun(this._resolve.bind(this), this._reject.bind(this));
+        }
+
+        then(onFulfilled, onRejected) {
+          return new PromiseCustom((resolve, reject) => {
+            this._handle({ onFulfilled, onRejected, resolve, reject });
+          });
+        }
+
+        catch(onError) {
+          this.then(null, onError);
+        }
+
+        finally(onDone) {
+          this.then(onDone, onError);
+        }
+
+        // 实现resolve reject all race 的功能 ,这些函数是绑定在类上的静态方法，不会被继承
+        // 1.无参数 [直接返回一个resolved状态的 Promise 对象]
+        // 2.普通数据对象 [直接返回一个resolved状态的 Promise 对象]
+        // 3.一个Promise实例 [直接返回当前实例]
+        // 4.一个thenable对象(thenable对象指的是具有then方法的对象) [转为 Promise 对象，并立即执行thenable对象的then方法。]
+        static resolve(value) {
+          if (value && value instanceof PromiseCustom) {
+            //Promise 实例
+            return value;
+          } else if (
+            value &&
+            typeof value === "object" &&
+            typeof value.then === "function"
+          ) {
+            //  thenable对象
+            let then = value.then;
+            return new PromiseCustom(resolve => {
+              then(resolve);
+            });
+          } else if (value) {
+            return new PromiseCustom(resolve => resolve(value));
+          } else {
+            return new PromiseCustom(resolve => resolve());
+          }
+        }
+
+        // Promise.reject始终返回一个状态的rejected的Promise实例
+        static reject(value) {
+          return new PromiseCustom((resolve, reject) => reject(value));
+        }
+
+        static all(arr) {
+          var args = Array.prototype.slice.call(arr);
+          return new PromiseCustom((resolve, reject) => {
+            if (args.length === 0) {
+              return resolve([]);
+            }
+            let remaining = args.length;
+            const res = (i, value) => {
+              try {
+                if (
+                  value &&
+                  (typeof value === "object" || typeof value === "function")
+                ) {
+                  const { then } = value;
+                  if (typeof then === "function") {
+                    then.call(
+                      value,
+                      val => {
+                        res(i, val);
+                      },
+                      reject
+                    );
+                  }
+                }
+                args[i] = val;
+                if (--remaining === 0) {
+                  return resolve(args);
+                }
+              } catch (e) {
+                reject(e);
+              }
+            };
+
+            // 循环便利每个Promise
+            for (var i = 0; i < args.length; i++) {
+              res(i, args[i]);
+            }
+          });
+        }
+
+        race() {}
+
+        _handle(callback) {
+          if (this.state === "pending") {
+            this.callbacks.push(callback);
+            return;
+          }
+
+          const cb =
+            this.state === "fulfilled"
+              ? callback.onFulfilled
+              : callback.onRejected;
+          const next =
+            this.state === "fulfilled" ? callback.resolve : callback.reject;
+
+          if (!cb) {
+            next(this.value);
+            return;
+          }
+          // 捕获异常
+          try {
+            const result = cb(this.value);
+            next(result);
+          } catch (e) {
+            callback.reject(e);
+          }
+        }
+
+        _resolve(newValue) {
+          const func = () => {
+            if (this.state !== "pending") return;
+            // 对newValue 的值类型进行判断
+            if (
+              newValue &&
+              (typeof newValue === "object" || typeof newValue === "function")
+            ) {
+              // newValue 是promise 的情况
+              const { then } = newValue;
+              // newValue 为新产生的 Promise,此时resolve为上个 promise 的resolve,相当于调用了新产生 Promise 的then方法，注入了上个 promise 的resolve 为其回调
+              if (typeof then === "function") {
+                then.call(
+                  newValue,
+                  this._resolve.bind(this),
+                  this._reject.bind(this)
+                );
+                return;
+              }
+            }
+            this.value = newValue;
+            this.state = "fulfilled";
+            this._handleCallback();
+          };
+          setTimeout(func, 0); //同步代码转异步代码,这是为了手动调配优先级不高的代码靠后执行
+        }
+
+        _reject(error) {
+          const func = () => {
+            if (this.state !== "pending") return;
+            // 对newValue 的值类型进行判断
+            if (
+              error &&
+              (typeof error === "object" || typeof error === "function")
+            ) {
+              // newValue 是promise 的情况
+              const { then } = error;
+              // newValue 为新产生的 Promise,此时resolve为上个 promise 的resolve,相当于调用了新产生 Promise 的then方法，注入了上个 promise 的resolve 为其回调
+              if (typeof then === "function") {
+                then.call(
+                  error,
+                  this._resolve.bind(this),
+                  this._reject.bind(this)
+                );
+                return;
+              }
+            }
+            this.value = error;
+            this.state = "rejected";
+            this._handleCallback();
+          };
+          setTimeout(func, 0); //同步代码转异步代码,这是为了手动调配优先级不高的代码靠后执行
+        }
+
+        _handleCallback() {
+          while (this.callbacks.length) {
+            const fulfilledFunc = this.callbacks.shift();
+            this._handle(fulfilledFunc);
+          }
+        }
+      }
+
+      // 测试
+      // new PromiseCustom((resolve, reject) => {
+      //   setTimeout(() => {
+      //     resolve({ test: 1 });
+      //   }, 1000);
+      // })
+      //   .then(data => {
+      //     console.log("result1", data);
+      //     return test();
+      //   })
+      //   .then(data => {
+      //     console.log("result2", data);
+      //   });
+
+      function test(id) {
+        return new PromiseCustom((resolve, reject) => {
+          setTimeout(() => {
+            resolve({ test: 2 });
+          }, 5000);
+        });
+      }
+
+      PromiseCustom.resolve(test()).then(data => {
+        console.log(data);
+      });
+    </script>
+  </body>
+</html>
