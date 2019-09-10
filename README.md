@@ -22,7 +22,7 @@
 ***手动实现部分***
 1.  [js深拷贝浅拷贝](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/js%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%B5%85%E6%8B%B7%E8%B4%9D.html)
 2.  [截流防抖函数](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E6%88%AA%E6%B5%81%E9%98%B2%E6%8A%96%E5%87%BD%E6%95%B0.html)
-3.  [实现一个promise](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AApromise.html)
+3.  [实现一个promise](https://github.com/song111/front-end-storage/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAPromise.html)
 7.  [实现一个eventEmitter](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E6%89%8B%E5%8A%A8%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAeventEmitter.html)
 8.  [图片base64编码上传](https://github.com/song111/font-end-question/blob/master/js/js%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E5%9B%BE%E7%89%87base64%E7%BC%96%E7%A0%81%E4%B8%8A%E4%BC%A0.html)
 9.  [fetch的超时检查](https://github.com/song111/font-end-question/blob/master/js/js%E6%96%B9%E6%B3%95%E5%BA%93/utils/fetch_timeout.js)
