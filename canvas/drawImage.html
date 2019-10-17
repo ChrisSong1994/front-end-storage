@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>drawImage</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+      var canvas = document.getElementById("canvas");
+
+      // 检查支持性
+      if (canvas.getContext) {
+        var ctx = canvas.getContext("2d");
+        function draw() {
+          var ctx = document.getElementById("canvas").getContext("2d");
+          var img = new Image();
+          img.onload = function() {
+            ctx.drawImage(img, 0, 0);
+            ctx.beginPath();
+            ctx.moveTo(30, 96);
+            ctx.lineTo(70, 66);
+            ctx.lineTo(103, 76);
+            ctx.lineTo(170, 15);
+            ctx.stroke();
+          };
+          img.src = 'data:image/gif;base64,R0lGODlhCwALAIAAAAAA3pn/ZiH5BAEAAAEALAAAAAALAAsAAAIUhA+hkcuO4lmNVindo7qyrIXiGBYAOw==';
+        }
+        draw();
+      }
+    </script>
+  </body>
+</html>

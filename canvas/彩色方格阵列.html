@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body onload="draw()">
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+      function draw() {
+        var ctx = document.getElementById("canvas").getContext("2d");
+        for (var i = 0; i < 10; i++) {
+          for (var j = 0; j < 10; j++) {
+            ctx.fillStyle =
+              "rgb(" +
+              Math.floor(255 - 25.5 * i) +
+              "," +
+              Math.floor(255 - 25.5 * j) +
+              ",0)";
+            ctx.fillRect(j * 25, i * 25, 25, 25);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

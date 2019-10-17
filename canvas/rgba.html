@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>rgba</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+      var canvas = document.getElementById("canvas");
+
+      // 检查支持性
+      if (canvas.getContext) {
+        var ctx = canvas.getContext("2d");
+        function draw() {
+          var ctx = document.getElementById("canvas").getContext("2d");
+
+          // Draw background
+          ctx.fillStyle = "rgb(255, 221, 0)";
+          ctx.fillRect(0, 0, 150, 37.5);
+          ctx.fillStyle = "rgb(102, 204, 0)";
+          ctx.fillRect(0, 37.5, 150, 37.5);
+          ctx.fillStyle = "rgb(0, 153, 255)";
+          ctx.fillRect(0, 75, 150, 37.5);
+          ctx.fillStyle = "rgb(255, 51, 0)";
+          ctx.fillRect(0, 112.5, 150, 37.5);
+
+          // Draw semi transparent rectangles
+          for (var i = 0; i < 10; i++) {
+            ctx.fillStyle = "rgba(255, 255, 255, " + (i + 1) / 10 + ")";
+            for (var j = 0; j < 4; j++) {
+              ctx.fillRect(5 + i * 14, 5 + j * 37.5, 14, 27.5);
+            }
+          }
+        }
+        draw();
+      }
+    </script>
+  </body>
+</html>

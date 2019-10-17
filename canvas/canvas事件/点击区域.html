@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>点击区域</title>
+  </head>
+  <body>
+      <canvas id="canvas"></canvas>
+      <script>
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+      
+      ctx.beginPath();
+      ctx.arc(70, 80, 10, 0, 2 * Math.PI, false);
+      ctx.fill();
+      ctx.addHitRegion({id: "circle"});
+      
+      canvas.addEventListener("mousemove", function(event){
+        if(event.region) {
+          alert("hit region: " + event.region);
+        }
+      });
+      </script>
+  </body>
+</html>

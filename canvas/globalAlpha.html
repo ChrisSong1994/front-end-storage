@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>globleAlpha</title>
+  </head>
+  <body>
+    <h5>
+      在这个例子中，我们将绘制四个不同颜色方块的背景。除此之外，我们将绘制一组半透明圆圈。
+      该globalAlpha属性设置0.2为从该点开始用于所有形状。for循环中的每一步都会绘制一组半径增加的圆。最终结果是径向梯度。
+      通过将更多的圆圈叠加在一起，我们有效地降低了已经绘制的圆圈的透明度。
+      通过增加步数并实际绘制更多圆圈，背景将完全从图像中心消失。
+    </h5>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+      var canvas = document.getElementById("canvas");
+
+      // 检查支持性
+      if (canvas.getContext) {
+        var ctx = canvas.getContext("2d");
+        function draw() {
+          var ctx = document.getElementById("canvas").getContext("2d");
+          // draw background
+          ctx.fillStyle = "#FD0";
+          ctx.fillRect(0, 0, 75, 75);
+          ctx.fillStyle = "#6C0";
+          ctx.fillRect(75, 0, 75, 75);
+          ctx.fillStyle = "#09F";
+          ctx.fillRect(0, 75, 75, 75);
+          ctx.fillStyle = "#F30";
+          ctx.fillRect(75, 75, 75, 75);
+          ctx.fillStyle = "#FFF";
+
+          // set transparency value
+          ctx.globalAlpha = 0.2;
+
+          // Draw semi transparent circles
+          for (var i = 0; i < 7; i++) {
+            ctx.beginPath();
+            ctx.arc(75, 75, 10 + 10 * i, 0, Math.PI * 2, true);
+            ctx.fill();
+          }
+        }
+        draw();
+      }
+    </script>
+  </body>
+</html>
