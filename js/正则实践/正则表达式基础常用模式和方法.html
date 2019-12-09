@@ -1,18 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>正则表达式基础常用模式和方法</title>
 </head>
+
 <body>
   <h3>正则表达式基础常用模式和方法</h3>
   <script>
-  
-  
-  
-  
+    // 基础篇  
+
+    /**
+     * 字符类别（Character Classes）
+     * */ 
+
+    // . :	(点号，小数点) 匹配任意单个字符，但是行结束符除外：\n \r \u2028 或 \u2029。
+    // 在字符集中，点( . )失去其特殊含义，并匹配一个字面点( . )。
+    // 需要注意的是，m 多行（multiline）标志不会改变点号的表现。因此为了匹配多行中的字符集，可使用[^] （当然你不是打算用在旧版本 IE 中），它将会匹配任意字符，包括符。
+    console.log("yes make my day".match(/.y/))
+
+   //  \	: 对于那些通常被认为字面意义的字符来说，表示下一个字符具有特殊用处，并且不会被按照字面意义解释。
+   console.log("a".match(/a*/))
+   console.log("a*".match(/a*/))
+
+    // \d 	匹配任意阿拉伯数字。等价于[0-9]。
+    console.log("B2 is the suite number.".match(/\d/))
+
+    // \D :匹配任意一个不是阿拉伯数字的字符。等价于[^0-9]。
+    console.log("B2 is the suite number.".match(/\D/))
+
+    //  \w :匹配任意来自基本拉丁字母表中的字母数字字符，还包括下划线。等价于 [A-Za-z0-9_]。
+    console.log("$5.28".match(/\D/))
+
+
+    /**
+     *  边界（Boundaries）
+    */
+    // ^: 匹配输入开始。如果多行（multiline）标志被设为 true，该字符也会匹配一个断行（line break）符后的开始处。
+    console.log("an A".match(/^A/)) //null
+    console.log("An A".match(/^A/))
+
+    //$	:匹配输入结尾。如果多行（multiline）标志被设为 true，该字符也会匹配一个断行（line break）符的前的结尾处。
+    console.log("eater".match(/t$/)) //null
+    console.log("eat".match(/t$/))
+
+    /**
+     *  分组（Grouping）与反向引用（back references）
+    */
+
+    /**
+     * 数量词（Quantifiers）
+     * */ 
+
+    // x*	匹配前面的模式 x 0 或多次。
+    console.log("A ghost booooed".match(/bo*/))
+    console.log("A ghost bed".match(/bo*/))
+
+    //x+  :匹配前面的模式 x 1 或多次。等价于 {1,}。
+    console.log("A ghost booooed".match(/bo*/))
+    console.log("A ghost bed".match(/bo+/)) // null
+
+    //  x*?  x+? : 像上面的 * 和 + 一样匹配前面的模式 x，然而匹配是最小可能匹配。
+
+
+    // x?	: 匹配前面的模式 x 0 或 1 次。
+    console.log("angel".match(/e?le?/))
+    console.log("angle".match(/e?le?/))
+
+    //x|y	: 匹配 x 或 y
+    console.log("green apple".match(/green|red/))
+
+    // x{n} :n 是一个正整数。前面的模式 x 连续出现 n 次时匹配。
+    console.log("green".match(/e{2}/))
+
+    // x{n,}	:n 是一个正整数。前面的模式 x 连续出现至少 n 次时匹配。
+    console.log("green".match(/e{2,}/))
+    console.log("greeeeeeeen".match(/e{2,}/))
+
+    // x{n,m}	:n 和 m 为正整数。前面的模式 x 连续出现至少 n 次，至多 m 次时匹配。
+    console.log("greeeeeeeen".match(/e{2,5}/))    //eeeee
+
+
+
+
+    /**
+     * 断言（Assertions），下面所有断言均只匹配x，y不参与匹配
+     * */ 
   </script>
 </body>
+
 </html>

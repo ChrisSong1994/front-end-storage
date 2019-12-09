@@ -44,27 +44,29 @@
       // 创建子类实例时，无法向父类构造函数传参
 
       // 第二种：继承到原型对象
-      // Student.prototype = Person.prototype;
-      // Student.prototype.constructor = Student;
-      // var student = new Student();
-      // var person = new Person();
-      // console.log(student.gender); //man`
-      // Student.prototype.gender = "felman"; // 因为这里的Student.prototype和Person.prototype是共同的引用，所以改变其中一个互相都有形象
-      // console.log(student.gender); //felman
-      // console.log(person.gender); //felman
+      Student.prototype = Person.prototype;
+      Student.prototype.constructor = Student;
+      var student = new Student();
+      var person = new Person();
+      console.log(student.gender); //man`
+      Student.prototype.gender = "felman"; // 因为这里的Student.prototype和Person.prototype是共同的引用，所以改变其中一个互相都有形象
+      console.log(student.gender); //felman
+      console.log(person.gender); //felman
 
       // 解决办法：取用一个空的函数作为构造函数过度
-      // var F = function() {};
-      // F.prototype = Person.prototype;
-      // Student.prototype = new F();
-      // Student.prototype.constructor = Student;
-      // var student = new Student();
-      // var person = new Person();
-      // console.log(student.gender); //man`
-      // Student.prototype.gender = "felman"; // 因为这里的Student.prototype和Person.prototype是共同的引用，所以改变其中一个互相都有形象
-      // console.log(student.gender); //felman
-      // console.log(student.name); //undefined
-      // console.log(person.gender); //man
+      var F = function() {};
+      F.prototype = Person.prototype;
+      Student.prototype = new F();
+      Student.prototype.constructor = Student;
+      var student = new Student();
+      var person = new Person();
+      console.log(student.gender); //man`
+      Student.prototype.gender = "felman"; 
+      console.log(student.gender); //felman
+      console.log(student.name); //undefined
+      console.log(person.gender); //man
+
+      // 缺点：只继承了原型上的属性，
 
       // // 封装一个继承函数
       // function extend(Child, Person) {
@@ -107,99 +109,99 @@
       // 缺点：没创建一个实例都要存一份sayName函数，无法实现函数复用（没有用到原型）
 
       // 构造函数+原型=组合继承
-      // function Person(val) {
-      //   this.name = val;
-      //   this.arr = [1];
-      // }
-      // Person.prototype.gender = "man";
-      // Person.prototype.sayName = function() {
-      //   return this.name;
-      // };
+      function Person(val) {
+        this.name = val;
+        this.arr = [1];
+      }
+      Person.prototype.gender = "man";
+      Person.prototype.sayName = function() {
+        return this.name;
+      };
 
-      // function Student(val) {
-      //   Person.call(this, val);
-      //   this.age = "12";
-      // }
-      // Student.prototype = new Person();
-      // Student.prototype.constructor = Student;
-      // var student = new Student("student");
-      // var student1 = new Student("student");
-      // console.log(student.name); //student
-      // console.log(student.age); //12
-      // console.log(student.gender); //man
-      // console.log(student.sayName()); //student
-      // console.log(student.sayName === student1.sayName); //true
+      function Student(val) {
+        Person.call(this, val);
+        this.age = "12";
+      }
+      Student.prototype = new Person();
+      Student.prototype.constructor = Student;
+      var student = new Student("student");
+      var student1 = new Student("student");
+      console.log(student.name); //student
+      console.log(student.age); //12
+      console.log(student.gender); //man
+      console.log(student.sayName()); //student
+      console.log(student.sayName === student1.sayName); //true
       // 缺点：Person构造函数中的属性和方法将被引用两次，第一次是利用call 调用，第二次是利用new 操作符调用
 
       // 寄生组合继承
       // 为了解决上面方法的缺点，我们就需要避免多继承一份构造函数的属性和方法：利用一个过度的空对象
-      // function Person(val) {
-      //   this.name = val;
-      //   this.arr = [1];
-      // }
-      // Person.prototype.gender = "man";
-      // Person.prototype.sayName = function() {
-      //   return this.name;
-      // };
-      // function Student(val) {
-      //   Person.call(this, val);  // 继承构造函数的属性
-      //   this.age = "12";
-      // }
-      // var F=function(){}
-      // F.prototype=Person.prototype
-      // Student.prototype=new F()   // 只继承原型上的属性
-      // Student.prototype.constructor = Student;
-      // var student = new Student("student");
-      // var student1 = new Student("student");
-      // console.log(student.name); //student
-      // console.log(student.age); //12
-      // console.log(student.gender); //man
-      // console.log(student.sayName()); //student
-      // console.log(student.sayName === student1.sayName); //true
+      function Person(val) {
+        this.name = val;
+        this.arr = [1];
+      }
+      Person.prototype.gender = "man";
+      Person.prototype.sayName = function() {
+        return this.name;
+      };
+      function Student(val) {
+        Person.call(this, val);  // 继承构造函数的属性
+        this.age = "12";
+      }
+      var F=function(){}
+      F.prototype=Person.prototype
+      Student.prototype=new F()   // 只继承原型上的属性
+      Student.prototype.constructor = Student;
+      var student = new Student("student");
+      var student1 = new Student("student");
+      console.log(student.name); //student
+      console.log(student.age); //12
+      console.log(student.gender); //man
+      console.log(student.sayName()); //student
+      console.log(student.sayName === student1.sayName); //true
 
       // 拷贝继承：单纯的把赋对象的属性直接复制到自对象的方式
       // 深拷贝：完全复制一份具有自己的内存的对象
       // 检查类型
-      function checkType(target) {
-        return Object.toString(target).slice(8, -1);
-      }
+      // function checkType(target) {
+      //   return Object.toString(target).slice(8, -1);
+      // }
 
-      function deepClone(target) {
-        let result;
-        let targetType = checkType(target);
-        if (targetType === "array") {
-          result = [];
-        } else if (targetType === "object") {
-          result = {};
-        } else {
-          return target;
-        }
-        // 遍历
-        for (let i in target) {
-          let value = target[i];
-          // 递归的判断条件为引用类型的时候递归
-          if (checkType(value) === "Object" || checkType(value) === "Array") {
-            result[i] = deepClone(value);
-          } else {
-            result[i] = value;
-          }
-        }
-        return result;
-      }
+      // function deepClone(target) {
+      //   let result;
+      //   let targetType = checkType(target);
+      //   if (targetType === "array") {
+      //     result = [];
+      //   } else if (targetType === "object") {
+      //     result = {};
+      //   } else {
+      //     return target;
+      //   }
+      //   // 遍历
+      //   for (let i in target) {
+      //     let value = target[i];
+      //     // 递归的判断条件为引用类型的时候递归
+      //     if (checkType(value) === "Object" || checkType(value) === "Array") {
+      //       result[i] = deepClone(value);
+      //     } else {
+      //       result[i] = value;
+      //     }
+      //   }
+      //   return result;
+      // }
 
-      function Person() {
-        this.name = "person";
-        this.arr = [1];
-        this.sayName = function() {
-          return this.name;
-        };
-      }
-      Person.prototype.gender = "man";
+      // function Person() {
+      //   this.name = "person";
+      //   this.arr = [1];
+      //   this.sayName = function() {
+      //     return this.name;
+      //   };
+      // }
+      // Person.prototype.gender = "man";
 
-      var person = new Person();
-      var student = deepClone(person);
-      console.log(student.gender); //man
-      console.log(student.name); //person
+      // var person = new Person();
+      // var student = deepClone(person);
+      // console.log(student.gender); //man
+      // console.log(student.name); //person
 
 
     </script>
