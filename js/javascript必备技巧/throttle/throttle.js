@@ -1,6 +1,4 @@
 // 节流函数：在一定时间执行一次
-// 作用
-
 
 /**
  * @description 函数节流
@@ -11,7 +9,7 @@
  **/
 
 /**
- * @typedef {Object} Options -配置项
+ * @typedof {Object} Options -配置项
  * @property {Boolean} leading -开始是否需要额外触发一次
  * @property {Boolean} trailing -结束后是否需要额外触发一次
  * @property {this} context -上下文

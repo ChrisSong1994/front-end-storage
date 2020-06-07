@@ -12,6 +12,7 @@ Watcher.prototype = {
 
   run: function () {
     const value = this.vm.data[this.exp]
+    debugger
     var oldVal = this.value;
     if (oldVal !== value) {
       this.value = value

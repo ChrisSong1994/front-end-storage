@@ -24,7 +24,7 @@
       ws.onclose = function(e) {
         console.log("connection closed.");
       };
-      
+
       function sendMessage() {
         ws.send(document.getElementById("text").value);
       }

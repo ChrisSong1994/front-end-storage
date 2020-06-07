@@ -69,12 +69,15 @@ Compile.prototype = {
   },
   compileModel: function (node, vm, exp, dir) {  // 解析v-model指令
     var val = vm[exp]
+    debugger
     this.updateText(node, val)
+    debugger
     new Watcher(vm, exp, (value) => {
       this.modelUpdater(node, value)
     })
 
     node.addEventListener('input', (e) => {
+      debugger
       let newVal = e.target.value
       if (val === newVal) return
       vm[exp] = newVal
@@ -83,6 +86,7 @@ Compile.prototype = {
   },
   compileText: function (node, exp) {
     const initText = this.vm[exp]
+    debugger
     this.updateText(node, initText)
     new Watcher(this.vm, exp, (value) => {
       this.updateText(node, value)

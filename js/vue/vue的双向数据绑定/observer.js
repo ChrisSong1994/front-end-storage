@@ -6,6 +6,7 @@ function Observer(data) {
 
 Observer.prototype = {
   walk: function (data) {
+    debugger
     var self = this;
     Object.keys(data).forEach(function (key) {
       self.defineReactive(data, key, data[key]);
@@ -41,6 +42,7 @@ function observe(value) {
   }
   return new Observer(value);
 }
+
 
 function Dep() {
   this.subs = []

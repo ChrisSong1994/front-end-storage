@@ -40,6 +40,7 @@
       function comp1(arr) {
         return function(val) {
           return arr.reduce(function(x, y) {
+            debugger
             return x(y(val));
           });
         };
