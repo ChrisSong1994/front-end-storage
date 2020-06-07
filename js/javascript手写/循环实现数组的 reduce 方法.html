@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const selfReduce = function (fn, initialValue) {
+            let arr = Array.prototype.slice.call(this)
+            let res
+            let startIndex = 0
+
+            // 首先保证 初始值 不是  undefined
+            if (initialValue === undefined) {
+                for (let i = 0; i < arr.length; i++) {
+                    if (!arr.hasOwnProperty(i)) continue
+                    startIndex = i
+                    res = arr[i]
+                    break
+                }
+            } else {
+                res = initialValue
+            }
+
+            // 循环实现迭代器 要在第一个不是undefined的值开始做迭代
+            for (let i = ++startIndex || 0; i < arr.length; i++) {
+                if (!arr.hasOwnProperty(i)) continue
+                res = fn.call(null, res, arr[i], i, this)
+            }
+            return res
+        }
+
+        // 因为可能存在稀疏数组的关系，所以 reduce 需要保证跳过稀疏元素，遍历正确的元素和下标
+
+
+    </script>
+</body>
+
+</html>

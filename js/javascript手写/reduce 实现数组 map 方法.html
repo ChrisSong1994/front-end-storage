@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const selfMap = function (fn, context) {
+            let arr = Array.prototype.slice.call(this)
+
+            return arr.reduce((pre, cur, index) => {
+                return [...pre, fn.call(context, cur, index, this)]
+            }, [])
+        }
+
+        Array.prototype.selfMap = selfMap
+
+        // test 
+        const res = [1, 2, 3, , 4, 5].selfMap(number => number * 2)
+        console.log(res)
+
+        // 稀疏数组 : 不连续下标的数组
+        const sparse = new Array()
+        sparse[2] = 10
+        console.log(sparse.selfMap(number => number * 3))
+
+    </script>
+</body>
+
+</html>

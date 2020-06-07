@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 匹配排除util 和 constants的js 脚本
+
+        // (?<!y)x  表示不被x跟随的y
+        // (x|y)    表示x或者y
+        // ^x|^y  表示不是x或者y开头
+
+        const reg = /(?<!(^util|^constants))\.js$/
+        console.log(reg.test('util.js'))
+
+
+    </script>
+</body>
+
+</html>

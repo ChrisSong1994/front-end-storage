@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="https://juejin.im/post/5aab72fd518825188038af9b">面试题之正则表达式解析一个完整的url</a>
+    <script>
+
+        /*
+        ?:  匹配0个或一个
+        *   匹配0个或多个,
+        +:  一次或多次，至少出现一次 
+        .*  贪婪匹配：在满足匹配时，匹配尽可能长的字符串，默认情况下，采用贪婪匹配（没有问号）
+        
+        // 非贪婪匹配：在满足匹配时，匹配尽可能短的字符串，使用?来表示非贪婪匹配
+        ?  非贪婪，最小匹配（重点，后面会用到）
+        *? 重复任意次，但尽可能少重复  
+        +? 重复1次或更多次，但尽可能少重复  
+        ?? 重复0次或1次，但尽可能少重复  
+        {n,m}? 重复n到m次，但尽可能少重复  
+        {n,}? 重复n次以上，但尽可能少重复  
+        */
+
+        /**
+     * 解析一个url并生成window.location对象中包含的域
+     * location:
+     * {
+     *      href: '包含完整的url',
+     *      origin: '包含协议到pathname之前的内容',
+     *      protocol: 'url使用的协议，包含末尾的:',
+     *      username: '用户名', // 暂时不支持
+     *      password: '密码',  // 暂时不支持
+     *      host: '完整主机名，包含:和端口',
+     *      hostname: '主机名，不包含端口'
+     *      port: '端口号',
+     *      pathname: '服务器上访问资源的路径/开头',
+     *      search: 'query string，?开头',
+     *      hash: '#开头的fragment identifier'
+     * }
+     *
+     * @param {string} url 需要解析的url
+     * @return {Object} 包含url信息的对象
+     */
+
+        const url = 'https://juejin.im:3400/post?name=ddd&password=34343#hash/path'
+
+        const parseUrl = (url) => {
+            const keys = ['herf', 'origin', 'protocal', 'host', 'hostname', 'post', 'pathname', 'search', 'hash']
+            const result = {}
+            const reg = new RegExp(/(([^:]+:)\/\/(([^:\/\?#]+)(:\d+)?))(\/[^?#]*)?(\?[^#]*)?(#.*)?/)
+            const match = reg.exec(url)
+            if (match) {
+                for (let i = 0; i < keys.length; i++) {
+                    result[keys[i]] = match[i] ? match[i] : ''
+                }
+            }
+            return result
+        }
+
+        // test 
+        console.info(parseUrl(url))
+
+
+
+    </script>
+</body>
+
+</html>

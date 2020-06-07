@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="say">say hello </button>
+    <script>
+        window.onload = () => {
+            // 函数截流：在一定的时间内只执行一次
+            // 和函数防抖类似，区别在于内部额外使用了时间戳作为判断，在一段时间内没有触发事件才允许下次事件触发，
+            // 同时新增了 trailing 选项，表示是否在最后额外触发一次
+
+            const thottle = function (fun, time, option = {
+                leading: true,
+                trailing: true,
+                context: null
+            }) {
+                let previous = new Date().getTime()
+                const _thottle = function (...args) {
+                    const now = new Date().getTime()
+
+                    if (!option.leading) {
+                        if (timer) return
+                        timer = setTimeout(() => {
+                            timer = null
+                            fun.apply(option.context, args)
+                        }, time)
+
+                    } else if (now - previous > time) {   // 第一次就会触发
+                        fun.apply(option.context, args)
+                        previous = now
+
+                    } else if (option.trailing) {
+                        clearTimeout(timer)
+                        timer = setTimeout(() => {
+                            fun.apply(option.context, args)
+                        }, time)
+                    }
+                }
+
+                _thottle.cancel = function () {
+                    previous = 0
+                    clearTimeout(timer)
+                    timer = null
+                }
+
+                return _thottle
+            }
+
+            // test 
+            const sayHello = () => {
+                console.log('hello')
+            }
+
+
+            const thottleSayHello = thottle(sayHello, 5000, { leading: true })
+            document.getElementById('say').addEventListener('click', thottleSayHello, false)
+
+
+        }
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 柯里化是函数式编程的一个重要技巧，将使用多个参数的一个函数转换成一系列使用一个参数的函数的技术
+        // fn.length  获取的是函数的 形参数量
+        const curry = function (fn) {
+            if (fn.length <= 1) return fn
+            const generator = (...args) => {
+                if (fn.length === args.length) {
+                    return fn(...args)
+                } else {
+                    return (...args1) => {
+                        return generator(...args, ...args1)
+                    }
+                }
+            }
+            return generator
+        }
+
+        const add = (a, b, c, d) => a + b + c + d
+        console.log(add.length)  // 4 
+        const curryAdd = curry(add)
+
+        console.log(curryAdd(1)(2)(3)(4))
+
+
+    </script>
+</body>
+
+</html>

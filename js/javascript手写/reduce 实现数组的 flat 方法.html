@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+        因为 selfFlat 是依赖 this 指向的，所以在 reduce 遍历时需要指定 selfFlat 的 this 指向，否则会默认指向 window 从而发生错误
+        原理通过 reduce 遍历数组，遇到数组的某个元素仍是数组时，通过 ES6 的扩展运算符对其进行降维（ES5 可以使用 concat 方法），
+        而这个数组元素可能内部还嵌套数组，所以需要递归调用 selfFlat
+        */
+
+        const selfFlat = function (depth = 1) {
+            const arr = Array.prototype.slice.call(this)
+            if (depth === 0) return arr
+            return arr.reduce((pre, cur, index) => {
+                if (Array.isArray(cur)) {
+                    return [...pre, ...selfFlat.call(cur, depth - 1)]
+                } else {
+                    return [...pre, cur]
+                }
+            }, [])
+        }
+
+        Array.prototype.selfFlat = selfFlat
+        // test 
+        const arr = [1, 2, [3, 4, [5, 6, [7, 8, 9]]]]
+
+        console.log(arr.selfFlat(3))
+
+
+    </script>
+</body>
+
+</html>

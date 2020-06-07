@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        const selfMap = function (fn, context) {
+            let arr = Array.prototype.slice.call(this)  // 支持类数组
+            let mapArr = new Array()
+            for (let i = 0; i < arr.length; i++) {
+                // 去除数组中的稀疏值
+                if (!arr.hasOwnProperty(i)) continue  // 没有下标跳出
+                mapArr[i] = fn.call(context, arr[i], i, this)
+            }
+            return mapArr
+        }
+
+        Array.prototype.selfMap = selfMap
+
+        // test 
+        // const res = [1, 2, 3, , 4, 5].selfMap(number => number * 2)
+        // console.log(res)
+
+        // 稀疏数组 : 不连续下标的数组
+        const sparse = new Array()
+        sparse[2] = 10
+        console.log(sparse.selfMap(number => number * 3))
+
+
+
+// 值得一提的是，map 的第二个参数为第一个参数回调中的 this 指向，如果第一个参数为箭头函数，
+// 那设置第二个 this 会因为箭头函数的词法绑定而失效
+// 另外就是对稀疏数组的处理，通过 hasOwnProperty 来判断当前下标的元素是否存在与数组中
+
+
+    </script>
+</body>
+
+</html>

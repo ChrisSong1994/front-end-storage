@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        // new 关键字实现的功能是
+        // 1.创建一个对象，并把函数内的this指向这个对象
+        // 2.执行构造函数
+        // 3.返回这个对象
+
+        const isComplexDataType = (obj) => {
+            return (typeof obj === 'object' || typeof obj === 'function') && typeof obj !== null
+        }
+
+        const selfNew = function (fn, ...args) {
+            const instance = Object.create(fn.prototype)
+            const res = fn.apply(instance, args)    // 执行构造函数
+            return isComplexDataType(res) ? res : instance    // 可能会有返回值，当返回是非复杂类型的时候构造函数相当于普通函数
+        }
+
+        
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+
+
+        const obj = {
+            a: 1,
+            b: new Date(),
+            c: () => { console.log(111) },
+            d: [1, 2, 3, { name: "deep" }],
+            e: /正则/ig
+        }
+
+        const isObj = (obj) => {
+            return (typeof obj === 'object' || typeof obj === 'function') && obj !== null
+        }
+        //  深拷贝 : 基本类型直接返回,引用类型分类判断
+        //存在一些问题的解决
+        // 不可以拷贝日期和正则
+        // 不可以循环引用 ：不可以拷贝已经拷贝过的key
+
+        const deepCopy = (value, hash = new WeakMap()) => {
+            let target
+            if (isObj(value)) {
+                let Constructor = value.constructor
+                switch (Constructor) {
+                    case RegExp:
+                        target = new Constructor(value)
+                        break
+                    case Date:
+                        target = new Constructor(value.getTime())
+                        break
+                    default:
+                        if (hash.has(value)) return hash.get(value)
+                        target = new Constructor()
+                        hash.set(value, target)
+                }
+
+                for (let key in value) {
+                    target[key] = deepCopy(value[key], hash)
+                }
+                return target
+            }
+            return value
+        }
+
+
+        const copyObj = deepCopy1(obj)
+        console.log(copyObj)
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        const isComplexDataType = (obj) => {
+            return (typeof obj === 'object' || typeof obj === 'function') && typeof obj !== null
+        }
+
+        const selfBind = (target, ...args) => {
+            if (typeof this !== 'function') throw new Error('bind must called on function')
+            const orginFunc = this
+            const boundFunc = function (...args2) {
+                if (new.target) {
+                    let res = orginFunc.call(this, ...args, ...args2)
+                    if (isComplexDataType(res)) return res
+                    return this
+                } else {
+                    orginFunc.call(target, ...args, ...args2)
+                }
+            }
+
+            return boundFunc
+        }
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

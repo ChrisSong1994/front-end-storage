@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 通过占位符能让柯里化更加灵活，实现思路是，每一轮传入的参数先去填充上一轮的占位符，如果当前轮参数含有占位符，
+        // 则放到内部保存的数组末尾，当前轮的元素不会去填充当前轮参数的占位符，只会填充之前传入的占位符
+
+        const curry = function (fn, placeholder = '_') {
+            curry.placeholder = placeholder
+            if (fn.length <= 1) return fn
+            let argsList = []
+            let curPlaceholderIndex = -1
+            const generator = (...args) => {
+                args.forEach(arg => {
+                    let placeholderIndex = argsList.findIndex(item = item === curry.placeholder)
+                    if(placeholderIndex<0){
+                        // 如果数组中没有占位符则直接在后面添加一个参数
+                        curPlaceholderIndex = argsList.push(arg) -1
+                    }else if(placeholderIndex!==curPlaceholderIndex){
+                        argsList[placeholderIndex]=arg
+                    }else{
+                        argsList.push(arg)
+                    }
+                })
+                let realArgsList = argsList.filter(item => item!==curry.placeholder)
+                if(realArgsList.length === fn.length){
+                    return fn(...realArgsList)
+                }else if(realArgsList.length > fn.length){
+                    throw new Error('超出初始函数最大值')
+                }else{
+                    return generator
+                }
+            }
+
+            return generator
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>

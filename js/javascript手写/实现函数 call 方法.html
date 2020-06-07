@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 原理就是将函数作为传入的上下文参数（context）的属性执行，这里为了防止属性冲突使用了 ES6 的 Symbol 类型
+        
+        const selfCall = function (context, ...agrs) {
+            let fun = this
+            context || (context = window)
+            if (typeof fun !== 'function') throw new TypeError('this is not function')
+            let caller = Symbol('caller')
+            context[caller] = fun
+            const res = context[caller](...agrs)
+            delete context[caller]
+            return res
+        }
+
+
+    </script>
+</body>
+
+</html>

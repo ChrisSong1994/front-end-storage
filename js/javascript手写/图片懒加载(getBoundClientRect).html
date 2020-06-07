@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+        getBoundClientRect 的实现方式，监听 scroll 事件（建议给监听事件添加节流），图片加载完会从 img 标签组成的 DOM 列表中删除，
+        最后所有的图片加载完毕后需要解绑监听事件
+        */
+
+        let imgList = [...document.querySelectorAll("img")]
+        let num = imgList.length
+
+        const lazyLoad = (function () {
+            let count = 0
+            return function () {
+                let deleteIndexList = []
+                imgList.forEach((img, index) => {
+                    let rect = img.getBoundingClientRect()
+                    if (rect.top < window.innerHeight) {  // 做比较 
+                        img.src = img.dataset.src
+                        deleteIndexList.push(index)
+                        count++
+                        if (num === count) {
+                            document.removeEventListener('scroll', lazyLoad)
+                        }
+                    }
+                })
+                imgList = imgList.filter((_, index) => !deleteIndexList.includes(index))
+            }
+        })()
+
+
+    </script>
+</body>
+
+</html>

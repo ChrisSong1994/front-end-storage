@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 使用 Object.prototype.toString 配合闭包，通过传入不同的判断类型来返回不同的判断函数，
+        //一行代码，简洁优雅灵活（注意传入 type 参数时首字母大写）
+        //不推荐将这个函数用来检测可能会产生包装类型的基本数据类型上,因为 call 始终会将第一个参数进行装箱操作，导致基本类型和包装类型无法区分
+
+        const isDataType = (type) => (target) => `[object ${type}]` === Object.prototype.toString.call(target)
+        const isArray = isDataType('Array')
+        console.log(isArray([]))  //true
+        console.log(isArray(''))  // false
+        
+    </script>
+</body>
+
+</html>
