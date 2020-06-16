@@ -1,26 +1,26 @@
+// 订阅者
 function Observer(data) {
-  this.data = data
-  this.walk(data)
-
+  this.data = data;
+  this.walk(data);
 }
 
 Observer.prototype = {
   walk: function (data) {
-    debugger
+    debugger;
     var self = this;
     Object.keys(data).forEach(function (key) {
-      self.defineReactive(data, key, data[key]);
+      self.defineReactive(data, key, data[key]); // 构建数据存取响应
     });
   },
   defineReactive: function (data, key, val) {
-    const childObj = observe(val)
+    const childObj = observe(val);
     var dep = new Dep();
     Object.defineProperty(data, key, {
       enumerable: true,
       configurable: true,
       get: function getter() {
         if (Dep.target) {
-          dep.addSub(Dep.target);
+          dep.addSub(Dep.target); // 当数据渲染时（数据被调用的时候搜集订阅者）
         }
         return val;
       },
@@ -29,33 +29,33 @@ Observer.prototype = {
           return;
         }
         val = newVal;
-        dep.notify();
-      }
-    })
-
-  }
-}
+        dep.notify(); // 当数据被修改时给订阅者推送消息
+      },
+    });
+  },
+};
 
 function observe(value) {
-  if (!value || typeof value !== 'object') {
+  if (!value || typeof value !== "object") {
     return;
   }
   return new Observer(value);
 }
 
+// 管理订阅者 和 消息分发
 
 function Dep() {
-  this.subs = []
+  this.subs = [];
 }
 Dep.prototype = {
   addSub: function (sub) {
-    this.subs.push(sub)
+    this.subs.push(sub);
   },
   notify: function () {
     this.subs.forEach(function (sub) {
       sub.update();
     });
-  }
-}
+  },
+};
 
 Dep.target = null;
