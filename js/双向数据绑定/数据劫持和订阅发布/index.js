@@ -11,7 +11,7 @@ function MyVue(options) {
   });
   debugger;
 
-  // 订阅
+  // 对数据进行观察
   observe(this.data);
 
   debugger;
@@ -22,6 +22,7 @@ function MyVue(options) {
   options.mounted.call(this); // 执行完成运行mounted
 }
 
+// 目的是把数据代理到vm 实例上，方便调用
 MyVue.prototype = {
   proxyKeys: function (key) {
     var self = this;

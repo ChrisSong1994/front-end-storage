@@ -1,6 +1,8 @@
+// 订阅者
+
 function Watcher(vm, exp, cb) {
   this.vm = vm;
-  this.exp = exp;
+  this.exp = exp;   // 被订阅的对象
   this.cb = cb;
   this.value = this.get();
 }
@@ -22,9 +24,9 @@ Watcher.prototype = {
 
   get: function () {
     /*
-     * 每一次实例化观察者的时候都会为Dep.target 赋值，
+     * 每一次实例化订阅者的时候都会为Dep.target 赋值，
      * 目的是在 this.vm.data[this.exp] 这一步出发数据的get 函数，
-     * 从而完成当前观察者被搜集的工作
+     * 从而完成当前订阅者被搜集的工作
      */
 
     Dep.target = this;

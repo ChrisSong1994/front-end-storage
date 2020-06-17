@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>MutationObserver</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // 选择需要观察变动的节点
+      let targetNode = document.querySelector(`#root`);
+
+      // 观察器的配置（需要观察什么变动）
+      let config = {
+        attributes: true,
+        childList: true,
+        subtree: true
+      };
+
+      // 当观察到变动时执行的回调函数
+      const mutationCallback = mutations => {
+        for (let mutation of mutations) {
+          let type = mutation.type;
+          switch (type) {
+            case 'childList':
+              console.log('A child node has been added or removed.');
+              break;
+            case 'attributes':
+              console.log(`The ${mutation.attributeName} attribute was modified.`);
+              break;
+            case 'subtree':
+              console.log(`The subtree was modified.`);
+              break;
+            default:
+              break;
+          }
+        }
+      };
+
+      // 创建一个观察器实例并传入回调函数
+      let observer = new MutationObserver(mutationCallback);
+
+      // 以上述配置开始观察目标节点
+      observer.observe(targetNode, config);
+
+      const textNode = document.createElement('span');
+      textNode.innerText = 'hello world!';
+      targetNode.appendChild(textNode);
+
+      targetNode.setAttribute('data-id','root')
+
+      // 之后，可停止观察
+      //   observer.disconnect();
+    </script>
+  </body>
+</html>
