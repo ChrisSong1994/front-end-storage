@@ -156,36 +156,36 @@
 
       <!-- order 属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。 order: <integer>; -->
       <div class="flex-box box">
-        <div class="flex-item" style="order:2">2</div>
-        <div class="flex-item" style="order:1">1</div>
-        <div class="flex-item" style="order:3">3</div>
+        <div class="flex-item" style="order: 2;">2</div>
+        <div class="flex-item" style="order: 1;">1</div>
+        <div class="flex-item" style="order: 3;">3</div>
       </div>
 
       <!-- flex-grow 属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。 flex-grow: <number>; -->
       <div class="flex-box box">
-        <div class="flex-item" style="flex-grow:2">2</div>
-        <div class="flex-item" style="flex-grow:1">1</div>
-        <div class="flex-item" style="flex-grow:1">1</div>
+        <div class="flex-item" style="flex-grow: 2;">2</div>
+        <div class="flex-item" style="flex-grow: 1;">1</div>
+        <div class="flex-item" style="flex-grow: 1;">1</div>
       </div>
 
       <!-- flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。 flex-shrink: <number>; /* default 1 */ -->
       <div class="flex-box box">
-        <div class="flex-item" style="flex-shrink:0">0</div>
-        <div class="flex-item" style="flex-shrink:1">1</div>
-        <div class="flex-item" style="flex-shrink:1">1</div>
-        <div class="flex-item" style="flex-shrink:2">2</div>
-        <div class="flex-item" style="flex-shrink:1">1</div>
-        <div class="flex-item" style="flex-shrink:1">1</div>
-        <div class="flex-item" style="flex-shrink:2">2</div>
-        <div class="flex-item" style="flex-shrink:1">1</div>
-        <div class="flex-item" style="flex-shrink:1">1</div>
+        <div class="flex-item" style="flex-shrink: 0;">0</div>
+        <div class="flex-item" style="flex-shrink: 1;">1</div>
+        <div class="flex-item" style="flex-shrink: 1;">1</div>
+        <div class="flex-item" style="flex-shrink: 2;">2</div>
+        <div class="flex-item" style="flex-shrink: 1;">1</div>
+        <div class="flex-item" style="flex-shrink: 1;">1</div>
+        <div class="flex-item" style="flex-shrink: 2;">2</div>
+        <div class="flex-item" style="flex-shrink: 1;">1</div>
+        <div class="flex-item" style="flex-shrink: 1;">1</div>
       </div>
 
       <!-- flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
         flex-basis: <length> | auto; /* default auto */ -->
       <!-- 它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。  -->
       <div class="flex-box box">
-        <div class="flex-item" style="flex-basis:200px;">200px</div>
+        <div class="flex-item" style="flex-basis: 200px;">200px</div>
         <div class="flex-item"></div>
         <div class="flex-item"></div>
         <div class="flex-item"></div>
@@ -195,8 +195,8 @@
       <!-- flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为 0 1 auto。后两个属性可选。
         flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ] -->
       <div class="flex-box box">
-        <div class="flex-item" style="flex:0 1 200px;">200px</div>
-        <div class="flex-item" style="flex:1.5 1 200px;"></div>
+        <div class="flex-item" style="flex: 0 1 200px;">200px</div>
+        <div class="flex-item" style="flex: 1.5 1 200px;"></div>
         <div class="flex-item"></div>
       </div>
 
@@ -205,13 +205,13 @@
 
       <div
         class="flex-box box"
-        style="align-items: flex-start;min-height:200px;"
+        style="align-items: flex-start; min-height: 200px;"
       >
         <div class="flex-item"></div>
-        <div class="flex-item" style=" align-self:stretch">stretch</div>
-        <div class="flex-item" style=" align-self:center"></div>
-        <div class="flex-item" style=" align-self:baseline"></div>
-        <div class="flex-item" style=" align-self:flex-end"></div>
+        <div class="flex-item" style="align-self: stretch;">stretch</div>
+        <div class="flex-item" style="align-self: center;"></div>
+        <div class="flex-item" style="align-self: baseline;"></div>
+        <div class="flex-item" style="align-self: flex-end;"></div>
         <div class="flex-item"></div>
       </div>
     </div>
