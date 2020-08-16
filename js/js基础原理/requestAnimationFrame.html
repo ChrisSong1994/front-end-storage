@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #SomeElementYouWantToAnimate {
+        width: 100px;
+        height: 100px;
+        background-color: cadetblue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="SomeElementYouWantToAnimate"></div>
+    <script>
+      var start = null;
+      var element = document.getElementById("SomeElementYouWantToAnimate");
+      element.style.position = "absolute";
+
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        debugger;
+        var progress = timestamp - start;
+        console.log(progress, timestamp);
+        element.style.left = Math.min(progress / 100, 1000) + "px";
+        if (progress < 50000) {
+          window.requestAnimationFrame(step);
+        }
+      }
+
+      window.requestAnimationFrame(step);
+    </script>
+  </body>
+</html>

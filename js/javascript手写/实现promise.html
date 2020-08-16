@@ -308,39 +308,80 @@
         });
       };
 
-      // asyncNum().then(function (value) {
-      //     console.log(value)
-      //     return 'success1'
-      // }, function (reason) {
-      //     console.log(reason)
-      //     return 'fail1'
-      // }).then(function (value) {
-      //     console.log(value)
-      // }, function (reason) {
-      //     console.log(reason)
-      // })
+      const asyncNumPromise = () => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const num = Math.random() * 10;
+            if (num > 5) {
+              resolve("success");
+            } else {
+              reject("fail");
+            }
+          }, 3000);
+        });
+      };
+
+      asyncNum()
+        .then(
+          function (value) {
+            console.log(value);
+            // return 'success1'
+          },
+          function (reason) {
+            console.log(reason);
+            // return 'fail1'
+          }
+        )
+        .then(
+          function (value) {
+            console.log(value);
+          },
+          function (reason) {
+            console.log(reason);
+          }
+        );
+
+      asyncNumPromise()
+        .then(
+          function (value) {
+            console.log(value);
+            // return "success1";
+          },
+          function (reason) {
+            console.log(reason);
+            // return "fail1";
+          }
+        )
+        .then(
+          function (value) {
+            console.log(value);
+          },
+          function (reason) {
+            console.log(reason);
+          }
+        );
 
       // resolve 测试
       // MyPromise.resolve('success').then((data) => {
       //     console.log(data)
       // })
 
-      MyPromise.resolve(asyncNum())
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => console.log(err))
-        .then(
-          (value) => {
-            console.log(value);
-          },
-          (err) => {
-            console.log(err);
-          }
-        )
-        .finally(() => {
-          console.log("final");
-        });
+      // MyPromise.resolve(asyncNum())
+      //   .then((data) => {
+      //     console.log(data);
+      //   })
+      //   .catch((err) => console.log(err))
+      //   .then(
+      //     (value) => {
+      //       console.log(value);
+      //     },
+      //     (err) => {
+      //       console.log(err);
+      //     }
+      //   )
+      //   .finally(() => {
+      //     console.log("final");
+      //   });
     </script>
   </body>
 </html>
