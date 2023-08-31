@@ -1,0 +1,43 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+  <title>Video Streaming Example</title>  
+</head>  
+<body>  
+  <video id="video" width="640" height="480" autoplay></video>  
+  <canvas id="canvas"></canvas>  
+  <script>  
+    navigator.mediaDevices.getUserMedia({ video: true })  
+      .then(stream => {  
+        const video = document.getElementById('video');  
+        video.srcObject = stream;  
+        video.play();  
+          
+        const canvas = document.getElementById('canvas');  
+        const context = canvas.getContext('2d');  
+        const streamTrack = stream.getVideoTracks()[0];  
+        streamTrack.addEventListener('loaded', () => {  
+          setInterval(() => {  
+            context.drawImage(video, 0, 0, 640, 480);  
+            // 在这里进行实时处理，例如人脸识别、物体检测等操作  
+              
+            // 将处理后的视频流转换为WebSocket可传输的数据格式  
+            const videoData = canvas.toDataURL('image/jpeg', null);  
+              
+            // 发送视频流数据到WebSocket服务器  
+            const socket = new WebSocket('ws://localhost:8080');  
+            socket.onmessage = (event) => {  
+              const message = JSON.parse(event.data);  
+              if (message.type === 'video') {  
+                const videoElement = document.createElement('video');  
+                videoElement.src = videoData;  
+                document.body.appendChild(videoElement);  
+              }  
+            };  
+            socket.send(JSON.stringify({ type: 'video', data: videoData }));  
+          }, 30);  
+        });  
+      });  
+  </script>  
+</body>  
+</html>
